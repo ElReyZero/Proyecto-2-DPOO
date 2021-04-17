@@ -191,7 +191,7 @@ public class Estudiante extends Usuario {
 				registrarMaterias(codigo, semestre, nota, pensum, sn);
 			}
 		}
-		else if (codigo.contains("QUIM-2") || codigo.contains("MATE-2") || codigo.contains("MATE-3")|| codigo.contains("MATE-1107") || codigo.contains("FISI-1038") || codigo.contains("FISI-1048") || codigo.contains("BIOL-3"))
+		else if (codigo.equals("BIOL 3300")|codigo.equals("FISI 1038")|codigo.equals("FISI 1048")|codigo.equals("MATE 1107")|codigo.equals("MATE 2211")|codigo.equals("MATE 2301")|codigo.equals("MATE 2303")|codigo.equals("MATE 2411")|codigo.equals("MATE 3712")|codigo.equals("MBIO 2102")|codigo.equals("QUIM 1105")|codigo.equals("QUIM 1301")|codigo.equals("QUIM 1303")|codigo.equals("QUIM 1510")|codigo.equals("QUIM 2620"))
 		{
 			Materia nuevaMateria = new Materia(codigo, codigo, "N/A", "N/A", 3, "Electiva en Ciencias", 0, true, semestre);
 			MateriaEstudiante agregada = revisarAprobado(nuevaMateria, nota, semestre);
@@ -200,7 +200,7 @@ public class Estudiante extends Usuario {
 			cursosTomadosArrayString.add(nuevaMateria.darCodigo());
 			return 0;
 		}
-		else if(codigo.contains("IBIO")|| codigo.contains("ICYA") || codigo.contains("IELE") || codigo.contains("IIND") || codigo.contains("IMEC") || codigo.contains("IQUI"))
+		else if(codigo.equals("IBIO-2099")|codigo.equals("IBIO-2240")|codigo.equals("ICYA-1101")|codigo.equals("ICYA-1110")|codigo.equals("ICYA-1116")|codigo.equals("ICYA-1125")|codigo.equals("ICYA-2001")|codigo.equals("ICYA-2401")|codigo.equals("ICYA-2412")|codigo.equals("IELE-1002")|codigo.equals("IELE-1006")|codigo.equals("IELE-1010")|codigo.equals("IELE-1502")|codigo.equals("IELE-2010")|codigo.equals("IELE-2210")|codigo.equals("IELE-2300")|codigo.equals("IELE-2500")|codigo.equals("IIND-2103")|codigo.equals("IIND-2104")|codigo.equals("IIND-2107")|codigo.equals("IIND-2202")|codigo.equals("IIND-2301")|codigo.equals("IIND-2400")|codigo.equals("IMEC-1001")|codigo.equals("IMEC-1330")|codigo.equals("IMEC-1410")|codigo.equals("IMEC-1503")|codigo.equals("IQUI-2010")|codigo.equals("IQUI-2020")|codigo.equals("IQUI-2101")|codigo.equals("IQUI-2200"))
 		{
 				Materia nuevaMateria = new Materia(codigo, codigo, "N/A", "N/A", 3, "Electiva Ingeniería", 0, true, semestre);
 				MateriaEstudiante agregada = revisarAprobado(nuevaMateria, nota, semestre);
@@ -209,7 +209,7 @@ public class Estudiante extends Usuario {
 				cursosTomadosArrayString.add(nuevaMateria.darCodigo());
 				return 0;
 		}
-		else if(codigo.contains("ARTI")|| codigo.contains("BCOM") || codigo.contains("MBIT") || codigo.contains("MSIN") || codigo.contains("MINE") || codigo.contains("ISIS-4") || codigo.contains("MISO"))
+		else if(codigo.equals("IIND-4115")|codigo.equals("IIND-4123")|codigo.equals("MATE-3133")|codigo.equals("IELE-4231")|codigo.equals("FISI-3024")|codigo.equals("IELE-3338")|codigo.equals("IELE-4014")|codigo.equals("MATE-3102")|codigo.equals("MATE-4527")|codigo.equals("IBIO-3470")|codigo.equals("MATE-3134")|codigo.equals("IBIO-4680")|codigo.equals("IBIO-4490"))
 		{
 			for(int i = 0; pensum.darMateriasNivel1String().size()>i; i++)
 				{
