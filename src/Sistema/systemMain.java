@@ -7,6 +7,7 @@ import java.util.Scanner;
 
 import IdentificadorUsuario.CoordinadorAcademico;
 import IdentificadorUsuario.Estudiante;
+import curriculo.MateriaEstudiante;
 import curriculo.Pensum;
 import funcionalidades.candidaturaGrado;
 import funcionalidades.planeador;
@@ -135,12 +136,13 @@ public class systemMain
         System.out.println("Seleccione la opción a realizar: ");
         System.out.println("1. Registrar Materias Manualmente");
         System.out.println("2. Registrar Materias desde un archivo");
-        System.out.println("3. Guardar registro de materias en un archivo");
-        System.out.println("4. Generar reporte notas");
-        System.out.println("5. Dar candidatura grado");
-        System.out.println("6. Crear planeación");
+        System.out.println("3. Editar información de una materia. (Cambiar nota, marcar como retirada)");
+        System.out.println("4. Guardar registro de materias en un archivo");
+        System.out.println("5. Generar reporte notas");
+        System.out.println("6. Dar candidatura grado");
         System.out.println("7. Crear planeación");
-        System.out.println("8. Salir");
+        System.out.println("8. Validar requisitos de idiomas");
+        System.out.println("9. Salir");
         String opcion = String.valueOf(sn.nextInt());
         System.out.println(opcion);
         if(opcion.equals("1"))
@@ -151,19 +153,24 @@ public class systemMain
         {
             System.out.println("Escribe exit para salir");
             System.out.println("Ingresa la ruta donde se encuentra el archivo: ");
-            if(sn.next().toLowerCase().contains("exit"))
+            String ruta = sn.next();
+            if(ruta.toLowerCase().contains("exit"))
             {
                 seleccionEstudiante(sn, pensum, estudiante, analizador);
             }
             else
             {
-                File avance = new File(sn.next());
+                File avance = new File(ruta);
                 analizador.cargarAvanceEstudiante(avance, estudiante, sn);
                 seleccionEstudiante(sn, pensum, estudiante, analizador);
             }   
         }
-            
         else if(opcion.equals("3"))
+        {
+            editarMateria(estudiante, sn);
+            seleccionEstudiante(sn, pensum, estudiante, analizador);
+        }  
+        else if(opcion.equals("4"))
         {
             File archivoMaterias = new File("./data/materias"+estudiante.darCodigo()+".csv");
             try {
@@ -175,26 +182,26 @@ public class systemMain
                 e.printStackTrace();
             }
         }
-        else if(opcion.equals("4"))
+        else if(opcion.equals("5"))
         {
             System.out.println(reporteNotas.darReporteNotas(estudiante));
             seleccionEstudiante(sn, pensum, estudiante, analizador);
         }
-        else if(opcion.equals("5"))
+        else if(opcion.equals("6"))
         {
             candidaturaGrado.darCandidaturaGrado(estudiante,pensum);
             seleccionEstudiante(sn, pensum, estudiante, analizador);
         }
             
-        else if(opcion.equals("6"))
+        else if(opcion.equals("7"))
         {
             registrarMateriaPlaneadorEstudiante(sn,estudiante,pensum, analizador,"");
         }
-        else if(opcion.equals("7"))
+        else if(opcion.equals("8"))
         {
          validarRequisitos(sn,pensum,estudiante,analizador);   
         }
-        else if(opcion.equals("8"))
+        else if(opcion.equals("9"))
         {
             sn.close();
             System.exit(0);
@@ -215,14 +222,15 @@ public class systemMain
         switch (opcion)
         {
             case 1:
-            System.out.println("¿Arpobó el examen de admisión? ");
+            System.out.println("¿Aprobó el examen de inglés de admisión? ");
             System.out.println("1. Sí");
-            System.out.println("2. No");
+            System.out.println("2. No / Volver al menú anterior");
             int opcion1 = sn.nextInt();
             switch(opcion1)
             {
                 case 1:
-                estudiante.registrarMaterias("LENG-2999", 1, "A", pensum, sn);
+                estudiante.registrarMaterias("LENG-2999", 1, "A", false, false, pensum, sn);
+                seleccionEstudiante(sn, pensum, estudiante, analizador);
                 break;
                 case 2:
                 validarRequisitos(sn, pensum, estudiante, analizador);
@@ -230,23 +238,26 @@ public class systemMain
             }
             break;
             case 2:
-            System.out.println("¿Homologó con algún examen? ");
+            System.out.println("¿Homologó el requisito de segunda lengua con algún examen? ");
             System.out.println("1. Sí");
             System.out.println("2. No");
             int opcion2 = sn.nextInt();
             switch(opcion2)
             {
                 case 1:
-                estudiante.registrarMaterias("LENG-3999", 1, "A", pensum, sn);
+                estudiante.registrarMaterias("LENG-3999", 1, "A", false, false, pensum, sn);
+                seleccionEstudiante(sn, pensum, estudiante, analizador);
+                break;
                 case 2:
-                System.out.println(" ¿Aprobó el último nivel de ingles(10)? ");
+                System.out.println("¿Aprobó el último nivel de inglés(10)?");
                 System.out.println("1. Sí");
                 System.out.println("2. No");
                 int opcion3 = sn.nextInt();
                 switch(opcion3)
                 {
                     case 1:
-                    estudiante.registrarMaterias("LENG-3999", 1, "A", pensum, sn);
+                    estudiante.registrarMaterias("LENG-3999", 1, "A", false, false, pensum, sn);
+                    seleccionEstudiante(sn, pensum, estudiante, analizador);
                     break;
                     case 2:
                     validarRequisitos(sn, pensum, estudiante, analizador);
@@ -351,16 +362,41 @@ public class systemMain
                 registrarMateriaEstudiante(sn, estudiante, pensum, analizador);
             }
         }
-        catch (InputMismatchException e) 
+        catch (NumberFormatException e) 
         {
-            if(!nota.equals("A")||!nota.equals("R")||!nota.equals("PD")||!nota.equals("I")||!nota.equals("PE"))
+            if(!nota.equals("A")&&!nota.equals("R")&&!nota.equals("PD")&&!nota.equals("I")&&!nota.equals("PE"))
             {
                 System.out.println("Debes insertar una nota válida.");
                 registrarMateriaEstudiante(sn, estudiante, pensum, analizador);
             }
-        }       
-            
-            estudiante.registrarMaterias(codigoMateria, semestre, nota, pensum, sn);
+        }
+        System.out.println("¿El curso "+ codigoMateria + "es de tipo especial? (Tipo E o Tipo Épsilon)");
+        System.out.println("1. Sí");
+        System.out.println("2. No");
+        int opc = sn.nextInt();
+        switch(opc)
+        {
+            case 1:
+            System.out.println("¿Qué tipo de curso es "+ codigoMateria + "?");
+            System.out.println("1. Tipo E");
+            System.out.println("2. Tipo Épsilon");
+            System.out.println("3. Ambos");
+            int opc2 = sn.nextInt();
+            switch(opc2)
+            {
+                case 1:
+                estudiante.registrarMaterias(codigoMateria, semestre, nota, true, false, pensum, sn);
+                break;
+                case 2:
+                estudiante.registrarMaterias(codigoMateria, semestre, nota, false, true, pensum, sn);
+                break;
+                case 3:
+                estudiante.registrarMaterias(codigoMateria, semestre, nota, true, true, pensum, sn);
+            }
+            break;
+            case 2:
+            estudiante.registrarMaterias(codigoMateria, semestre, nota, false, false, pensum, sn);
+        }   
             System.out.println("¿Quieres seguir registrando materias?");
             System.out.println("1. Sí");
             System.out.println("2. No");
@@ -389,7 +425,34 @@ public class systemMain
         System.out.println("Debes insertar un semestre válido.");
         sn.next();
         }   
-        planactual += planeador.crearPlaneacion(estudiante, pensum, sn,codigoMateria,semestre,nota);
+        System.out.println("¿El curso "+ codigoMateria + "es de tipo especial? (Tipo E o Tipo Épsilon)");
+        System.out.println("1. Sí");
+        System.out.println("2. No");
+        int opc = sn.nextInt();
+        switch(opc)
+        {
+            case 1:
+            System.out.println("¿Qué tipo de curso es "+ codigoMateria + "?");
+            System.out.println("1. Tipo E");
+            System.out.println("2. Tipo Épsilon");
+            System.out.println("3. Ambos");
+            int opc2 = sn.nextInt();
+            switch(opc2)
+            {
+                case 1:
+                planactual += planeador.crearPlaneacion(estudiante, pensum, sn,codigoMateria,semestre,nota, true, false);
+                break;
+                case 2:
+                planactual += planeador.crearPlaneacion(estudiante, pensum, sn,codigoMateria,semestre,nota, false, true);
+                break;
+                case 3:
+                planactual += planeador.crearPlaneacion(estudiante, pensum, sn,codigoMateria,semestre,nota, true, true);
+                break;
+            }
+            case 2:
+            planactual += planeador.crearPlaneacion(estudiante, pensum, sn,codigoMateria,semestre,nota, false, false);
+            break;
+        }
             System.out.println("¿Quieres seguir registrando materias?");
             System.out.println("1. Sí");
             System.out.println("2. No");
@@ -430,7 +493,34 @@ public class systemMain
         System.out.println("Debes insertar un semestre válido.");
         sn.next();
         }   
-        planactual += planeador.crearPlaneacion(estudiante, pensum, sn, codigoMateria, semestre, nota);
+        System.out.println("¿El curso "+ codigoMateria + "es de tipo especial? (Tipo E o Tipo Épsilon)");
+        System.out.println("1. Sí");
+        System.out.println("2. No");
+        int opc = sn.nextInt();
+        switch(opc)
+        {
+            case 1:
+            System.out.println("¿Qué tipo de curso es "+ codigoMateria + "?");
+            System.out.println("1. Tipo E");
+            System.out.println("2. Tipo Épsilon");
+            System.out.println("3. Ambos");
+            int opc2 = sn.nextInt();
+            switch(opc2)
+            {
+                case 1:
+                planactual += planeador.crearPlaneacion(estudiante, pensum, sn,codigoMateria,semestre,nota, true, false);
+                break;
+                case 2:
+                planactual += planeador.crearPlaneacion(estudiante, pensum, sn,codigoMateria,semestre,nota, false, true);
+                break;
+                case 3:
+                planactual += planeador.crearPlaneacion(estudiante, pensum, sn,codigoMateria,semestre,nota, true, true);
+                break;
+            }
+            case 2:
+            planactual += planeador.crearPlaneacion(estudiante, pensum, sn,codigoMateria,semestre,nota, false, false);
+            break;
+        }
             System.out.println("¿Quieres seguir registrando materias?");
             System.out.println("1. Sí");
             System.out.println("2. No");
@@ -452,6 +542,77 @@ public class systemMain
                     e.printStackTrace();
                 }
                 seleccionCoordinadorAcademico(sn, pensum, coordinador, analizador, archivo); 
+        }
+    }
+
+    public static void editarMateria(Estudiante estudiante, Scanner sn)
+    {
+        System.out.println("Ingresa el código de la materia a editar: ");
+        String codigoMateria = sn.next();
+        boolean encontrar = false;
+        for (MateriaEstudiante materia : estudiante.darCursosTomados()) 
+        {
+            if (materia.darCodigo().contains(codigoMateria))
+            {   
+                encontrar = true;
+                System.out.println("¿Qué característica de la materia desea editar?");
+                System.out.println("1. Nota");
+                System.out.println("2. Estado (Inscrita/Retirada)");
+                int opcion = sn.nextInt();
+                switch (opcion)
+                {
+                    case 1:
+                    System.out.println("Ingresa la nueva nota: ");
+                    String nota = sn.next();
+                    try
+                    {
+                        Double notaNum = Double.valueOf(nota);
+                        if(notaNum>5.0 || notaNum < 1.5)
+                        {
+                            System.out.println("Debes insertar una nota válida.");
+                        }
+                        else
+                        {
+                            materia.cambiarNota(nota);
+                            System.out.println("Nota cambiada satisfactoriamente a: " + materia.darNota());
+                        }
+                    }
+                    catch (NumberFormatException e) 
+                    {
+                        if(!nota.equals("A")&&!nota.equals("R")&&!nota.equals("PD")&&!nota.equals("I")&&!nota.equals("PE"))
+                        {
+                            System.out.println("Debes insertar una nota válida.");
+                        }
+                        else
+                        {
+                            materia.cambiarNota(nota);
+                            System.out.println("Nota cambiada satisfactoriamente a: " + materia.darNota());
+                        }
+                    }
+                    break;
+                    case 2:
+                    System.out.println("Nuevo estado de la materia: ");
+                    System.out.println("1. Inscrita.");
+                    System.out.println("2. Retirada.");
+                    int num = sn.nextInt();
+                    switch(num)
+                    {
+                        case 1:
+                        materia.setRetiro(false);
+                        System.out.println("Estado cambiado satisfactoriamente a: " + materia.darInfoRetiro());
+                        break;
+                        case 2:
+                        materia.setRetiro(true);
+                        System.out.println("Estado cambiado satisfactoriamente a: " + materia.darInfoRetiro());
+                    }
+                    break;
+                }
+                break;
+            }
+        }
+        if(encontrar == false)
+        {
+            System.out.println("La materia no fue encontrada en los cursos inscritos.");
         }
     }
 }

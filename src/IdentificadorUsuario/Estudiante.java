@@ -31,7 +31,7 @@ public class Estudiante extends Usuario {
 	}
 
 	//Métodos
-	public int registrarMaterias(String codigo, int semestre, String nota, Pensum pensum, Scanner sn)
+	public int registrarMaterias(String codigo, int semestre, String nota, boolean tipoE, boolean epsilon, Pensum pensum, Scanner sn)
 	{
 		if (codigo.length() != 9 || !codigo.contains("-"))
 		{
@@ -45,7 +45,7 @@ public class Estudiante extends Usuario {
 			{
 				for(Materia current:listaMaterias)
 				{
-					if (current.darCodigo().contains(codigo) && current.darNivel() >=3)
+					if (current.darCodigo().contains(codigo) && current.darNivel() >=3 && !codigo.equals("LENG-3999"))
 					{
 						for(int i = 0; pensum.darMateriasNivel1String().size()>i; i++)
 						{
@@ -56,7 +56,7 @@ public class Estudiante extends Usuario {
 							}
 						}	
 					}
-					if ((current.darCodigo().contains(codigo) && (current.darNivel() == 4| current.darCodigo().equals("ISIS-3007"))))
+					if ((current.darCodigo().contains(codigo) && (current.darNivel() == 4| current.darCodigo().equals("ISIS-3007") && !codigo.equals("LENG-3999"))))
 					{
 						for(int i = 0; pensum.darMateriasNivel2String().size()>i; i++)
 						{
@@ -133,6 +133,16 @@ public class Estudiante extends Usuario {
 						{
 							MateriaEstudiante agregada = revisarAprobado(current, nota, semestre);
 							cursosTomados.add(agregada);
+							if(tipoE == true)
+							{
+								String tipo = agregada.darTipoMateria() + "- Tipo E";
+								agregada.setType(tipo);
+							}
+							if(epsilon == true)
+							{
+								String tipo = agregada.darTipoMateria() + "- Tipo Épsilon";
+								agregada.setType(tipo);
+							}
 							tomadosString += current.darCodigo()+"\n";
 							cursosTomadosArrayString.add(current.darCodigo());
 							return 0;
@@ -142,60 +152,39 @@ public class Estudiante extends Usuario {
 			}
 		else if(codigo.contains("CB"))
 		{
-			System.out.println("¿El CBU "+ codigo +" es de Tipo E?");
-			System.out.println("1. Sí");
-			System.out.println("2. No");
-			String seleccion = sn.next();
-			if (seleccion.equals("1"))
-			{
-				Materia nuevaMateria = new Materia(codigo, codigo, "N/A", "N/A", 2,"Electiva CBU " +codigo.charAt(2)+codigo.charAt(3)+" - Tipo E", 0, true, semestre);
-				MateriaEstudiante agregada = revisarAprobado(nuevaMateria, nota, semestre);
-				cursosTomados.add(agregada);
-				tomadosString += nuevaMateria.darCodigo()+"\n";
-				cursosTomadosArrayString.add(nuevaMateria.darCodigo());
-				return 0;
-			}
-			else if (seleccion.equals("2"))
-			{
-				System.out.println("¿El CBU "+ codigo +" es de tipo épsilon?");
-				System.out.println("1. Sí");
-            	System.out.println("2. No");
-				String op = sn.next();
-				if (op.equals("1"))
+			
+			Materia nuevaMateria = new Materia(codigo, codigo, "N/A", "N/A", 2,"Electiva CBU " +codigo.charAt(2)+codigo.charAt(3), 0, true, semestre);
+			MateriaEstudiante agregada = revisarAprobado(nuevaMateria, nota, semestre);
+			cursosTomados.add(agregada);
+			if(tipoE == true)
 				{
-					Materia nuevaMateria = new Materia(codigo, codigo, "N/A", "N/A", 2, "Electiva CBU " +codigo.charAt(2)+codigo.charAt(3)+" - Tipo Épsilon", 0, true, semestre);
-					MateriaEstudiante agregada = revisarAprobado(nuevaMateria, nota, semestre);
-					cursosTomados.add(agregada);
-					tomadosString += nuevaMateria.darCodigo()+"\n";
-					cursosTomadosArrayString.add(nuevaMateria.darCodigo());
-					return 0;
+					String tipo = agregada.darTipoMateria() + "- Tipo E";
+					agregada.setType(tipo);
 				}
-				else if(op.equals("2"))
+			if(epsilon == true)
 				{
-					Materia nuevaMateria = new Materia(codigo, codigo, "N/A", "N/A", 2, "Electiva CBU", 0, true, semestre);
-					MateriaEstudiante agregada = revisarAprobado(nuevaMateria, nota, semestre);
-					cursosTomados.add(agregada);
-					tomadosString += nuevaMateria.darCodigo()+"\n";
-					cursosTomadosArrayString.add(nuevaMateria.darCodigo());
-					return 0;
+					String tipo = agregada.darTipoMateria() + "- Tipo Épsilon";
+					agregada.setType(tipo);
 				}
-				else
-				{
-					System.out.println("Ha introducido una respuesta inválida.");
-					registrarMaterias(codigo, semestre, nota, pensum, sn);
-				}
-			}
-			else
-			{
-				System.out.println("Ha introducido una respuesta inválida.");
-				registrarMaterias(codigo, semestre, nota, pensum, sn);
-			}
+			tomadosString += nuevaMateria.darCodigo()+"\n";
+			cursosTomadosArrayString.add(nuevaMateria.darCodigo());
+			return 0;
 		}
-		else if (codigo.equals("BIOL 3300")|codigo.equals("FISI 1038")|codigo.equals("FISI 1048")|codigo.equals("MATE 1107")|codigo.equals("MATE 2211")|codigo.equals("MATE 2301")|codigo.equals("MATE 2303")|codigo.equals("MATE 2411")|codigo.equals("MATE 3712")|codigo.equals("MBIO 2102")|codigo.equals("QUIM 1105")|codigo.equals("QUIM 1301")|codigo.equals("QUIM 1303")|codigo.equals("QUIM 1510")|codigo.equals("QUIM 2620"))
+		else if (codigo.equals("BIOL-3300")|codigo.equals("FISI-1038")|codigo.equals("FISI-1048")|codigo.equals("MATE-1107")|codigo.equals("MATE-2211")|codigo.equals("MATE-2301")|codigo.equals("MATE-2303")|codigo.equals("MATE-2411")|codigo.equals("MATE-3712")|codigo.equals("MBIO-2102")|codigo.equals("QUIM-1105")|codigo.equals("QUIM-1301")|codigo.equals("QUIM-1303")|codigo.equals("QUIM-1510")|codigo.equals("QUIM-2620"))
 		{
 			Materia nuevaMateria = new Materia(codigo, codigo, "N/A", "N/A", 3, "Electiva en Ciencias", 0, true, semestre);
 			MateriaEstudiante agregada = revisarAprobado(nuevaMateria, nota, semestre);
 			cursosTomados.add(agregada);
+			if(tipoE == true)
+				{
+					String tipo = agregada.darTipoMateria() + "- Tipo E";
+					agregada.setType(tipo);
+				}
+			if(epsilon == true)
+				{
+					String tipo = agregada.darTipoMateria() + "- Tipo Épsilon";
+					agregada.setType(tipo);
+				}
 			tomadosString += nuevaMateria.darCodigo()+"\n";
 			cursosTomadosArrayString.add(nuevaMateria.darCodigo());
 			return 0;
@@ -205,6 +194,16 @@ public class Estudiante extends Usuario {
 				Materia nuevaMateria = new Materia(codigo, codigo, "N/A", "N/A", 3, "Electiva Ingeniería", 0, true, semestre);
 				MateriaEstudiante agregada = revisarAprobado(nuevaMateria, nota, semestre);
 				cursosTomados.add(agregada);
+				if(tipoE == true)
+				{
+					String tipo = agregada.darTipoMateria() + "- Tipo E";
+					agregada.setType(tipo);
+				}
+				if(epsilon == true)
+				{
+					String tipo = agregada.darTipoMateria() + "- Tipo Épsilon";
+					agregada.setType(tipo);
+				}
 				tomadosString += nuevaMateria.darCodigo()+"\n";
 				cursosTomadosArrayString.add(nuevaMateria.darCodigo());
 				return 0;
@@ -230,6 +229,16 @@ public class Estudiante extends Usuario {
 			Materia nuevaMateria = new Materia(codigo, codigo, "N/A", "N/A", 3, "Electiva Profesional", 4, true, semestre);
 			MateriaEstudiante agregada = revisarAprobado(nuevaMateria, nota, semestre);
 			cursosTomados.add(agregada);
+			if(tipoE == true)
+			{
+				String tipo = agregada.darTipoMateria() + "- Tipo E";
+				agregada.setType(tipo);
+			}
+			if(epsilon == true)
+			{
+				String tipo = agregada.darTipoMateria() + "- Tipo Épsilon";
+				agregada.setType(tipo);
+			}
 			tomadosString += nuevaMateria.darCodigo()+"\n";
 			cursosTomadosArrayString.add(nuevaMateria.darCodigo());
 			return 0;
@@ -255,6 +264,16 @@ public class Estudiante extends Usuario {
 			Materia nuevaMateria = new Materia(codigo, codigo, "N/A", "N/A", 2, "Electiva Profesional", 0, true, semestre);
 			MateriaEstudiante agregada = revisarAprobado(nuevaMateria, nota, semestre);
 			cursosTomados.add(agregada);
+			if(tipoE == true)
+			{
+				String tipo = agregada.darTipoMateria() + "- Tipo E";
+				agregada.setType(tipo);
+			}
+			if(epsilon == true)
+			{
+				String tipo = agregada.darTipoMateria() + "- Tipo Épsilon";
+				agregada.setType(tipo);
+			}
 			tomadosString += nuevaMateria.darCodigo()+"\n";
 			cursosTomadosArrayString.add(nuevaMateria.darCodigo());
 			return 0;
@@ -278,11 +297,21 @@ public class Estudiante extends Usuario {
                 {
                     System.out.println("Debes insertar un número");
                     creds = sn.nextInt();
-					registrarMaterias(codigo, semestre, nota, pensum, sn);
+					registrarMaterias(codigo, semestre, nota, tipoE, epsilon, pensum, sn);
                 }
 				Materia nuevaMateria = new Materia(codigo, codigo, "N/A", "N/A", creds, "Curso de Libre Elección", 0, true, semestre);
 				MateriaEstudiante agregada = revisarAprobado(nuevaMateria, nota, semestre);
 				cursosTomados.add(agregada);
+				if(tipoE == true)
+				{
+					String tipo = agregada.darTipoMateria() + "- Tipo E";
+					agregada.setType(tipo);
+				}
+				if(epsilon == true)
+				{
+					String tipo = agregada.darTipoMateria() + "- Tipo Épsilon";
+					agregada.setType(tipo);
+				}
 				tomadosString += nuevaMateria.darCodigo()+"\n";
 				cursosTomadosArrayString.add(nuevaMateria.darCodigo());
 				return 0;			

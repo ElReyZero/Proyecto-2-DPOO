@@ -70,7 +70,6 @@ public class reporteNotas
         ArrayList<MateriaEstudiante> cursosTomados= estudiante.darCursosTomados();
         for (MateriaEstudiante curso:cursosTomados)
         {
-            ///TODO
             try
             {
                 nota +=Double.parseDouble(curso.darNota())*curso.darCreditos();

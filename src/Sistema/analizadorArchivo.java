@@ -100,7 +100,8 @@ public class analizadorArchivo {
 			String curso = materia.darCodigo();
 			int creditos = materia.darCreditos();
 			int numSemestre = materia.darSemestre();
-			pw.println(curso + ";" + nota + ";" + creditos + ";" + numSemestre);			
+			String tipoMateria = materia.darTipoMateria();
+			pw.println(curso + ";" + nota + ";" + creditos + ";" + numSemestre + ";"+tipoMateria);			
 		}
 		pw.close();
 	}
@@ -140,7 +141,23 @@ public class analizadorArchivo {
 					String codigo = partes[0];
 					String nota = partes[1];
                     int semestre = Integer.parseInt(partes[3]);
-                    caso = estudiante.registrarMaterias(codigo, semestre, nota, pensum, sn);
+					String tipoMateria = partes[4];
+					if(tipoMateria.contains("Tipo E") && tipoMateria.contains("Tipo Épsilon"))
+					{
+						caso = estudiante.registrarMaterias(codigo, semestre, nota, true, true, pensum, sn);
+					}
+                    else if(tipoMateria.contains("Tipo E"))
+					{
+						caso = estudiante.registrarMaterias(codigo, semestre, nota, true, false, pensum, sn);
+					}
+					else if (tipoMateria.contains("Tipo Épsilon"))
+					{
+						caso = estudiante.registrarMaterias(codigo, semestre, nota, false, true, pensum, sn);
+					}
+					else
+					{
+						caso = estudiante.registrarMaterias(codigo, semestre, nota, false, false, pensum, sn);
+					}
 					linea = br.readLine();
 				}
 				if(caso == 0)
@@ -185,7 +202,23 @@ public class analizadorArchivo {
 					String codigo = partes[0];
 					String nota = partes[1];
                     int semestre = Integer.parseInt(partes[3]);
-                    caso = estudiante.registrarMaterias(codigo, semestre, nota, pensum, sn);
+					String tipoMateria = partes[4];
+					if(tipoMateria.contains("Tipo E") && tipoMateria.contains("Tipo Épsilon"))
+					{
+						caso = estudiante.registrarMaterias(codigo, semestre, nota, true, true, pensum, sn);
+					}
+                    else if(tipoMateria.contains("Tipo E"))
+					{
+						caso = estudiante.registrarMaterias(codigo, semestre, nota, true, false, pensum, sn);
+					}
+					else if (tipoMateria.contains("Tipo Épsilon"))
+					{
+						caso = estudiante.registrarMaterias(codigo, semestre, nota, false, true, pensum, sn);
+					}
+					else
+					{
+						caso = estudiante.registrarMaterias(codigo, semestre, nota, false, false, pensum, sn);
+					}
 					linea = br.readLine();
 				}
 				if(caso == 0)

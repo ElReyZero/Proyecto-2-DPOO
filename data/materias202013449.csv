@@ -1,54 +1,54 @@
-Juan;;;
-202013449;;;
-ISIS;;;
-MATE-1203;5.0;3;1
-ISIS-1221;4.0;3;1
-ISIS-1001;4.3;3;1
-LENG-1511;5.0;2;1
-LENG-1512;4.5;2;1
-DERE-1300;3.6;3;1
-CBCC-1177;5.0;2;1
-FISI-1018;3.6;3;1
-FISI-1019;4.0;1;1
-MATE-1214;4.0;3;2
-ISIS-1104;5.0;3;2
-ISIS-1225;5.0;3;2
-CBCO-7825;3.6;2;2
-FISI-1028;4.0;3;3
-FISI-1029;5.0;1;3
-MATE-1105;5.0;3;3
-ISIS-1106;5.0;3;3
-ISIS-1226;5.0;3;3
-LENG-2999;4.0;0;3
-ISIS-1304;4.0;3;3
-QUIM-1003;5.0;3;4
-MATE-1207;5.0;3;4
-ISIS-1105;3.6;3;4
-ISIS-2304;5.0;3;4
-ISIS-2603;5.0;3;4
-ISIS-1404;3.6;3;4
-IIND-2401;4.0;3;5
-IIND-2106;4.0;3;5
-ISIS-2007;3.6;3;5
-ISIS-2503;5.0;3;5
-ISIS-2403;5.0;3;5
-ISIS-2203;5.0;3;5
-IMEC-3859;3.6;3;6
-ISIS-3302;5.0;3;6
-ISIS-3301;5.0;3;6
-ISIS-3710;5.0;3;6
-ISIS-3204;5.0;3;6
-CBPC-7865;3.6;2;6
-ISIS-4598;5.0;3;7
-ISIS-3510;5.0;3;7
-ISIS-4658;3.4;3;7
-CBCA-8897;3.6;2;7
-CBPC-4545;3.4;2;8
-ISIS-3007;5.0;3;8
-ISIS-4887;3.4;3;8
-LENG-3999;5.0;0;8
-CBCA-7822;3.6;2;8
-CBPC-6633;3.4;2;8
-LENG-1236;4.0;3;8
-LENG-8855;4.3;3;8
-FISI-1038;3.5;3;8
+Juan;;;;
+202013449;;;;
+ISIS;;;;
+MATE-1203;5.0;3;1;Curso Obligatorio
+ISIS-1221;4.0;3;1;Curso Obligatorio
+ISIS-1001;4.3;3;1;Curso Obligatorio
+LENG-1511;5.0;2;1;Req.Español
+LENG-1512;4.5;2;1;Req.Español
+DERE-1300;3.6;3;1;Curso Obligatorio
+CBCC-1177;5.0;2;1;Curso Obligatorio
+FISI-1018;3.6;3;1;Curso Obligatorio
+FISI-1019;4.0;1;1;Curso Obligatorio
+MATE-1214;4.0;3;2;Curso Obligatorio
+ISIS-1104;5.0;3;2;Curso Obligatorio
+ISIS-1225;5.0;3;2;Curso Obligatorio
+CBCO-7825;3.6;2;2;Electiva CBU CO
+FISI-1028;4.0;3;3;Curso Obligatorio
+FISI-1029;5.0;1;3;Curso Obligatorio
+MATE-1105;5.0;3;3;Curso Obligatorio
+ISIS-1106;5.0;3;3;Curso Obligatorio
+ISIS-1226;5.0;3;3;Curso Obligatorio
+LENG-2999;4.0;0;3;Req. Inglés
+ISIS-1304;4.0;3;3;Curso Obligatorio
+QUIM-1003;5.0;3;4;Curso Obligatorio
+MATE-1207;5.0;3;4;Curso Obligatorio
+ISIS-1105;3.6;3;4;Curso Obligatorio
+ISIS-2304;5.0;3;4;Curso Obligatorio
+ISIS-2603;5.0;3;4;Curso Obligatorio
+ISIS-1404;3.6;3;4;Curso Obligatorio - Tipo E
+IIND-2401;4.0;3;5;Curso Obligatorio
+IIND-2106;4.0;3;5;Curso Obligatorio
+ISIS-2007;3.6;3;5;Curso Obligatorio
+ISIS-2503;5.0;3;5;Curso Obligatorio
+ISIS-2403;5.0;3;5;Curso Obligatorio
+ISIS-2203;5.0;3;5;Curso Obligatorio
+ICYA-1110;3.6;3;6;Electiva Ingeniería
+ISIS-3302;5.0;3;6;Curso Obligatorio
+ISIS-3301;5.0;3;6;Curso Obligatorio
+ISIS-3710;5.0;3;6;Curso Obligatorio
+ISIS-3204;5.0;3;6;Curso Obligatorio
+CBPC-7865;3.6;2;6;Electiva CBU PC
+ISIS-4598;5.0;3;7;Electiva Profesional
+ISIS-3510;5.0;3;7;Curso Obligatorio
+IIND-4123;3.4;3;7;Electiva Profesional
+CBCA-8897;3.6;2;7;Curso de Libre Elección
+CBPC-4545;3.4;2;8;Electiva CBU
+ISIS-3007;5.0;3;8;Curso Obligatorio
+IELE-4231;3.4;3;8;Electiva Profesional
+LENG-3999;5.0;0;8;Req. Inglés
+CBCA-7822;3.6;2;8;Electiva CBU CA - Tipo E
+CBPC-6633;3.4;2;8;Electiva Profesional
+LENG-1236;4.0;3;8;Electiva CBU - Tipo Épsilon
+LENG-8855;4.3;3;8;Curso de Libre Elección
+FISI-1038;3.5;3;8;Electiva en Ciencias
