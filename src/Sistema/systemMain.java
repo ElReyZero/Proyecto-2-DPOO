@@ -139,7 +139,8 @@ public class systemMain
         System.out.println("4. Generar reporte notas");
         System.out.println("5. Dar candidatura grado");
         System.out.println("6. Crear planeación");
-        System.out.println("7. Salir");
+        System.out.println("7. Crear planeación");
+        System.out.println("8. Salir");
         String opcion = String.valueOf(sn.nextInt());
         System.out.println(opcion);
         if(opcion.equals("1"))
@@ -191,6 +192,10 @@ public class systemMain
         }
         else if(opcion.equals("7"))
         {
+         validarRequisitos(sn,pensum,estudiante,analizador);   
+        }
+        else if(opcion.equals("8"))
+        {
             sn.close();
             System.exit(0);
         }
@@ -199,6 +204,60 @@ public class systemMain
             System.out.println("Debes ingresar una opción válida.");
             seleccionEstudiante(sn, pensum, estudiante, analizador);
         }        
+    }
+    public static void validarRequisitos(Scanner sn, Pensum pensum, Estudiante estudiante, analizadorArchivo analizador)
+    {
+        System.out.println("Seleccione la opción a validar: ");
+        System.out.println("1. Requisito de Inglés");
+        System.out.println("2. Requisito de segunda lengua");
+        System.out.println("3. Volver");
+        int opcion = sn.nextInt();
+        switch (opcion)
+        {
+            case 1:
+            System.out.println("¿Arpobó el examen de admisión? ");
+            System.out.println("1. Sí");
+            System.out.println("2. No");
+            int opcion1 = sn.nextInt();
+            switch(opcion1)
+            {
+                case 1:
+                estudiante.registrarMaterias("LENG-2999", 1, "A", pensum, sn);
+                break;
+                case 2:
+                validarRequisitos(sn, pensum, estudiante, analizador);
+                break;
+            }
+            break;
+            case 2:
+            System.out.println("¿Homologó con algún examen? ");
+            System.out.println("1. Sí");
+            System.out.println("2. No");
+            int opcion2 = sn.nextInt();
+            switch(opcion2)
+            {
+                case 1:
+                estudiante.registrarMaterias("LENG-3999", 1, "A", pensum, sn);
+                case 2:
+                System.out.println(" ¿Aprobó el último nivel de ingles(10)? ");
+                System.out.println("1. Sí");
+                System.out.println("2. No");
+                int opcion3 = sn.nextInt();
+                switch(opcion3)
+                {
+                    case 1:
+                    estudiante.registrarMaterias("LENG-3999", 1, "A", pensum, sn);
+                    break;
+                    case 2:
+                    validarRequisitos(sn, pensum, estudiante, analizador);
+                    break;
+                }
+            }
+            break;
+            case 3: 
+            seleccionEstudiante(sn, pensum, estudiante, analizador);
+            break;
+        }
     }
     public static void seleccionCoordinadorAcademico(Scanner sn, Pensum pensum, CoordinadorAcademico coordinador, analizadorArchivo analizador, File avance)
     {
