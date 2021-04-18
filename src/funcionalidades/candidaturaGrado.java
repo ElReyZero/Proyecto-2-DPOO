@@ -23,6 +23,7 @@ public class candidaturaGrado {
         int cantidadTipoE = 0;
         int cantidadTipoEpsilon = 0;
         int cle = 0;
+        int electivasProfesionales = 0;
         boolean posible = true;
         for (MateriaEstudiante materia : listacursos) 
         {
@@ -67,6 +68,10 @@ public class candidaturaGrado {
             else if(materia.darTipoMateria().contains("Curso de Libre Elección"))
             {
                 cle += materia.darCreditos();
+            }
+            else if(materia.darTipoMateria().contains("Electiva Profesional"))
+            {
+                electivasProfesionales += materia.darCreditos();
             }
         }
         for (Materia matGeneral : pensum.darMateriasPensum()) 
@@ -118,6 +123,13 @@ public class candidaturaGrado {
             posible = false;
             System.out.println("No se han cursado suficientes electivas en ingeniería. Mínimo 1.");
         }
+
+        if(electivasProfesionales < 9)
+        {
+            posible = false;
+            System.out.println("No se han cursado suficientes créditos de electivas profesionales. Mínimo 9.");
+        }
+
         if(cantidadTipoE < 2)
         {
             posible = false;

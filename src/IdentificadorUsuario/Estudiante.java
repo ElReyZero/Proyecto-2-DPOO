@@ -12,7 +12,7 @@ import curriculo.Materia;
 import curriculo.MateriaEstudiante;
 import curriculo.Pensum;
 
-public class Estudiante extends Usuario {
+public class Estudiante extends Usuario implements Cloneable{
 
 	//Atributos
 	private String carrera;
@@ -454,6 +454,25 @@ public class Estudiante extends Usuario {
 	public ArrayList<String> darCursosTomadosString()
 	{
 		return cursosTomadosArrayString;
+	}
+
+	public void setCursosTomados(ArrayList<MateriaEstudiante> pCursosTomados)
+	{
+		cursosTomados = pCursosTomados;
+	}
+
+	public void setCursosTomadosString(ArrayList<String> cursos)
+	{
+		cursosTomadosArrayString = cursos;
+	}
+	@SuppressWarnings("unchecked")
+	@Override
+	public Estudiante clone() throws CloneNotSupportedException
+	{
+		Estudiante cloned = (Estudiante) super.clone();
+		cloned.setCursosTomados((ArrayList<MateriaEstudiante>)cloned.darCursosTomados().clone());
+		cloned.setCursosTomadosString((ArrayList<String>)cloned.darCursosTomadosString().clone());
+		return cloned;
 	}
 
 }

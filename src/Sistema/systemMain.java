@@ -2,6 +2,7 @@ package Sistema;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -134,7 +135,7 @@ public class systemMain
     public static void seleccionEstudiante(Scanner sn, Pensum pensum, Estudiante estudiante, analizadorArchivo analizador)
     {
         System.out.println("Seleccione la opción a realizar: ");
-        System.out.println("1. Registrar Materias Manualmente");
+        System.out.println("1. Registrar Materias Manualmente. | NOTA: Se puede usar esta opción para homologar materias (Usar código de la materia homologada y nota como A)");
         System.out.println("2. Registrar Materias desde un archivo");
         System.out.println("3. Editar información de una materia. (Cambiar nota, marcar como retirada)");
         System.out.println("4. Guardar registro de materias en un archivo");
@@ -184,8 +185,37 @@ public class systemMain
         }
         else if(opcion.equals("5"))
         {
-            System.out.println(reporteNotas.darReporteNotas(estudiante));
-            seleccionEstudiante(sn, pensum, estudiante, analizador);
+            System.out.println("¿Quieres generar un reporte de notas de un semestre particular o de toda la carrera?");
+            System.out.println("1. Semestre Específico");
+            System.out.println("2. Toda la carrera");
+            int opci = sn.nextInt();
+            switch (opci)
+            {
+                case 1:
+                System.out.println("Ingresa el semestre para generar el reporte: ");
+                int semestre = sn.nextInt();
+                try {
+                    Estudiante copia = estudiante.clone();
+                    ArrayList<MateriaEstudiante> lista = copia.darCursosTomados();
+                    for (MateriaEstudiante materia : estudiante.darCursosTomados())
+                    {
+                        if(materia.darSemestre() != semestre) 
+                        {
+                            lista.remove(materia);
+                        }
+                    }
+                    copia.setCursosTomados(lista);
+                    System.out.println(reporteNotas.darReporteNotas(copia));
+                    seleccionEstudiante(sn, pensum, estudiante, analizador);
+                } catch (CloneNotSupportedException e) {
+                    e.printStackTrace();
+                }
+                break;
+                case 2:
+                System.out.println(reporteNotas.darReporteNotas(estudiante));
+                seleccionEstudiante(sn, pensum, estudiante, analizador);
+                break;
+            }   
         }
         else if(opcion.equals("6"))
         {
@@ -314,8 +344,37 @@ public class systemMain
             seleccionCoordinadorAcademico(sn, pensum, coordinador, analizador, avance);
             break;
             case 3: 
-            System.out.println(reporteNotas.darReporteNotas(estudiante));
-            seleccionCoordinadorAcademico(sn, pensum, coordinador, analizador, avance);
+            System.out.println("¿Quieres generar un reporte de notas de un semestre particular o de toda la carrera?");
+            System.out.println("1. Semestre Específico");
+            System.out.println("2. Toda la carrera");
+            int opci = sn.nextInt();
+            switch (opci)
+            {
+                case 1:
+                System.out.println("Ingresa el semestre para generar el reporte: ");
+                int semestre = sn.nextInt();
+                try {
+                    Estudiante copia = estudiante.clone();
+                    ArrayList<MateriaEstudiante> lista = copia.darCursosTomados();
+                    for (MateriaEstudiante materia : estudiante.darCursosTomados())
+                    {
+                        if(materia.darSemestre() != semestre) 
+                        {
+                            lista.remove(materia);
+                        }
+                    }
+                    copia.setCursosTomados(lista);
+                    System.out.println(reporteNotas.darReporteNotas(copia));
+                    seleccionCoordinadorAcademico(sn, pensum, coordinador, analizador, avance);
+                } catch (CloneNotSupportedException e) {
+                    e.printStackTrace();
+                }
+                break;
+                case 2:
+                System.out.println(reporteNotas.darReporteNotas(estudiante));
+                seleccionCoordinadorAcademico(sn, pensum, coordinador, analizador, avance);
+                break;
+            }
             break;
             case 4:
             candidaturaGrado.darCandidaturaGrado(estudiante,pensum);
@@ -425,7 +484,7 @@ public class systemMain
         System.out.println("Debes insertar un semestre válido.");
         sn.next();
         }   
-        System.out.println("¿El curso "+ codigoMateria + "es de tipo especial? (Tipo E o Tipo Épsilon)");
+        System.out.println("¿El curso "+ codigoMateria + " es de tipo especial? (Tipo E o Tipo Épsilon)");
         System.out.println("1. Sí");
         System.out.println("2. No");
         int opc = sn.nextInt();
@@ -463,17 +522,25 @@ public class systemMain
                 registrarMateriaPlaneadorEstudiante(sn, estudiante, pensum, analizador,planactual);
                 case 2:
                 System.out.println("El plan actual es: \n"+"Materia     Semestre\n"+planactual);
-                System.out.println("Ingresa la ruta para guardar la planeación: ");
-                File planeacion = new File(sn.next());
-                try {
-                    planeador.guardarPlaneación(planactual, analizador, estudiante, planeacion);
-                    System.out.println("La planeación fue guardada en: "+planeacion.getAbsolutePath());
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
+                System.out.println("Ingresa la ruta para guardar la planeación: (escribe exit para no guardar y volver al menú anterior)");
+                String ruta = sn.next();
+                if(ruta.toLowerCase().contains("exit"))
+                {
+                    seleccionEstudiante(sn, pensum, estudiante, analizador);
                 }
-                seleccionEstudiante(sn, pensum, estudiante, analizador); 
+                else
+                {
+                    File planeacion = new File(ruta);
+                    try {
+                        planeador.guardarPlaneación(planactual, analizador, estudiante, planeacion);
+                        System.out.println("La planeación fue guardada en: "+planeacion.getAbsolutePath());
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                    seleccionEstudiante(sn, pensum, estudiante, analizador);
+                }   
         }
     }
 

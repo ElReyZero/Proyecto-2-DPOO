@@ -14,8 +14,19 @@ public class planeador {
 
     public static String crearPlaneacion(Estudiante estudiante,Pensum pensum,Scanner sn,String codigoMateria,int semestre,String nota, boolean tipoE, boolean epsilon)
     {
-        Estudiante copia = estudiante;
+        Estudiante copia;
+        try {
+            copia = estudiante.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            copia = null;
+        }
         String plan = "";
+        if (copia == null)
+        {
+            System.out.println("Hubo un error en la copia del estudiante.");
+            System.exit(1);
+        }
         int registro=copia.registrarMaterias(codigoMateria, semestre, nota, tipoE, epsilon, pensum, sn);  
         if(registro==0)
         {
