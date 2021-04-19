@@ -6,6 +6,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import IdentificadorUsuario.Estudiante;
+
 import javax.swing.JOptionPane;
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -88,20 +91,37 @@ public class VentanaPrincipal extends JFrame implements ActionListener
             new JLabel("Introduce tus datos:"),
             new JLabel("Nombre:"),
             firstName,
-            new JLabel("Código"),
+            new JLabel("Código:"),
             codigo,
-            new JLabel("Carrera"),
+            new JLabel("Carrera:"),
             carrera
             };
             int result = JOptionPane.showConfirmDialog(null, inputs, "Registrar Usuario", JOptionPane.PLAIN_MESSAGE);
             if(result == JOptionPane.OK_OPTION && (codigo.getText().equals(null) ||  firstName.getText().equals(null) || carrera.getText().equals(null)));
             {
             	JOptionPane.showMessageDialog(null, new JLabel("Tienes que completar todos tus datos."), "Error", JOptionPane.ERROR_MESSAGE);
-            }
+			}
 		}
 		else if(boton == botonCoordinador)
 		{
-
+			JTextField firstName = new JTextField();
+			JTextField codigo =  new JTextField();
+			JTextField departamento = new JTextField();
+            final JComponent[] inputs = new JComponent[] 
+            {
+            new JLabel("Introduce tus datos:"),
+            new JLabel("Nombre:"),
+            firstName,
+            new JLabel("Código:"),
+            codigo,
+            new JLabel("Departamento:"),
+            departamento
+            };
+            int result = JOptionPane.showConfirmDialog(null, inputs, "Registrar Usuario", JOptionPane.PLAIN_MESSAGE);
+            if(result == JOptionPane.OK_OPTION && (codigo.getText().equals(null) ||  firstName.getText().equals(null) || departamento.getText().equals(null)));
+            {
+            	JOptionPane.showMessageDialog(null, new JLabel("Tienes que completar todos tus datos."), "Error", JOptionPane.ERROR_MESSAGE);
+            }
 		}
 		
 	}
