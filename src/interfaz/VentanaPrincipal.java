@@ -100,11 +100,7 @@ public class VentanaPrincipal extends JFrame implements ActionListener
 			}
 			else
 			{
-				main.removeAll();
-				main.add(new VentanaEstudiante(firstName.getText(), codigo.getText(), carrera.getText()));
-				add(main);
-				validate();
-				repaint();
+				actualizarMain(new VentanaEstudiante(firstName.getText(), codigo.getText(), carrera.getText()));
 			}
 		}
 		else if(boton == botonCoordinador)
@@ -130,4 +126,15 @@ public class VentanaPrincipal extends JFrame implements ActionListener
 		}
 		
 	}
+
+
+	public void actualizarMain(JPanel panel)
+	{
+		main.removeAll();
+		main.add(panel);
+		add(main);
+		validate();
+		repaint();
+	}
+
 }
