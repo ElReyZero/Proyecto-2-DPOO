@@ -64,4 +64,9 @@ public int darSemestreSugerido()
     return semestreSugerido;
 }
 
+public void setType(String pTipo)
+{
+    tipoMateria = pTipo;
+}
+
 }

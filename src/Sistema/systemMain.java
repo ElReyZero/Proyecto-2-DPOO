@@ -135,7 +135,7 @@ public class systemMain
     public static void seleccionEstudiante(Scanner sn, Pensum pensum, Estudiante estudiante, analizadorArchivo analizador)
     {
         System.out.println("Seleccione la opción a realizar: ");
-        System.out.println("1. Registrar Materias Manualmente. | NOTA: Se puede usar esta opción para homologar materias (Usar código de la materia homologada y nota como A)");
+        System.out.println("1. Registrar Materias Manualmente. | NOTA: Se puede usar esta opción para homologar materias / Inscribir una práctica académica (ISIS-3991) (Usar código de la materia y nota como A)");
         System.out.println("2. Registrar Materias desde un archivo");
         System.out.println("3. Editar información de una materia. (Cambiar nota, marcar como retirada)");
         System.out.println("4. Guardar registro de materias en un archivo");
@@ -168,7 +168,7 @@ public class systemMain
         }
         else if(opcion.equals("3"))
         {
-            editarMateria(estudiante, sn);
+            editarMateriaEstudiante(estudiante, sn);
             seleccionEstudiante(sn, pensum, estudiante, analizador);
         }  
         else if(opcion.equals("4"))
@@ -325,11 +325,12 @@ public class systemMain
         System.out.println("\nSeleccione la opción a realizar: ");
         System.out.println("1. Cargar información del estudiante nuevamente.");
         System.out.println("2. Revisar avance de estudiante");
-        System.out.println("3. Generar reporte notas");
-        System.out.println("4. Dar candidatura grado");
-        System.out.println("5. Crear planeación");
-        System.out.println("6. Cambiar Estudiante.");
-        System.out.println("7. Salir");
+        System.out.println("3. Editar información de una materia");
+        System.out.println("4. Generar reporte notas");
+        System.out.println("5. Dar candidatura grado");
+        System.out.println("6. Crear planeación");
+        System.out.println("7. Cambiar Estudiante.");
+        System.out.println("8. Salir");
         int opcion = sn.nextInt();
         switch (opcion)
         {
@@ -343,7 +344,10 @@ public class systemMain
             CoordinadorAcademico.revisarAvance(estudiante);
             seleccionCoordinadorAcademico(sn, pensum, coordinador, analizador, avance);
             break;
-            case 3: 
+            case 3 :
+            editarMateriaCoordinador(estudiante, sn);
+            break;
+            case 4: 
             System.out.println("¿Quieres generar un reporte de notas de un semestre particular o de toda la carrera?");
             System.out.println("1. Semestre Específico");
             System.out.println("2. Toda la carrera");
@@ -376,18 +380,18 @@ public class systemMain
                 break;
             }
             break;
-            case 4:
+            case 5:
             candidaturaGrado.darCandidaturaGrado(estudiante,pensum);
             seleccionCoordinadorAcademico(sn, pensum, coordinador, analizador, avance);
             break;
-            case 5:
+            case 6:
             registrarMateriaPlaneadorCoordinador(sn, estudiante, coordinador, pensum, analizador, avance,"");
             seleccionCoordinadorAcademico(sn, pensum, coordinador, analizador, avance);
             break;
-            case 6:
+            case 7:
             seleccionCoordinadorAcademico(sn, pensum, coordinador, analizador, avance);
             break;
-            case 7:
+            case 8:
             sn.close();
             System.exit(0); 
             break;
@@ -612,7 +616,7 @@ public class systemMain
         }
     }
 
-    public static void editarMateria(Estudiante estudiante, Scanner sn)
+    public static void editarMateriaEstudiante(Estudiante estudiante, Scanner sn)
     {
         System.out.println("Ingresa el código de la materia a editar: ");
         String codigoMateria = sn.next();
@@ -671,17 +675,204 @@ public class systemMain
                         case 2:
                         materia.setRetiro(true);
                         System.out.println("Estado cambiado satisfactoriamente a: " + materia.darInfoRetiro());
+                        break;
+
                     }
-                    break;
+                    break;  
                 }
                 break;
             }
-        }
+        
         if(encontrar == false)
         {
             System.out.println("La materia no fue encontrada en los cursos inscritos.");
         }
+    
+    }
+    }
+
+    public static void editarMateriaCoordinador(Estudiante estudiante, Scanner sn)
+    {
+        System.out.println("Ingresa el código de la materia a editar: ");
+        String codigoMateria = sn.next();
+        boolean encontrar = false;
+        for (MateriaEstudiante materia : estudiante.darCursosTomados()) 
+        {
+            if (materia.darCodigo().contains(codigoMateria))
+            {   
+                encontrar = true;
+                System.out.println("¿Qué característica de la materia desea editar?");
+                System.out.println("1. Nota");
+                System.out.println("2. Estado (Inscrita/Retirada)");
+                System.out.println("3. Editar tipo de la materia");
+                int opcion = sn.nextInt();
+                switch (opcion)
+                {
+                    case 1:
+                    System.out.println("Ingresa la nueva nota: ");
+                    String nota = sn.next();
+                    try
+                    {
+                        Double notaNum = Double.valueOf(nota);
+                        if(notaNum>5.0 || notaNum < 1.5)
+                        {
+                            System.out.println("Debes insertar una nota válida.");
+                        }
+                        else
+                        {
+                            materia.cambiarNota(nota);
+                            System.out.println("Nota cambiada satisfactoriamente a: " + materia.darNota());
+                        }
+                    }
+                    catch (NumberFormatException e) 
+                    {
+                        if(!nota.equals("A")&&!nota.equals("R")&&!nota.equals("PD")&&!nota.equals("I")&&!nota.equals("PE"))
+                        {
+                            System.out.println("Debes insertar una nota válida.");
+                        }
+                        else
+                        {
+                            materia.cambiarNota(nota);
+                            System.out.println("Nota cambiada satisfactoriamente a: " + materia.darNota());
+                        }
+                    }
+                    break;
+                    case 2:
+                    System.out.println("Nuevo estado de la materia: ");
+                    System.out.println("1. Inscrita.");
+                    System.out.println("2. Retirada.");
+                    int num = sn.nextInt();
+                    switch(num)
+                    {
+                        case 1:
+                        materia.setRetiro(false);
+                        System.out.println("Estado cambiado satisfactoriamente a: " + materia.darInfoRetiro());
+                        break;
+                        case 2:
+                        materia.setRetiro(true);
+                        System.out.println("Estado cambiado satisfactoriamente a: " + materia.darInfoRetiro());
+                        case 3:
+                        editarMateriaCoordinador(estudiante, sn);
+                        break;         
+                    }
+                    case 3:
+                    System.out.println("¿Desea quitar o añadirle tipos a la materia (Tipo E, Épsilon, CBU, CLE, etc)");
+                    System.out.println("1. Añadir");
+                    System.out.println("2. Quitar");
+                    System.out.println("3. Salir");
+                    String tipoMat = materia.darTipoMateria();
+                    int coord = sn.nextInt();
+                    switch(coord)
+                    {
+                        case 1 :
+                        System.out.println("¿Qué tipo deseas añadir?");
+                        System.out.println("1. Tipo E");
+                        System.out.println("2. Tipo Épsilon");
+                        System.out.println("3. Tipo CBU");
+                        System.out.println("4. Curso de Libre Elección");
+                        System.out.println("5. Electiva Profesional");
+                        System.out.println("6. Electiva en Ingeniería");
+                        System.out.println("7. Electiva en Ciencias");
+                        int tipe = sn.nextInt();
+                        switch(tipe)
+                        {
+                            case 1:
+                            tipoMat += " - Tipo E";
+                            materia.setType(tipoMat);
+                            editarMateriaCoordinador(estudiante, sn);
+                            break;
+                            case 2:
+                            tipoMat += " - Tipo Épsilon";
+                            materia.setType(tipoMat);
+                            editarMateriaCoordinador(estudiante, sn);
+                            break;
+                            case 3:
+                            tipoMat += " - CBU";
+                            materia.setType(tipoMat);
+                            editarMateriaCoordinador(estudiante, sn);
+                            break;
+                            case 4:
+                            tipoMat += " - Curso de Libre Elección";
+                            materia.setType(tipoMat);
+                            editarMateriaCoordinador(estudiante, sn);
+                            break;
+                            case 5:
+                            tipoMat += " - Electiva Profesional";
+                            materia.setType(tipoMat);
+                            editarMateriaCoordinador(estudiante, sn);
+                            break;
+                            case 6:
+                            tipoMat += " - Electiva en Ingeniería";
+                            materia.setType(tipoMat);
+                            editarMateriaCoordinador(estudiante, sn);
+                            break;
+                            case 7:
+                            tipoMat += " - Electiva en Ciencias";
+                            materia.setType(tipoMat);
+                            editarMateriaCoordinador(estudiante, sn);
+                            break;
+                        }
+                        break;
+                        case 2:
+                        System.out.println("¿Qué tipo deseas quitar?");
+                        System.out.println("1. Tipo E");
+                        System.out.println("2. Tipo Épsilon");
+                        System.out.println("3. Tipo CBU");
+                        System.out.println("4. Curso de Libre Elección");
+                        System.out.println("5. Electiva Profesional");
+                        System.out.println("6. Electiva en Ingeniería");
+                        System.out.println("7. Electiva en Ciencias");
+                        int quitar = sn.nextInt();
+                        switch (quitar)
+                            {
+                                case 1:
+                                tipoMat.replace(" - Tipo E", "");
+                                materia.setType(tipoMat);
+                                editarMateriaCoordinador(estudiante, sn);
+                                break;
+                                case 2:
+                                tipoMat.replace(" - Tipo Épsilon", "");
+                                materia.setType(tipoMat);
+                                editarMateriaCoordinador(estudiante, sn);
+                                break;
+                                case 3:
+                                tipoMat.replace(" - CBU", "");
+                                materia.setType(tipoMat);
+                                editarMateriaCoordinador(estudiante, sn);
+                                break;
+                                case 4:
+                                tipoMat.replace(" - Curso de Libre Elección", "");
+                                materia.setType(tipoMat);
+                                editarMateriaCoordinador(estudiante, sn);
+                                break;
+                                case 5:
+                                tipoMat.replace(" - Electiva Profesional", "");
+                                materia.setType(tipoMat);
+                                editarMateriaCoordinador(estudiante, sn);
+                                break;
+                                case 6:
+                                tipoMat.replace(" - Electiva en Ingeniería", "");
+                                materia.setType(tipoMat);
+                                editarMateriaCoordinador(estudiante, sn);
+                                break;
+                                case 7:
+                                tipoMat.replace(" - Electiva en Ciencias", "");
+                                materia.setType(tipoMat);
+                                editarMateriaCoordinador(estudiante, sn);
+                                break;
+                            }
+                    }
+                    break;  
+                }
+                break;
+            }
+        
+        if(encontrar == false)
+        {
+            System.out.println("La materia no fue encontrada en los cursos inscritos.");
+        }
+    
+    }
     }
 }
-
 
