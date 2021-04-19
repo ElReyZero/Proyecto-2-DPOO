@@ -5,7 +5,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
-
+import interfaz.VentanaPrincipal;
 import IdentificadorUsuario.CoordinadorAcademico;
 import IdentificadorUsuario.Estudiante;
 import curriculo.MateriaEstudiante;
@@ -26,6 +26,7 @@ public class systemMain
 		analizadorArchivo analizador = new analizadorArchivo();
 		analizador.cargarPensum(archivo);
         Pensum pensum = analizador.darPensum();
+        new VentanaPrincipal();
 		Consola(pensum, analizador);
 	}
 

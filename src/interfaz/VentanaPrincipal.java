@@ -7,7 +7,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import IdentificadorUsuario.Estudiante;
 
 import javax.swing.JOptionPane;
 import java.awt.BorderLayout;
@@ -20,6 +19,7 @@ import java.awt.event.*;
 public class VentanaPrincipal extends JFrame implements ActionListener
 {
 	
+	private JPanel main;
 	private JButton botonEstudiante;
 	private JButton botonCoordinador;
 	
@@ -27,11 +27,12 @@ public class VentanaPrincipal extends JFrame implements ActionListener
 	{
 		setTitle("Banner Uniandes");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setLayout(new BorderLayout());
 		///Botones y paneles
+		main = new JPanel();
 		JPanel panelBotones = new JPanel();
 		JPanel panelTitulo = new JPanel();
 		panelTitulo.setLayout(new BoxLayout(panelTitulo, BoxLayout.PAGE_AXIS));
+		main.setLayout(new BorderLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		panelBotones.setLayout(new GridBagLayout());
 		botonEstudiante = new JButton ("Estudiante");
@@ -43,7 +44,7 @@ public class VentanaPrincipal extends JFrame implements ActionListener
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.ipady = 75;
 		///Labels
-		JLabel titleLabel1 = new JLabel("Bienvenido:");
+		JLabel titleLabel1 = new JLabel("Bienvenido a Banner:");
 		JLabel titleLabel2 = new JLabel("Seleccione su tipo de Usuario");
 		cambiarSizeLabelBold(titleLabel1, panelTitulo);
 		cambiarSizeLabelBold(titleLabel2, panelTitulo);
@@ -58,15 +59,11 @@ public class VentanaPrincipal extends JFrame implements ActionListener
 		panelBotones.add(espacioCentro);
 		panelBotones.add(botonCoordinador, c);
 		panelBotones.add(espacioDer);
-		add(panelTitulo, BorderLayout.NORTH);
-		add(panelBotones, BorderLayout.CENTER);
+		main.add(panelTitulo, BorderLayout.NORTH);
+		main.add(panelBotones, BorderLayout.CENTER);
+		add(main);
 		setSize(700, 500);
 		setVisible(true);
-	}
-	
-	public static void main(String[] args)
-	{
-		new VentanaPrincipal();		
 	}
 	
 	public static void cambiarSizeLabelBold(JLabel label, JComponent component)
@@ -97,9 +94,17 @@ public class VentanaPrincipal extends JFrame implements ActionListener
             carrera
             };
             int result = JOptionPane.showConfirmDialog(null, inputs, "Registrar Usuario", JOptionPane.PLAIN_MESSAGE);
-            if(result == JOptionPane.OK_OPTION && (codigo.getText().equals(null) ||  firstName.getText().equals(null) || carrera.getText().equals(null)));
+            if(result == JOptionPane.OK_OPTION && (codigo.getText().equals(null) ||  firstName.getText().equals(null) || carrera.getText().equals(null)))
             {
             	JOptionPane.showMessageDialog(null, new JLabel("Tienes que completar todos tus datos."), "Error", JOptionPane.ERROR_MESSAGE);
+			}
+			else
+			{
+				main.removeAll();
+				main.add(new VentanaEstudiante(firstName.getText(), codigo.getText(), carrera.getText()));
+				add(main);
+				validate();
+				repaint();
 			}
 		}
 		else if(boton == botonCoordinador)
@@ -118,12 +123,11 @@ public class VentanaPrincipal extends JFrame implements ActionListener
             departamento
             };
             int result = JOptionPane.showConfirmDialog(null, inputs, "Registrar Usuario", JOptionPane.PLAIN_MESSAGE);
-            if(result == JOptionPane.OK_OPTION && (codigo.getText().equals(null) ||  firstName.getText().equals(null) || departamento.getText().equals(null)));
+            if(result == JOptionPane.OK_OPTION && (codigo.getText().equals(null) ||  firstName.getText().equals(null) || departamento.getText().equals(null)))
             {
             	JOptionPane.showMessageDialog(null, new JLabel("Tienes que completar todos tus datos."), "Error", JOptionPane.ERROR_MESSAGE);
             }
 		}
 		
 	}
-	
 }
