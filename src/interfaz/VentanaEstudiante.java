@@ -13,9 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.filechooser.FileFilter;
 
-import Sistema.analizadorArchivo;
 import Sistema.systemMain;
 @SuppressWarnings("serial")
 public class VentanaEstudiante extends JPanel implements ActionListener
