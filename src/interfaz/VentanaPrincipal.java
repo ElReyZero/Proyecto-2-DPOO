@@ -7,6 +7,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import Sistema.systemMain;
 
 import javax.swing.JOptionPane;
 import java.awt.BorderLayout;
@@ -22,10 +23,10 @@ public class VentanaPrincipal extends JFrame implements ActionListener
 	private JPanel main;
 	private JButton botonEstudiante;
 	private JButton botonCoordinador;
+	private systemMain sistema;
 	
 	public VentanaPrincipal()
 	{
-	
 		setTitle("Banner Uniandes");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		///Botones y paneles
@@ -65,6 +66,7 @@ public class VentanaPrincipal extends JFrame implements ActionListener
 		add(main);
 		setSize(700, 500);
 		setVisible(true);
+		sistema = new systemMain();
 	}
 	
 	public static void cambiarSizeLabelBold(JLabel label, JComponent component)
@@ -101,7 +103,7 @@ public class VentanaPrincipal extends JFrame implements ActionListener
 			}
 			else
 			{
-				actualizarMain(new VentanaEstudiante(firstName.getText(), codigo.getText(), carrera.getText(), this));
+				actualizarMain(new VentanaEstudiante(firstName.getText(), codigo.getText(), carrera.getText(), this, sistema));
 			}
 		}
 		else if(boton == botonCoordinador)
@@ -181,4 +183,8 @@ public class VentanaPrincipal extends JFrame implements ActionListener
 		repaint();
 	}
 
+	public static void main(String[] args)
+	{
+		new VentanaPrincipal();
+	}
 }

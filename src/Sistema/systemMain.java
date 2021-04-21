@@ -19,16 +19,13 @@ import funcionalidades.reporteNotas;
 
 public class systemMain 
 {
+    analizadorArchivo analizador = new analizadorArchivo();
 
-	public static void main(String[] args)
-	{
-		File archivo = new File("./data/curriculoISIS.csv");
-		analizadorArchivo analizador = new analizadorArchivo();
-		analizador.cargarPensum(archivo);
+    public systemMain()
+    {
         Pensum pensum = analizador.darPensum();
-        new VentanaPrincipal();
-		Consola(pensum, analizador);
-	}
+        Consola(pensum, analizador);
+    }
 
 	public static void Consola(Pensum pensum, analizadorArchivo analizador)
 	{
@@ -876,9 +873,9 @@ public class systemMain
     }
     }
 
-    public File recibirArchivo(File archivo)
+    public void cargarPensumAnalizador(File archivo)
     {
-        return archivo;
+        analizador.cargarPensum(archivo);
     }
 }
 

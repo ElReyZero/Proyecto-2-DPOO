@@ -16,6 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.filechooser.FileFilter;
 
 import Sistema.analizadorArchivo;
+import Sistema.systemMain;
 @SuppressWarnings("serial")
 public class VentanaEstudiante extends JPanel implements ActionListener
 {
@@ -33,10 +34,12 @@ public class VentanaEstudiante extends JPanel implements ActionListener
 		private JButton cargarArchivo;
 		private JButton volver;
 		private VentanaPrincipal ventanaMain;
+        private systemMain sistema;
 		
-    public VentanaEstudiante(String nombre, String codigo, String carrera, VentanaPrincipal pVentanaMain)
+    public VentanaEstudiante(String nombre, String codigo, String carrera, VentanaPrincipal pVentanaMain, systemMain pSistema)
     {
     	ventanaMain = pVentanaMain;
+        sistema = pSistema;
 		setLayout(new BorderLayout());
         ///Botones y paneles
         JPanel panelInformacion = new JPanel();
@@ -122,13 +125,15 @@ public class VentanaEstudiante extends JPanel implements ActionListener
         else if(e.getSource() == cargarPensum)
 		{
             File archivo = null;
-		    analizadorArchivo analizador = new analizadorArchivo();
 		    JFileChooser fc = new JFileChooser();
 		    fc.setDialogTitle("Seleccione el archivo con el pensum");
 			fc.setFileFilter(new FiltroCSV());
-            fc.showOpenDialog(this);
-            archivo = fc.getSelectedFile();
-            analizador.cargarPensum(archivo);   
+            int respuesta = fc.showOpenDialog(this);
+            if(respuesta == JFileChooser.APPROVE_OPTION)
+            {
+                archivo = fc.getSelectedFile();
+                sistema.cargarPensumAnalizador(archivo);
+            }           
         }
 		
 	}
