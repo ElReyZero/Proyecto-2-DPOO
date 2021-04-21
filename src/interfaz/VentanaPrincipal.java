@@ -25,6 +25,7 @@ public class VentanaPrincipal extends JFrame implements ActionListener
 	
 	public VentanaPrincipal()
 	{
+	
 		setTitle("Banner Uniandes");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		///Botones y paneles
@@ -94,13 +95,13 @@ public class VentanaPrincipal extends JFrame implements ActionListener
             carrera
             };
             int result = JOptionPane.showConfirmDialog(null, inputs, "Registrar Usuario", JOptionPane.PLAIN_MESSAGE);
-            if(result == JOptionPane.OK_OPTION && (codigo.getText().equals(null) ||  firstName.getText().equals(null) || carrera.getText().equals(null)))
+            if(result == JOptionPane.OK_OPTION && (codigo.getText().equals("") ||  firstName.getText().equals("") || carrera.getText().equals("")))
             {
             	JOptionPane.showMessageDialog(null, new JLabel("Tienes que completar todos tus datos."), "Error", JOptionPane.ERROR_MESSAGE);
 			}
 			else
 			{
-				actualizarMain(new VentanaEstudiante(firstName.getText(), codigo.getText(), carrera.getText()));
+				actualizarMain(new VentanaEstudiante(firstName.getText(), codigo.getText(), carrera.getText(), this));
 			}
 		}
 		else if(boton == botonCoordinador)
@@ -119,7 +120,7 @@ public class VentanaPrincipal extends JFrame implements ActionListener
             departamento
             };
             int result = JOptionPane.showConfirmDialog(null, inputs, "Registrar Usuario", JOptionPane.PLAIN_MESSAGE);
-            if(result == JOptionPane.OK_OPTION && (codigo.getText().equals(null) ||  firstName.getText().equals(null) || departamento.getText().equals(null)))
+            if(result == JOptionPane.OK_OPTION && (codigo.getText().equals("") ||  firstName.getText().equals("") || departamento.getText().equals("")))
             {
             	JOptionPane.showMessageDialog(null, new JLabel("Tienes que completar todos tus datos."), "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -137,6 +138,45 @@ public class VentanaPrincipal extends JFrame implements ActionListener
 		main.removeAll();
 		main.add(panel);
 		add(main);
+		validate();
+		repaint();
+	}
+
+	public void resetMain()
+	{
+		main.removeAll();
+		JPanel panelBotones = new JPanel();
+		JPanel panelTitulo = new JPanel();
+		panelTitulo.setLayout(new BoxLayout(panelTitulo, BoxLayout.PAGE_AXIS));
+		main.setLayout(new BorderLayout());
+		GridBagConstraints c = new GridBagConstraints();
+		panelBotones.setLayout(new GridBagLayout());
+		botonEstudiante = new JButton ("Estudiante");
+		botonCoordinador = new JButton ("Coordinador");
+		botonEstudiante.addActionListener(this);
+		botonCoordinador.addActionListener(this);
+		c.weightx = 2;
+		c.weighty = 3;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.ipady = 75;
+		///Labels
+		JLabel titleLabel1 = new JLabel("Bienvenido a Banner:");
+		JLabel titleLabel2 = new JLabel("Seleccione su tipo de Usuario");
+		cambiarSizeLabelBold(titleLabel1, panelTitulo);
+		cambiarSizeLabelBold(titleLabel2, panelTitulo);
+		//adds Principal
+		panelTitulo.add(titleLabel1);
+		panelTitulo.add(titleLabel2);
+		JLabel espacioIzq = new JLabel("      ");
+		JLabel espacioCentro = new JLabel("      ");
+		JLabel espacioDer = new JLabel("      ");
+		panelBotones.add(espacioIzq);
+		panelBotones.add(botonEstudiante, c);
+		panelBotones.add(espacioCentro);
+		panelBotones.add(botonCoordinador, c);
+		panelBotones.add(espacioDer);
+		main.add(panelTitulo, BorderLayout.NORTH);
+		main.add(panelBotones, BorderLayout.CENTER);
 		validate();
 		repaint();
 	}

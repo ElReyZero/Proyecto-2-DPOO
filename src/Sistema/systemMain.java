@@ -875,5 +875,10 @@ public class systemMain
     
     }
     }
+
+    public File recibirArchivo(File archivo)
+    {
+        return archivo;
+    }
 }
 

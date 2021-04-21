@@ -9,8 +9,6 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
 @SuppressWarnings("serial")
 public class VentanaCoordinador extends JPanel
 {
@@ -23,7 +21,7 @@ public class VentanaCoordinador extends JPanel
         panelInformacion.setLayout(new FlowLayout());
         JLabel name = new JLabel("Nombre: "+ nombre);
         JLabel code = new JLabel("Código: "+ codigo);
-        JLabel major = new JLabel("Carrera: "+ departamento);
+        JLabel major = new JLabel("Departamento: "+ departamento);
         panelInformacion.add(name);
         panelInformacion.add(code);
         panelInformacion.add(major);
@@ -65,8 +63,11 @@ public class VentanaCoordinador extends JPanel
     {
         JPanel panelCarga = new JPanel();
         panelCarga.setLayout(new BoxLayout(panelCarga,BoxLayout.LINE_AXIS));
+        JButton cargarPensum = new JButton("Cargar Pensum");
         JButton guardarArchivo = new JButton("Guardar archivo");
         JButton cargarArchivo = new JButton("Cargar datos del estudiante");
+        panelCarga.add(cargarPensum);
+        panelCarga.add(Box.createRigidArea(new Dimension(10,0)));
         panelCarga.add(guardarArchivo);
         panelCarga.add(Box.createRigidArea(new Dimension(10,0)));
         panelCarga.add(cargarArchivo);
@@ -87,7 +88,7 @@ public class VentanaCoordinador extends JPanel
     {
         JPanel panelTextoEstudiante = new JPanel();
         JLabel textEstudiante = new JLabel("Estudiante Actual: ");
-        JTextField estudiante = new JTextField();
+        JLabel estudiante = new JLabel();
         panelTextoEstudiante.setLayout(new BoxLayout(panelTextoEstudiante,BoxLayout.LINE_AXIS));
         panelTextoEstudiante.add(textEstudiante);
         panelTextoEstudiante.add(Box.createRigidArea(new Dimension(8,0)));
@@ -99,7 +100,7 @@ public class VentanaCoordinador extends JPanel
     {
         JPanel panelTextoCodigo = new JPanel();
         JLabel textCodigo = new JLabel("Código: ");
-        JTextField codigo = new JTextField();
+        JLabel codigo = new JLabel();
         panelTextoCodigo.setLayout(new BoxLayout(panelTextoCodigo,BoxLayout.LINE_AXIS));
         panelTextoCodigo.add(textCodigo);
         panelTextoCodigo.add(Box.createRigidArea(new Dimension(0,8)));
