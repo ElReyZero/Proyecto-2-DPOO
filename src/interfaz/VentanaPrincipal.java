@@ -123,6 +123,10 @@ public class VentanaPrincipal extends JFrame implements ActionListener
             {
             	JOptionPane.showMessageDialog(null, new JLabel("Tienes que completar todos tus datos."), "Error", JOptionPane.ERROR_MESSAGE);
             }
+			else
+			{
+				actualizarMain(new VentanaCoordinador(firstName.getText(), codigo.getText(), departamento.getText()));
+			}
 		}
 		
 	}

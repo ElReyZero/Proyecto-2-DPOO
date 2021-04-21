@@ -1,8 +1,12 @@
 package interfaz;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 @SuppressWarnings("serial")
@@ -16,13 +20,68 @@ public class VentanaEstudiante extends JPanel
         JPanel panelInformacion = new JPanel();
         panelInformacion.setLayout(new FlowLayout());
         JLabel name = new JLabel("Nombre: "+ nombre);
-        JLabel code = new JLabel("Código: "+ codigo);
-        JLabel major = new JLabel("Carrera: "+ carrera);
+        JLabel code = new JLabel("          Código: "+ codigo);
+        JLabel major = new JLabel("          Carrera: "+ carrera);
         panelInformacion.add(name);
         panelInformacion.add(code);
         panelInformacion.add(major);
         add(panelInformacion, BorderLayout.NORTH);
+        JPanel panelOpciones = PanelOpcionesEstudiante();
+        add(panelOpciones,BorderLayout.CENTER);
+        JPanel volver = Volver();
+        add(volver,BorderLayout.SOUTH);
         setSize(700, 500);
-		setVisible(true);
+		    setVisible(true);
+    }
+    public JPanel PanelOpcionesEstudiante()
+    {
+        JPanel panelOpciones = new JPanel();
+        panelOpciones.setLayout(new BoxLayout(panelOpciones,BoxLayout.PAGE_AXIS));
+        JButton planearSemestre = new JButton("Planear semestre");
+        JButton reporteNotas = new JButton("Generar reporte de notas");
+        JButton editarCurso = new JButton("Editar información de un curso");
+        JButton registrarMaterias = new JButton("Registrar materia manualmente");
+        JButton candidaturaGrado = new JButton("Verificar candidatura de grado");
+        JPanel panelArchivos = PanelArchivosEstudiante();
+        panelOpciones.add(Box.createRigidArea(new Dimension(0,50)));
+        panelOpciones.add(registrarMaterias);
+        panelOpciones.add(Box.createRigidArea(new Dimension(0,8)));
+        panelOpciones.add(reporteNotas);
+        panelOpciones.add(Box.createRigidArea(new Dimension(0,8)));
+        panelOpciones.add(editarCurso);
+        panelOpciones.add(Box.createRigidArea(new Dimension(0,8)));
+        panelOpciones.add(planearSemestre);
+        panelOpciones.add(Box.createRigidArea(new Dimension(0,8)));
+        panelOpciones.add(candidaturaGrado);
+        panelOpciones.add(Box.createRigidArea(new Dimension(0,15)));
+        panelOpciones.add(panelArchivos);
+        planearSemestre.setAlignmentX(CENTER_ALIGNMENT);
+        reporteNotas.setAlignmentX(CENTER_ALIGNMENT);
+        editarCurso.setAlignmentX(CENTER_ALIGNMENT);
+        registrarMaterias.setAlignmentX(CENTER_ALIGNMENT);
+        candidaturaGrado.setAlignmentX(CENTER_ALIGNMENT);
+        return panelOpciones;
+    }
+    public JPanel PanelArchivosEstudiante()
+    {
+        JPanel panelCarga = new JPanel();
+        panelCarga.setLayout(new BoxLayout(panelCarga,BoxLayout.LINE_AXIS));
+        JButton guardarArchivo = new JButton("Guardar archivo");
+        JButton cargarArchivo = new JButton("Cargar un archivo");
+        panelCarga.add(guardarArchivo);
+        panelCarga.add(Box.createRigidArea(new Dimension(10,0)));
+        panelCarga.add(cargarArchivo);
+        panelCarga.add(Box.createRigidArea(new Dimension(0,150)));
+        guardarArchivo.setAlignmentX(CENTER_ALIGNMENT);
+        cargarArchivo.setAlignmentX(CENTER_ALIGNMENT);
+        return panelCarga;
+    }
+    public JPanel Volver()
+    {
+      JPanel panelVolver = new JPanel();
+      panelVolver.setLayout(new BoxLayout(panelVolver,BoxLayout.LINE_AXIS));
+      JButton volver = new JButton("Volver a selección de usuario");
+      panelVolver.add(volver);
+      return panelVolver;
     }
 }
