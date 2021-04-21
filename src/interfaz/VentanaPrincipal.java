@@ -128,7 +128,7 @@ public class VentanaPrincipal extends JFrame implements ActionListener
             }
 			else
 			{
-				actualizarMain(new VentanaCoordinador(firstName.getText(), codigo.getText(), departamento.getText()));
+				actualizarMain(new VentanaCoordinador(firstName.getText(), codigo.getText(), departamento.getText(), this, sistema));
 			}
 		}
 		

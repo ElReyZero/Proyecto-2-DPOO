@@ -138,21 +138,6 @@ public class VentanaEstudiante extends JPanel implements ActionListener
 		
 	}
 	
-	
-	private final class FiltroCSV extends FileFilter
-	{
-		@Override
-		public String getDescription()
-		{
-			return "Archivo CSV";
-		}
-
-		@Override
-		public boolean accept(File f)
-		{
-			return f.isDirectory() || f.getName().toLowerCase().endsWith(".csv");
-		}
-	}
 
 
     public File cargarArchivoMain(File archivo)

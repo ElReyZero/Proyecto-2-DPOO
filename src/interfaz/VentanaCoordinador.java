@@ -3,28 +3,51 @@ package interfaz;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import Sistema.systemMain;
+
 @SuppressWarnings("serial")
-public class VentanaCoordinador extends JPanel
+public class VentanaCoordinador extends JPanel implements ActionListener
 {
 
-    public VentanaCoordinador(String nombre, String codigo, String departamento)
+    private JLabel name;
+    private JLabel code;
+    private JLabel department;
+    private JButton planearSemestre;
+    private JButton reporteNotas;
+    private JButton editarCurso;
+    private JButton candidaturaGrado;
+    private JButton cargarPensum;
+    private JButton guardarArchivo;
+    private JButton cargarArchivo;
+    private JButton volver;
+    private VentanaPrincipal ventanaMain;
+    private systemMain sistema;
+
+    public VentanaCoordinador(String nombre, String codigo, String departamento, VentanaPrincipal pVentanaMain, systemMain pSistema)
     {
+        ventanaMain = pVentanaMain;
+        sistema = pSistema;
 		setLayout(new BorderLayout());
         ///Botones y paneles
         JPanel panelInformacion = new JPanel();
         panelInformacion.setLayout(new FlowLayout());
-        JLabel name = new JLabel("Nombre: "+ nombre);
-        JLabel code = new JLabel("Código: "+ codigo);
-        JLabel major = new JLabel("Departamento: "+ departamento);
+        name = new JLabel("Nombre: "+ nombre);
+        code = new JLabel("Código: "+ codigo);
+        department = new JLabel("Departamento: "+ departamento);
         panelInformacion.add(name);
         panelInformacion.add(code);
-        panelInformacion.add(major);
+        panelInformacion.add(department);
         add(panelInformacion, BorderLayout.NORTH);
         add(PanelOpcionesCoordinador(),BorderLayout.CENTER);
         add(Volver(),BorderLayout.SOUTH);
@@ -35,10 +58,10 @@ public class VentanaCoordinador extends JPanel
     {
         JPanel panelOpciones = new JPanel();
         panelOpciones.setLayout(new BoxLayout(panelOpciones,BoxLayout.PAGE_AXIS));
-        JButton planearSemestre = new JButton("Planear semestre");
-        JButton reporteNotas = new JButton("Generar reporte de notas");
-        JButton editarCurso = new JButton("Editar información de un curso");
-        JButton candidaturaGrado = new JButton("Verificar candidatura de grado");
+        planearSemestre = new JButton("Planear semestre");
+        reporteNotas = new JButton("Generar reporte de notas");
+        editarCurso = new JButton("Editar información de un curso");
+        candidaturaGrado = new JButton("Verificar candidatura de grado");
         JPanel panelArchivos = PanelArchivosCoordinador();
         JPanel panelBusqueda = PanelBusquedaEstudiante();
         panelOpciones.add(Box.createRigidArea(new Dimension(0,40)));
@@ -63,9 +86,12 @@ public class VentanaCoordinador extends JPanel
     {
         JPanel panelCarga = new JPanel();
         panelCarga.setLayout(new BoxLayout(panelCarga,BoxLayout.LINE_AXIS));
-        JButton cargarPensum = new JButton("Cargar Pensum");
-        JButton guardarArchivo = new JButton("Guardar archivo");
-        JButton cargarArchivo = new JButton("Cargar datos del estudiante");
+        cargarPensum = new JButton("Cargar Pensum");
+        cargarPensum.addActionListener(this);
+        guardarArchivo = new JButton("Guardar archivo");
+        guardarArchivo.addActionListener(this);
+        cargarArchivo = new JButton("Cargar datos del estudiante");
+        cargarArchivo.addActionListener(this);
         panelCarga.add(cargarPensum);
         panelCarga.add(Box.createRigidArea(new Dimension(10,0)));
         panelCarga.add(guardarArchivo);
@@ -111,8 +137,30 @@ public class VentanaCoordinador extends JPanel
     {
       JPanel panelVolver = new JPanel();
       panelVolver.setLayout(new BoxLayout(panelVolver,BoxLayout.LINE_AXIS));
-      JButton volver = new JButton("Volver a selección de usuario");
+      volver = new JButton("Volver a selección de usuario");
+      volver.addActionListener(this);
       panelVolver.add(volver);
       return panelVolver;
     }
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() == volver)
+		{
+			ventanaMain.resetMain();
+		}
+        else if(e.getSource() == cargarPensum)
+		{
+            File archivo = null;
+		    JFileChooser fc = new JFileChooser();
+		    fc.setDialogTitle("Seleccione el archivo con el pensum");
+			fc.setFileFilter(new FiltroCSV());
+            int respuesta = fc.showOpenDialog(this);
+            if(respuesta == JFileChooser.APPROVE_OPTION)
+            {
+                archivo = fc.getSelectedFile();
+                sistema.cargarPensumAnalizador(archivo);
+            }           
+        }
+		
+	}
 }
