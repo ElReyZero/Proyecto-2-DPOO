@@ -8,7 +8,13 @@ public class reporteNotas
     public static String darReporteNotas(Estudiante estudiante)
     {
         String Reporte;
+        Reporte = "El PGA es:"+promedioPGA(estudiante)+"\nEl estado académico de "+ estudiante.darNombre() + " es: " + estadoAcademico(estudiante)+"\nEl semestre según creditos es: "+semestreSegunCreditos(estudiante)+reportePorSemestre;
+        return Reporte;
+    }
+    public static String reporteSemestre (Estudiante estudiante)
+    {
         int semestreActual=0;
+        String reportePorSemestre="";
         ArrayList<MateriaEstudiante> cursosTomados= estudiante.darCursosTomados();
         for (MateriaEstudiante curso:cursosTomados)
         {
@@ -17,7 +23,6 @@ public class reporteNotas
                 semestreActual = curso.darSemestre();
             }
         }
-        String reportePorSemestre="";
         for (int i = 1;i<=semestreActual;i++)
         {
             String materiasSemestre="";
@@ -34,8 +39,7 @@ public class reporteNotas
             reportePorSemestre += "\nSemestre "+String.valueOf(i)+":\n"+"El promedio del semestre es: "+promedioSemestre(estudiante, i)+ "\nLista de materias:\n"+materiasSemestre+"\n";
             }
         }
-        Reporte = "El PGA es:"+promedioPGA(estudiante)+"\nEl estado académico de "+ estudiante.darNombre() + " es: " + estadoAcademico(estudiante)+"\nEl semestre según creditos es: "+semestreSegunCreditos(estudiante)+reportePorSemestre;
-        return Reporte;
+        return reportePorSemestre;
     }
     public static String promedioSemestre(Estudiante estudiante, int semestre)
     {
