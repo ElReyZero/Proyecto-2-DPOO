@@ -63,7 +63,7 @@ public class VentanaEstudiante extends JPanel implements ActionListener
         planearSemestre = new JButton("Planear semestre");
         reporteNotas = new JButton("Generar reporte de notas");
         editarCurso = new JButton("Editar información de un curso");
-        registrarMaterias = new JButton("Registrar materia manualmente");
+        registrarMaterias = new JButton("Registrar materias manualmente");
         candidaturaGrado = new JButton("Verificar candidatura de grado");
         JPanel panelArchivos = PanelArchivosEstudiante();
         panelOpciones.add(Box.createRigidArea(new Dimension(0,50)));

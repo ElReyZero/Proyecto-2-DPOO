@@ -101,6 +101,9 @@ public class VentanaPrincipal extends JFrame implements ActionListener
             {
             	JOptionPane.showMessageDialog(null, new JLabel("Tienes que completar todos tus datos."), "Error", JOptionPane.ERROR_MESSAGE);
 			}
+			else if(result == -1)
+			{
+			}
 			else
 			{
 				actualizarMain(new VentanaEstudiante(firstName.getText(), codigo.getText(), carrera.getText(), this, sistema));
@@ -126,8 +129,12 @@ public class VentanaPrincipal extends JFrame implements ActionListener
             {
             	JOptionPane.showMessageDialog(null, new JLabel("Tienes que completar todos tus datos."), "Error", JOptionPane.ERROR_MESSAGE);
             }
-			else
+			else if(result == -1)
 			{
+			}
+			else
+			{	
+				
 				actualizarMain(new VentanaCoordinador(firstName.getText(), codigo.getText(), departamento.getText(), this, sistema));
 			}
 		}
