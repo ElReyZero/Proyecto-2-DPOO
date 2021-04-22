@@ -7,6 +7,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import IdentificadorUsuario.Estudiante;
 import Sistema.systemMain;
 
 import javax.swing.JOptionPane;
@@ -106,7 +107,8 @@ public class VentanaPrincipal extends JFrame implements ActionListener
 			}
 			else
 			{
-				actualizarMain(new VentanaEstudiante(firstName.getText(), codigo.getText(), carrera.getText(), this, sistema));
+				Estudiante estudiante = new Estudiante(firstName.getText(),codigo.getText(),carrera.getText());
+				actualizarMain(new VentanaEstudiante(firstName.getText(), codigo.getText(), carrera.getText(), this, sistema, estudiante));
 			}
 		}
 		else if(boton == botonCoordinador)
@@ -134,7 +136,6 @@ public class VentanaPrincipal extends JFrame implements ActionListener
 			}
 			else
 			{	
-				
 				actualizarMain(new VentanaCoordinador(firstName.getText(), codigo.getText(), departamento.getText(), this, sistema));
 			}
 		}

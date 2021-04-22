@@ -27,8 +27,9 @@ public class planeador {
             System.out.println("Hubo un error en la copia del estudiante.");
             System.exit(1);
         }
-        int registro=copia.registrarMaterias(codigoMateria, semestre, nota, tipoE, epsilon, pensum, sn);  
-        if(registro==0)
+        ///TODO
+        ///int registro=copia.registrarMaterias(codigoMateria, semestre, nota, tipoE, epsilon, pensum, sn);  
+        ///if(registro==0)
         {
             plan += codigoMateria+"      "+String.valueOf(semestre)+"\n";
         }

@@ -140,23 +140,36 @@ public class analizadorArchivo {
 					String[] partes = linea.split(";");
 					String codigo = partes[0];
 					String nota = partes[1];
+					int creds = Integer.parseInt(partes[2]);
                     int semestre = Integer.parseInt(partes[3]);
 					String tipoMateria = partes[4];
-					if(tipoMateria.contains("Tipo E") && tipoMateria.contains("Tipo Épsilon"))
+					if(tipoMateria.contains("Tipo E") && tipoMateria.contains("Tipo Épsilon") && tipoMateria.contains("Curso de Libre Elección"))
 					{
-						caso = estudiante.registrarMaterias(codigo, semestre, nota, true, true, pensum, sn);
+						caso = estudiante.registrarMaterias(codigo, semestre, nota, true, true, pensum, true, creds);
 					}
-                    else if(tipoMateria.contains("Tipo E"))
+                    else if(tipoMateria.contains("Tipo E") && tipoMateria.contains("Tipo Épsilon"))
 					{
-						caso = estudiante.registrarMaterias(codigo, semestre, nota, true, false, pensum, sn);
+						caso = estudiante.registrarMaterias(codigo, semestre, nota, true, true, pensum, false, creds);
+					}
+					else if (tipoMateria.contains("Tipo E") && tipoMateria.contains("Curso de Libre Elección"))
+					{
+						caso = estudiante.registrarMaterias(codigo, semestre, nota, true, false, pensum, true, creds);
+					}
+					else if (tipoMateria.contains("Tipo Épsilon") && tipoMateria.contains("Curso de Libre Elección"))
+					{
+						caso = estudiante.registrarMaterias(codigo, semestre, nota, false, true, pensum, true, creds);
 					}
 					else if (tipoMateria.contains("Tipo Épsilon"))
 					{
-						caso = estudiante.registrarMaterias(codigo, semestre, nota, false, true, pensum, sn);
+						caso = estudiante.registrarMaterias(codigo, semestre, nota, false, true, pensum, false, creds);
+					}
+					else if (tipoMateria.contains("Tipo E"))
+					{
+						caso = estudiante.registrarMaterias(codigo, semestre, nota, true, false, pensum, false, creds);
 					}
 					else
 					{
-						caso = estudiante.registrarMaterias(codigo, semestre, nota, false, false, pensum, sn);
+						caso = estudiante.registrarMaterias(codigo, semestre, nota, false, false, pensum, false, creds);
 					}
 					linea = br.readLine();
 				}
@@ -201,23 +214,36 @@ public class analizadorArchivo {
 					String[] partes = linea.split(";");
 					String codigo = partes[0];
 					String nota = partes[1];
+					int creds = Integer.parseInt(partes[2]);
                     int semestre = Integer.parseInt(partes[3]);
 					String tipoMateria = partes[4];
-					if(tipoMateria.contains("Tipo E") && tipoMateria.contains("Tipo Épsilon"))
+					if(tipoMateria.contains("Tipo E") && tipoMateria.contains("Tipo Épsilon") && tipoMateria.contains("Curso de Libre Elección"))
 					{
-						caso = estudiante.registrarMaterias(codigo, semestre, nota, true, true, pensum, sn);
+						caso = estudiante.registrarMaterias(codigo, semestre, nota, true, true, pensum, true, creds);
 					}
-                    else if(tipoMateria.contains("Tipo E"))
+                    else if(tipoMateria.contains("Tipo E") && tipoMateria.contains("Tipo Épsilon"))
 					{
-						caso = estudiante.registrarMaterias(codigo, semestre, nota, true, false, pensum, sn);
+						caso = estudiante.registrarMaterias(codigo, semestre, nota, true, true, pensum, false, creds);
+					}
+					else if (tipoMateria.contains("Tipo E") && tipoMateria.contains("Curso de Libre Elección"))
+					{
+						caso = estudiante.registrarMaterias(codigo, semestre, nota, true, false, pensum, true, creds);
+					}
+					else if (tipoMateria.contains("Tipo Épsilon") && tipoMateria.contains("Curso de Libre Elección"))
+					{
+						caso = estudiante.registrarMaterias(codigo, semestre, nota, false, true, pensum, true, creds);
 					}
 					else if (tipoMateria.contains("Tipo Épsilon"))
 					{
-						caso = estudiante.registrarMaterias(codigo, semestre, nota, false, true, pensum, sn);
+						caso = estudiante.registrarMaterias(codigo, semestre, nota, false, true, pensum, false, creds);
+					}
+					else if (tipoMateria.contains("Tipo E"))
+					{
+						caso = estudiante.registrarMaterias(codigo, semestre, nota, true, false, pensum, false, creds);
 					}
 					else
 					{
-						caso = estudiante.registrarMaterias(codigo, semestre, nota, false, false, pensum, sn);
+						caso = estudiante.registrarMaterias(codigo, semestre, nota, false, false, pensum, false, creds);
 					}
 					linea = br.readLine();
 				}

@@ -4,8 +4,6 @@ import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.InputMismatchException;
-import java.util.Scanner;
 
 import Sistema.analizadorArchivo;
 import curriculo.Materia;
@@ -20,6 +18,7 @@ public class Estudiante extends Usuario implements Cloneable{
 	private ArrayList<MateriaEstudiante> cursosTomados;
 	private ArrayList<String> cursosTomadosArrayString;
 	private String tomadosString;
+	private String error;
 	
 	//Constructor
 	public Estudiante(String pNombre, String pCodigo, String pCarrera) 
@@ -29,15 +28,16 @@ public class Estudiante extends Usuario implements Cloneable{
 		cursosTomados = new ArrayList<MateriaEstudiante>();
 		cursosTomadosArrayString = new ArrayList<String>();
 		tomadosString = "-----------------------------------\n";
+		error = "";
 	}
 
 	//Métodos
-	public int registrarMaterias(String codigo, int semestre, String nota, boolean tipoE, boolean epsilon, Pensum pensum, Scanner sn)
+	public int registrarMaterias(String codigo, int semestre, String nota, boolean tipoE, boolean epsilon, Pensum pensum, boolean CLE, int clecreds)
 	{
 		if (codigo.length() != 9 || !codigo.contains("-"))
 		{
-			System.out.println("El código de materia "+codigo+" no está escrito en un formato adecuado. Formato: AAAA-XXXX");
-			return 1;
+			///Error :("El código de materia "+codigo+" no está escrito en un formato adecuado. Formato: AAAA-XXXX");
+			return -1;
 		}
 		var listaMaterias = pensum.darMateriasPensum();
 		String matString = pensum.darMateriasString();
@@ -52,8 +52,8 @@ public class Estudiante extends Usuario implements Cloneable{
 						{
 							if(!cursosTomadosArrayString.contains(pensum.darMateriasNivel1String().get(i)))
 							{
-								System.out.println("Para poder inscribir " + codigo + " necesitas haber inscrito todas las materias de nivel 1");
-								return 1;
+								//Error("Para poder inscribir " + codigo + " necesitas haber inscrito todas las materias de nivel 1");
+								return -2;
 							}
 						}	
 					}
@@ -63,8 +63,8 @@ public class Estudiante extends Usuario implements Cloneable{
 						{
 							if(!cursosTomadosArrayString.contains(pensum.darMateriasNivel2String().get(i)))
 							{
-								System.out.println("Para poder inscribir " + codigo + " necesitas haber inscrito todas las materias de nivel 2");
-								return 1;
+								///Error("Para poder inscribir " + codigo + " necesitas haber inscrito todas las materias de nivel 2");
+								return -3;
 							}
 						}
 					}
@@ -109,8 +109,10 @@ public class Estudiante extends Usuario implements Cloneable{
 							}	
 							if (prerrequisitos.size()!= 0)
 							{
-								System.out.println("Se está intentando registrar "+ codigo +" sin haber cumplido todos los prerrequisitos previamente.\nPrerrequisito(s) sin cumplir:\n" + String.join("\n", prerrequisitos));
-								return 1;
+								error = "";
+								error = "\nPrerrequisito(s) sin cumplir:\n" + String.join("\n", prerrequisitos);
+								///Error("Se está intentando registrar "+ codigo +" sin haber cumplido todos los prerrequisitos previamente.\nPrerrequisito(s) sin cumplir:\n" + String.join("\n", prerrequisitos));
+								return -4;
 							}
 
 						}
@@ -144,9 +146,10 @@ public class Estudiante extends Usuario implements Cloneable{
 							}
 								if (correquisitos.size()!= 0)
 								{
-									System.out.println(tomadosString);
-									System.out.println("Se está intentando registrar "+ codigo +" sin haber inscrito todos los correquisitos previamente.\nCorrequisitos(s) sin inscribir:\n" + String.join("\n", correquisitos));
-									return 1;
+									error = "";
+									error = "Se está intentando registrar "+ codigo +" sin haber inscrito todos los correquisitos previamente.\nCorrequisitos(s) sin inscribir:\n" + String.join("\n", correquisitos);
+									///Error("Se está intentando registrar "+ codigo +" sin haber inscrito todos los correquisitos previamente.\nCorrequisitos(s) sin inscribir:\n" + String.join("\n", correquisitos));
+									return -5;
 								}
 							}
 						}
@@ -239,16 +242,14 @@ public class Estudiante extends Usuario implements Cloneable{
 				{
 					if(!cursosTomadosArrayString.contains(pensum.darMateriasNivel1String().get(i)))
 					{
-						System.out.println("Para poder inscribir " + codigo + " necesitas haber inscrito todas las materias de nivel 1");
-						return 1;
+						return -2;
 					}
 				}
 			for(int i = 0; pensum.darMateriasNivel2String().size()>i; i++)
 			{
 				if(!cursosTomadosArrayString.contains(pensum.darMateriasNivel2String().get(i)))
 					{
-						System.out.println("Para poder inscribir " + codigo + " necesitas haber inscrito todas las materias de nivel 2");
-						return 1;
+						return -3;
 					}
 			}
 			int creds = 3;
@@ -279,16 +280,14 @@ public class Estudiante extends Usuario implements Cloneable{
 				{
 					if(!cursosTomadosArrayString.contains(pensum.darMateriasNivel1String().get(i)))
 					{
-						System.out.println("Para poder inscribir " + codigo + " necesitas haber inscrito todas las materias de nivel 1");
-						return 1;
+						return -2;
 					}
 				}
 			for(int i = 0; pensum.darMateriasNivel2String().size()>i; i++)
 			{
 				if(!cursosTomadosArrayString.contains(pensum.darMateriasNivel2String().get(i)))
 					{
-						System.out.println("Para poder inscribir " + codigo + " necesitas haber inscrito todas las materias de nivel 2");
-						return 1;
+						return -3;
 					}
 			}
 			Materia nuevaMateria = new Materia(codigo, codigo, "N/A", "N/A", 2, "Electiva Profesional", 0, true, semestre);
@@ -310,26 +309,9 @@ public class Estudiante extends Usuario implements Cloneable{
 		}
 		else if (codigo.contains("-"))
 		{
-			System.out.println("No se encontró la materia "+ codigo+" en el pensum, ¿estás seguro de que quieres inscribrla como curso de libre elección?");
-			System.out.println("1. Sí");
-            System.out.println("2. No");
-			int opcion = sn.nextInt();
-			int creds = 0;
-            switch (opcion)
-            {
-                case 1:
-				System.out.println("¿De cuántos créditos es "+codigo+"?");
-				try
-				{
-					creds = sn.nextInt();
-				}
-				catch (InputMismatchException e) 
-                {
-                    System.out.println("Debes insertar un número");
-                    creds = sn.nextInt();
-					registrarMaterias(codigo, semestre, nota, tipoE, epsilon, pensum, sn);
-                }
-				Materia nuevaMateria = new Materia(codigo, codigo, "N/A", "N/A", creds, "Curso de Libre Elección", 0, true, semestre);
+			if (CLE == true)
+			{
+				Materia nuevaMateria = new Materia(codigo, codigo, "N/A", "N/A", clecreds, "Curso de Libre Elección", 0, true, semestre);
 				MateriaEstudiante agregada = revisarAprobado(nuevaMateria, nota, semestre);
 				cursosTomados.add(agregada);
 				if(tipoE == true)
@@ -342,54 +324,55 @@ public class Estudiante extends Usuario implements Cloneable{
 					String tipo = agregada.darTipoMateria() + "- Tipo Épsilon";
 					agregada.setType(tipo);
 				}
-				tomadosString += nuevaMateria.darCodigo()+"\n";
+				tomadosString += nuevaMateria.darCodigo()+"\n";					
 				cursosTomadosArrayString.add(nuevaMateria.darCodigo());
-				return 0;			
-				case 2:
-				return 0;
-            }
-			return 0;
-		}	
-		}
-		for (MateriaEstudiante mat : cursosTomados)
-		{
-			if (mat.darCodigo().contains(codigo))
+			}
+			else
 			{
-				String grade = mat.darNota();
+				return -6;
+			}
+		}
+
+    }	
+	for (MateriaEstudiante mat : cursosTomados)
+	{
+		if (mat.darCodigo().contains(codigo))
+		{
+			String grade = mat.darNota();
+			try 
+			{
+				Double gradeNum = Double.parseDouble(grade);
+				Double notaNum = 0.0;
 				try 
 				{
-					Double gradeNum = Double.parseDouble(grade);
-					Double notaNum = 0.0;
-					try 
+					notaNum = Double.parseDouble(nota);
+				}
+				catch (NumberFormatException e)
+				{
+				}
+				if (gradeNum<3.0 && (notaNum >=3.0 || nota.equals("A")))
+				{
+					int creds = 0;
+					for (Materia mater : pensum.darMateriasPensum())
 					{
-						notaNum = Double.parseDouble(nota);
-					}
-					catch (NumberFormatException e)
-					{
-					}
-					if (gradeNum<3.0 && (notaNum >=3.0 || nota.equals("A")))
-					{
-						int creds = 0;
-						for (Materia mater : pensum.darMateriasPensum())
+						if(mater.darCodigo().contains(mat.darCodigo()))
 						{
-							if(mater.darCodigo().contains(mat.darCodigo()))
-							{
-								creds = mater.darCreditos();
-								break;
-							}
+							creds = mater.darCreditos();
+							break;
 						}
-						MateriaEstudiante agregada = revisarAprobado(mat, nota, semestre);
-						agregada.setCredits(creds);
-						cursosTomados.add(agregada);
-						tomadosString += agregada.darCodigo()+"\n";
-						cursosTomadosArrayString.add(agregada.darCodigo());
-						return 0;
 					}
-					else
-					{
-						System.out.println("No se puede repetir una materia que no haya sido perdida.");
-						return 1;
-					}
+					MateriaEstudiante agregada = revisarAprobado(mat, nota, semestre);
+					agregada.setCredits(creds);
+					cursosTomados.add(agregada);
+					tomadosString += agregada.darCodigo()+"\n";
+					cursosTomadosArrayString.add(agregada.darCodigo());
+					return 0;
+				}
+				else
+				{
+					///Error("No se puede repetir una materia que no haya sido perdida.");
+					return -7;
+				}
 
 					} 
 				catch (Exception e) 
@@ -422,8 +405,8 @@ public class Estudiante extends Usuario implements Cloneable{
 					}
 					else
 					{
-						System.out.println("No se puede repetir una materia que no haya sido perdida.");
-						return 1;
+						///Error("No se puede repetir una materia que no haya sido perdida.");
+						return -7;
 					}
 			}
 		}
@@ -503,4 +486,8 @@ public class Estudiante extends Usuario implements Cloneable{
 		return cloned;
 	}
 
+	public String darErrorString()
+	{
+		return error;
+	}
 }

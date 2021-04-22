@@ -18,12 +18,11 @@ import funcionalidades.reporteNotas;
 
 public class systemMain 
 {
-    analizadorArchivo analizador = new analizadorArchivo();
+    analizadorArchivo analizador;
 
     public systemMain()
     {
-        Pensum pensum = analizador.darPensum();
-        Consola(pensum, analizador);
+        analizador = new analizadorArchivo();
     }
 
 	public static void Consola(Pensum pensum, analizadorArchivo analizador)
@@ -256,7 +255,7 @@ public class systemMain
             switch(opcion1)
             {
                 case 1:
-                estudiante.registrarMaterias("LENG-2999", 1, "A", false, false, pensum, sn);
+                ///estudiante.registrarMaterias("LENG-2999", 1, "A", false, false, pensum, sn);
                 seleccionEstudiante(sn, pensum, estudiante, analizador);
                 break;
                 case 2:
@@ -272,7 +271,7 @@ public class systemMain
             switch(opcion2)
             {
                 case 1:
-                estudiante.registrarMaterias("LENG-3999", 1, "A", false, false, pensum, sn);
+                ///estudiante.registrarMaterias("LENG-3999", 1, "A", false, false, pensum, sn);
                 seleccionEstudiante(sn, pensum, estudiante, analizador);
                 break;
                 case 2:
@@ -283,7 +282,7 @@ public class systemMain
                 switch(opcion3)
                 {
                     case 1:
-                    estudiante.registrarMaterias("LENG-3999", 1, "A", false, false, pensum, sn);
+                    ///estudiante.registrarMaterias("LENG-3999", 1, "A", false, false, pensum, sn);
                     seleccionEstudiante(sn, pensum, estudiante, analizador);
                     break;
                     case 2:
@@ -394,17 +393,17 @@ public class systemMain
             break;
             }
     }
-
+    @Deprecated
     public static void registrarMateriaEstudiante(Scanner sn, Estudiante estudiante, Pensum pensum, analizadorArchivo analizador)
     {
-        int semestre = 0;
+
         String nota;
         System.out.println("Introduce el código de la materia: ");
         String codigoMateria = sn.next();
         System.out.println("Introduce el semestre en que viste la materia: ");
         try
         {
-            semestre = sn.nextInt();
+            ///semestre = sn.nextInt();
         }
         catch (InputMismatchException e) 
         {
@@ -445,17 +444,17 @@ public class systemMain
             switch(opc2)
             {
                 case 1:
-                estudiante.registrarMaterias(codigoMateria, semestre, nota, true, false, pensum, sn);
+                ///estudiante.registrarMaterias(codigoMateria, semestre, nota, true, false, pensum, sn);
                 break;
                 case 2:
-                estudiante.registrarMaterias(codigoMateria, semestre, nota, false, true, pensum, sn);
+                ///estudiante.registrarMaterias(codigoMateria, semestre, nota, false, true, pensum, sn);
                 break;
                 case 3:
-                estudiante.registrarMaterias(codigoMateria, semestre, nota, true, true, pensum, sn);
+                ///estudiante.registrarMaterias(codigoMateria, semestre, nota, true, true, pensum, sn);
             }
             break;
             case 2:
-            estudiante.registrarMaterias(codigoMateria, semestre, nota, false, false, pensum, sn);
+            ///estudiante.registrarMaterias(codigoMateria, semestre, nota, false, false, pensum, sn);
         }   
             System.out.println("¿Quieres seguir registrando materias?");
             System.out.println("1. Sí");
@@ -875,6 +874,11 @@ public class systemMain
     public void cargarPensumAnalizador(File archivo)
     {
         analizador.cargarPensum(archivo);
+    }
+
+    public Pensum darPensum()
+    {
+        return analizador.darPensum();
     }
 }
 
