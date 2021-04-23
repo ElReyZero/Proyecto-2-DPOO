@@ -30,6 +30,7 @@ public class VentanaCoordinador extends JPanel implements ActionListener
     private JButton cargarPensum;
     private JButton guardarArchivo;
     private JButton cargarArchivo;
+    private JButton validarRequisitos;
     private JButton volver;
     private VentanaPrincipal ventanaMain;
     private systemMain sistema;
@@ -62,6 +63,7 @@ public class VentanaCoordinador extends JPanel implements ActionListener
         reporteNotas = new JButton("Generar reporte de notas");
         editarCurso = new JButton("Editar información de un curso");
         candidaturaGrado = new JButton("Verificar candidatura de grado");
+        validarRequisitos = new JButton("Validar requisitos");
         JPanel panelArchivos = PanelArchivosCoordinador();
         JPanel panelBusqueda = PanelBusquedaEstudiante();
         panelOpciones.add(Box.createRigidArea(new Dimension(0,40)));
@@ -76,10 +78,13 @@ public class VentanaCoordinador extends JPanel implements ActionListener
         panelOpciones.add(reporteNotas);
         panelOpciones.add(Box.createRigidArea(new Dimension(0,8)));
         panelOpciones.add(candidaturaGrado);
+        panelOpciones.add(Box.createRigidArea(new Dimension(0,8)));
+        panelOpciones.add(validarRequisitos);
         planearSemestre.setAlignmentX(CENTER_ALIGNMENT);
         reporteNotas.setAlignmentX(CENTER_ALIGNMENT);
         editarCurso.setAlignmentX(CENTER_ALIGNMENT);
         candidaturaGrado.setAlignmentX(CENTER_ALIGNMENT);
+        validarRequisitos.setAlignmentX(CENTER_ALIGNMENT);
         return panelOpciones;
     }
     public JPanel PanelArchivosCoordinador()
