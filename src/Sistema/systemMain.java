@@ -158,7 +158,7 @@ public class systemMain
             else
             {
                 File avance = new File(ruta);
-                analizador.cargarAvanceEstudiante(avance, estudiante, sn);
+                analizador.cargarAvanceEstudiante(avance, estudiante);
                 seleccionEstudiante(sn, pensum, estudiante, analizador);
             }   
         }
@@ -879,6 +879,11 @@ public class systemMain
     public Pensum darPensum()
     {
         return analizador.darPensum();
+    }
+
+    public int cargarAvanceEstudiante(File archivo, Estudiante estudiante)
+    {
+        return analizador.cargarAvanceEstudiante(archivo, estudiante);
     }
 }
 

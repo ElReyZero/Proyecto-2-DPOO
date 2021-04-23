@@ -110,7 +110,7 @@ public class Estudiante extends Usuario implements Cloneable{
 							if (prerrequisitos.size()!= 0)
 							{
 								error = "";
-								error = "\nPrerrequisito(s) sin cumplir:\n" + String.join("\n", prerrequisitos);
+								error = "Se está intentando registrar "+ codigo +" sin haber inscrito todos los prerrequisitos previamente. Prerequisitos(s) sin inscribir: " + String.join(", ", prerrequisitos);
 								///Error("Se está intentando registrar "+ codigo +" sin haber cumplido todos los prerrequisitos previamente.\nPrerrequisito(s) sin cumplir:\n" + String.join("\n", prerrequisitos));
 								return -4;
 							}
@@ -147,7 +147,7 @@ public class Estudiante extends Usuario implements Cloneable{
 								if (correquisitos.size()!= 0)
 								{
 									error = "";
-									error = "Se está intentando registrar "+ codigo +" sin haber inscrito todos los correquisitos previamente.\nCorrequisitos(s) sin inscribir:\n" + String.join("\n", correquisitos);
+									error = "Se está intentando registrar "+ codigo +" sin haber inscrito todos los correquisitos previamente. Correquisitos(s) sin inscribir: " + String.join(", ", correquisitos);
 									///Error("Se está intentando registrar "+ codigo +" sin haber inscrito todos los correquisitos previamente.\nCorrequisitos(s) sin inscribir:\n" + String.join("\n", correquisitos));
 									return -5;
 								}
@@ -168,7 +168,7 @@ public class Estudiante extends Usuario implements Cloneable{
 							}
 							if(epsilon == true)
 							{
-								String tipo = agregada.darTipoMateria() + "- Tipo Épsilon";
+								String tipo = agregada.darTipoMateria() + "- Curso Epsilon";
 								agregada.setType(tipo);
 							}
 							tomadosString += current.darCodigo()+"\n";
@@ -191,7 +191,7 @@ public class Estudiante extends Usuario implements Cloneable{
 				}
 			if(epsilon == true)
 				{
-					String tipo = agregada.darTipoMateria() + "- Tipo Épsilon";
+					String tipo = agregada.darTipoMateria() + "- Curso Epsilon";
 					agregada.setType(tipo);
 				}
 			tomadosString += nuevaMateria.darCodigo()+"\n";
@@ -210,7 +210,7 @@ public class Estudiante extends Usuario implements Cloneable{
 				}
 			if(epsilon == true)
 				{
-					String tipo = agregada.darTipoMateria() + "- Tipo Épsilon";
+					String tipo = agregada.darTipoMateria() + "- Curso Epsilon";
 					agregada.setType(tipo);
 				}
 			tomadosString += nuevaMateria.darCodigo()+"\n";
@@ -229,7 +229,7 @@ public class Estudiante extends Usuario implements Cloneable{
 				}
 				if(epsilon == true)
 				{
-					String tipo = agregada.darTipoMateria() + "- Tipo Épsilon";
+					String tipo = agregada.darTipoMateria() + "- Curso Epsilon";
 					agregada.setType(tipo);
 				}
 				tomadosString += nuevaMateria.darCodigo()+"\n";
@@ -267,7 +267,7 @@ public class Estudiante extends Usuario implements Cloneable{
 			}
 			if(epsilon == true)
 			{
-				String tipo = agregada.darTipoMateria() + "- Tipo Épsilon";
+				String tipo = agregada.darTipoMateria() + "- Curso Epsilon";
 				agregada.setType(tipo);
 			}
 			tomadosString += nuevaMateria.darCodigo()+"\n";
@@ -300,37 +300,38 @@ public class Estudiante extends Usuario implements Cloneable{
 			}
 			if(epsilon == true)
 			{
-				String tipo = agregada.darTipoMateria() + "- Tipo Épsilon";
+				String tipo = agregada.darTipoMateria() + "- Curso Epsilon";
 				agregada.setType(tipo);
 			}
 			tomadosString += nuevaMateria.darCodigo()+"\n";
 			cursosTomadosArrayString.add(nuevaMateria.darCodigo());
 			return 0;
 		}
-		else if (codigo.contains("-"))
+		
+		else if (CLE == true)
 		{
-			if (CLE == true)
+			Materia nuevaMateria = new Materia(codigo, codigo, "N/A", "N/A", clecreds, "Curso de Libre Eleccion", 0, true, semestre);
+			MateriaEstudiante agregada = revisarAprobado(nuevaMateria, nota, semestre);
+			cursosTomados.add(agregada);
+			if(tipoE == true)
 			{
-				Materia nuevaMateria = new Materia(codigo, codigo, "N/A", "N/A", clecreds, "Curso de Libre Elección", 0, true, semestre);
-				MateriaEstudiante agregada = revisarAprobado(nuevaMateria, nota, semestre);
-				cursosTomados.add(agregada);
-				if(tipoE == true)
-				{
-					String tipo = agregada.darTipoMateria() + "- Tipo E";
-					agregada.setType(tipo);
-				}
-				if(epsilon == true)
-				{
-					String tipo = agregada.darTipoMateria() + "- Tipo Épsilon";
-					agregada.setType(tipo);
-				}
-				tomadosString += nuevaMateria.darCodigo()+"\n";					
-				cursosTomadosArrayString.add(nuevaMateria.darCodigo());
+				String tipo = agregada.darTipoMateria() + "- Tipo E";
+				agregada.setType(tipo);
 			}
-			else
-			{
-				return -6;
+			if(epsilon == true)
+		{
+				String tipo = agregada.darTipoMateria() + "- Curso Epsilon";
+				agregada.setType(tipo);
 			}
+			tomadosString += nuevaMateria.darCodigo()+"\n";					
+			cursosTomadosArrayString.add(nuevaMateria.darCodigo());
+			return 0;
+		}
+		else
+		{
+			error = "";
+			error = codigo;
+			return -6;
 		}
 
     }	

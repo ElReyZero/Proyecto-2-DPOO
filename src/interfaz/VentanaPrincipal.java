@@ -97,10 +97,10 @@ public class VentanaPrincipal extends JFrame implements ActionListener
             new JLabel("Carrera:"),
             carrera
             };
-            int result = JOptionPane.showConfirmDialog(null, inputs, "Registrar Usuario", JOptionPane.PLAIN_MESSAGE);
+            int result = JOptionPane.showConfirmDialog(this, inputs, "Registrar Usuario", JOptionPane.PLAIN_MESSAGE);
             if(result == JOptionPane.OK_OPTION && (codigo.getText().equals("") ||  firstName.getText().equals("") || carrera.getText().equals("")))
             {
-            	JOptionPane.showMessageDialog(null, new JLabel("Tienes que completar todos tus datos."), "Error", JOptionPane.ERROR_MESSAGE);
+            	JOptionPane.showMessageDialog(this, new JLabel("Tienes que completar todos tus datos."), "Error", JOptionPane.ERROR_MESSAGE);
 			}
 			else if(result == -1)
 			{
@@ -126,10 +126,10 @@ public class VentanaPrincipal extends JFrame implements ActionListener
             new JLabel("Departamento:"),
             departamento
             };
-            int result = JOptionPane.showConfirmDialog(null, inputs, "Registrar Usuario", JOptionPane.PLAIN_MESSAGE);
+            int result = JOptionPane.showConfirmDialog(this, inputs, "Registrar Usuario", JOptionPane.PLAIN_MESSAGE);
             if(result == JOptionPane.OK_OPTION && (codigo.getText().equals("") ||  firstName.getText().equals("") || departamento.getText().equals("")))
             {
-            	JOptionPane.showMessageDialog(null, new JLabel("Tienes que completar todos tus datos."), "Error", JOptionPane.ERROR_MESSAGE);
+            	JOptionPane.showMessageDialog(this, new JLabel("Tienes que completar todos tus datos."), "Error", JOptionPane.ERROR_MESSAGE);
             }
 			else if(result == -1)
 			{

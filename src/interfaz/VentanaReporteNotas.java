@@ -81,7 +81,7 @@ public class VentanaReporteNotas extends JPanel implements ActionListener
     public JPanel PanelMateriasVistas(Estudiante estudiante)
     {
         JPanel panelMateriasVistas = new JPanel();
-        String[] parts = reporteNotas.darReporteNotas(estudiante).split("\n"); 
+        String[] parts = reporteNotas.reporteSemestre(estudiante).split("\n"); 
         JList<String> materiasVistas = new JList<String>(parts);
         JScrollPane scroll = new JScrollPane(materiasVistas);
         panelMateriasVistas.add(scroll);

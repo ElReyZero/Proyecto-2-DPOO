@@ -75,7 +75,7 @@ public class VentanaEstudiante extends JPanel implements ActionListener
         reporteNotas.addActionListener(this);
         editarCurso = new JButton("Editar información de un curso");
         editarCurso.addActionListener(this);
-        registrarMaterias = new JButton("Registrar materias manualmente");
+        registrarMaterias = new JButton("Registrar materia manualmente");
         registrarMaterias.addActionListener(this);
         candidaturaGrado = new JButton("Verificar candidatura de grado");
         candidaturaGrado.addActionListener(this);
@@ -105,9 +105,9 @@ public class VentanaEstudiante extends JPanel implements ActionListener
         panelCarga.setLayout(new BoxLayout(panelCarga,BoxLayout.LINE_AXIS));
         cargarPensum = new JButton("Cargar Pensum");
         cargarPensum.addActionListener(this);
-        guardarArchivo = new JButton("Guardar archivo");
+        guardarArchivo = new JButton("Guardar avance en archivo");
         guardarArchivo.addActionListener(this);
-        cargarArchivo = new JButton("Cargar un archivo");
+        cargarArchivo = new JButton("Cargar materias desde archivo");
         cargarArchivo.addActionListener(this);
         panelCarga.add(cargarPensum);
         panelCarga.add(Box.createRigidArea(new Dimension(10,0)));
@@ -177,7 +177,7 @@ public class VentanaEstudiante extends JPanel implements ActionListener
                 epsilon,
                 cle
                 };
-                int result = JOptionPane.showConfirmDialog(this, inputs, "Registrar Materias", JOptionPane.PLAIN_MESSAGE);
+                int result = JOptionPane.showConfirmDialog(this, inputs, "Registrar Materia", JOptionPane.PLAIN_MESSAGE);
                 if(result == JOptionPane.OK_OPTION && (codMateria.getText().equals("")) || nota.getText().equals("") || semestre.getText().equals(""))
                 {
                     JOptionPane.showMessageDialog(this, new JLabel("Tienes que completar todos los datos."), "Error", JOptionPane.ERROR_MESSAGE);
@@ -217,45 +217,88 @@ public class VentanaEstudiante extends JPanel implements ActionListener
     
                     if (error != -1)
                     {
-                        if(tipoE.isSelected() && epsilon.isSelected() && cle.isSelected())
+                        if(cle.isSelected())
                         {
-                            JTextField creds = new JTextField();
-                            final JComponent[] inputsCLE = new JComponent[] 
-                            {
-                                new JLabel("¿De cuántos créditos es el Curso de Libre Elección?"),
-                                creds,
-                            };
-                            int result2 = JOptionPane.showConfirmDialog(this, inputsCLE, "Créditos CLE", JOptionPane.PLAIN_MESSAGE);
-                            if(result2 == JOptionPane.OK_OPTION && (creds.getText().equals("")))
-                            {
-                                JOptionPane.showMessageDialog(this, new JLabel("Tienes que completar todos los datos."), "Error", JOptionPane.ERROR_MESSAGE);
-                            }
-                            else if(result2 == -1)
-                            {
-                                JOptionPane.showMessageDialog(this, new JLabel("No se registró la materia. (Número de Créditos Faltantes)"), "Error", JOptionPane.ERROR_MESSAGE);
-                            }
-                            else
-                            {
-                                try
-                                {
-                                    int creditsCle = Integer.parseInt(creds.getText());
-                                    registroMat(estudiante, codMateria.getText(), Integer.parseInt(semestre.getText()), nota.getText(), true, true, pensum, true, creditsCle);
-                                }
-                                catch (NumberFormatException exa)
-                                {
-                                    JOptionPane.showMessageDialog(this, new JLabel("No se registró la materia. (Formato inválido de créditos)"), "Error", JOptionPane.ERROR_MESSAGE);
-                                }
-                            }
-                            
+                            registroCle(estudiante, codMateria.getText(), Integer.parseInt(semestre.getText()), nota.getText(), tipoE.isSelected(), epsilon.isSelected(), pensum);
                         }
-                        else if (tipoE.isSelected()&& !epsilon.isSelected())
-                        {
-    
+                        else
+                        {   
+                            registroMat(estudiante, codMateria.getText(), Integer.parseInt(semestre.getText()), nota.getText(), tipoE.isSelected(), epsilon.isSelected(), pensum, false, 0);
                         }
                     }
                 }
             }
-
+        }
+        else if(boton == reporteNotas)
+        {
+            ventanaMain.actualizarMain(new VentanaReporteNotas(ventanaMain, sistema, estudiante));
+        }
+        else if(boton == cargarArchivo)
+        {
+            if(pensum == null)
+            {
+                JOptionPane.showMessageDialog(this, new JLabel("Tienes cargar el pensum antes de registrar materias."), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else
+            {
+                File archivo = null;
+		        JFileChooser fc = new JFileChooser();
+    		    fc.setDialogTitle("Seleccione el archivo con las materias a cargar");
+	    		fc.setFileFilter(new FiltroCSV());
+                int respuesta = fc.showOpenDialog(this);
+                if(respuesta == JFileChooser.APPROVE_OPTION)
+                {
+                    archivo = fc.getSelectedFile();
+                    int res = sistema.cargarAvanceEstudiante(archivo, estudiante);
+                    if (res == -10)
+                    {
+                        JOptionPane.showMessageDialog(this, new JLabel("El archivo no fue encontrado"), "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                    else if(res == -11)
+                    {
+                        JOptionPane.showMessageDialog(this, new JLabel("Error de lectura"), "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                        else if(res == -12)
+                    {
+                        JOptionPane.showMessageDialog(this, new JLabel("Error en los datos: un número no se pudo convertir a int ..."), "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                    else if(res == -1)
+                    {
+                        JOptionPane.showMessageDialog(this, new JLabel("Hubo un problema con el código de una materia, no está escrito en un formato adecuado. Formato: AAAA-XXXX"), "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                    else if(res == -2)
+                    {
+                        JOptionPane.showMessageDialog(this, new JLabel("Hubo un problema inscribiendo materias. No se han visto todas las materias de Nivel 1. Error: (Restricción de Nivel)"), "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                    else if(res == -3)
+                    {
+                        JOptionPane.showMessageDialog(this, new JLabel("Hubo un problema inscribiendo materias. No se han visto todas las materias de Nivel 2. Error: (Restricción de Nivel)"), "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                    else if(res == -4)
+                    {
+                        String errorEstudianteReg = estudiante.darErrorString();
+                        JOptionPane.showMessageDialog(this, new JLabel(errorEstudianteReg), "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                    else if(res == -5)
+                    {
+                        String errorEstudianteReg = estudiante.darErrorString();
+                        JOptionPane.showMessageDialog(this, new JLabel(errorEstudianteReg), "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                    else if (res == -6)
+                    {
+                        String errorEstudianteReg = estudiante.darErrorString();
+                        JOptionPane.showMessageDialog(this, new JLabel("Hubo un problema inscribiendo materias " + errorEstudianteReg + " no fue encontrada."), "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                    else if(res == -7)
+                    {
+                        JOptionPane.showMessageDialog(this, new JLabel("No se puede repetir una materia que no haya sido perdida."), "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                    else if(res == 0)
+                    {
+                        JOptionPane.showMessageDialog(this, new JLabel("Materias registradas satisfactoriamente!"), null, JOptionPane.INFORMATION_MESSAGE);
+                    }
+                }    
+            } 
         }
 		
 	}
@@ -265,7 +308,7 @@ public class VentanaEstudiante extends JPanel implements ActionListener
         int respuesta = estudiante.registrarMaterias(codigoMateria, semester, grade, esE, esEpsilon, pensum, esCle, credsCle);
         if(respuesta == -1)
             {
-                JOptionPane.showMessageDialog(this, new JLabel("El código de la materia "+codigoMateria+"no está escrito en un formato adecuado. Formato: AAAA-XXXX"), "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, new JLabel("El código de la materia "+codigoMateria+" no está escrito en un formato adecuado. Formato: AAAA-XXXX"), "Error", JOptionPane.ERROR_MESSAGE);
             }
         else if(respuesta == -2)
         {
@@ -292,6 +335,42 @@ public class VentanaEstudiante extends JPanel implements ActionListener
         else if(respuesta == -7)
         {
             JOptionPane.showMessageDialog(this, new JLabel("No se puede repetir una materia que no haya sido perdida."), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        else if(respuesta == 0)
+        {
+            JOptionPane.showMessageDialog(this, new JLabel(codigoMateria+" Registrada Satisfactoriamente!"), null, JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+
+
+    public void registroCle(Estudiante estudiante, String codMateria, int semestre, String nota, boolean esE, boolean epsilon, Pensum pensum)
+    {
+        JTextField creds = new JTextField();
+        final JComponent[] inputsCLE = new JComponent[] 
+        {
+            new JLabel("¿De cuántos créditos es el Curso de Libre Elección?"),
+            creds,
+        };
+        int result2 = JOptionPane.showConfirmDialog(this, inputsCLE, "Créditos CLE", JOptionPane.PLAIN_MESSAGE);
+        if(result2 == JOptionPane.OK_OPTION && (creds.getText().equals("")))
+        {
+            JOptionPane.showMessageDialog(this, new JLabel("Tienes que completar todos los datos."), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        else if(result2 == -1)
+        {
+            JOptionPane.showMessageDialog(this, new JLabel("No se registró la materia. (Número de Créditos Faltantes)"), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        else
+        {
+            try
+            {
+                int creditsCle = Integer.parseInt(creds.getText());
+                registroMat(estudiante, codMateria, semestre, nota, esE, epsilon, pensum, true, creditsCle);
+            }
+            catch (NumberFormatException exa)
+            {
+                JOptionPane.showMessageDialog(this, new JLabel("No se registró la materia. (Formato inválido de créditos)"), "Error", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
 

@@ -8,7 +8,7 @@ public class reporteNotas
     public static String darReporteNotas(Estudiante estudiante)
     {
         String Reporte;
-        Reporte = "El PGA es:"+promedioPGA(estudiante)+"\nEl estado académico de "+ estudiante.darNombre() + " es: " + estadoAcademico(estudiante)+"\nEl semestre según creditos es: "+semestreSegunCreditos(estudiante)+reportePorSemestre;
+        Reporte = "El PGA es:"+promedioPGA(estudiante)+"\nEl estado académico de "+ estudiante.darNombre() + " es: " + estadoAcademico(estudiante)+"\nEl semestre según creditos es: "+semestreSegunCreditos(estudiante)+reporteSemestre(estudiante);
         return Reporte;
     }
     public static String reporteSemestre (Estudiante estudiante)

@@ -125,7 +125,7 @@ public class analizadorArchivo {
 		pw.close();
 	}
 
-	public void cargarAvanceEstudiante(File archivo, Estudiante estudiante, Scanner sn)
+	public int cargarAvanceEstudiante(File archivo, Estudiante estudiante)
 	{
 		try
 			{
@@ -143,61 +143,104 @@ public class analizadorArchivo {
 					int creds = Integer.parseInt(partes[2]);
                     int semestre = Integer.parseInt(partes[3]);
 					String tipoMateria = partes[4];
-					if(tipoMateria.contains("Tipo E") && tipoMateria.contains("Tipo Épsilon") && tipoMateria.contains("Curso de Libre Elección"))
+					if(tipoMateria.contains("Tipo E") && tipoMateria.contains("Curso Epsilon") && tipoMateria.contains("Curso de Libre Eleccion"))
 					{
 						caso = estudiante.registrarMaterias(codigo, semestre, nota, true, true, pensum, true, creds);
+						if(caso !=0)
+						{
+							br.close();
+							return caso;
+						} 
 					}
-                    else if(tipoMateria.contains("Tipo E") && tipoMateria.contains("Tipo Épsilon"))
+                    else if(tipoMateria.contains("Tipo E") && tipoMateria.contains("Curso Epsilon"))
 					{
 						caso = estudiante.registrarMaterias(codigo, semestre, nota, true, true, pensum, false, creds);
+						if(caso !=0)
+						{
+							br.close();
+							return caso;
+						} 
 					}
-					else if (tipoMateria.contains("Tipo E") && tipoMateria.contains("Curso de Libre Elección"))
+					else if (tipoMateria.contains("Tipo E") && tipoMateria.contains("Curso de Libre Eleccion"))
 					{
 						caso = estudiante.registrarMaterias(codigo, semestre, nota, true, false, pensum, true, creds);
+						if(caso !=0)
+						{
+							br.close();
+							return caso;
+						} 
 					}
-					else if (tipoMateria.contains("Tipo Épsilon") && tipoMateria.contains("Curso de Libre Elección"))
+					else if (tipoMateria.contains("Curso Epsilon") && tipoMateria.contains("Curso de Libre Eleccion"))
 					{
 						caso = estudiante.registrarMaterias(codigo, semestre, nota, false, true, pensum, true, creds);
+						if(caso !=0)
+						{
+							br.close();
+							return caso;
+						} 
 					}
-					else if (tipoMateria.contains("Tipo Épsilon"))
+					else if (tipoMateria.contains("Curso Epsilon"))
 					{
 						caso = estudiante.registrarMaterias(codigo, semestre, nota, false, true, pensum, false, creds);
+						if(caso !=0)
+						{
+							br.close();
+							return caso;
+						} 
 					}
 					else if (tipoMateria.contains("Tipo E"))
 					{
 						caso = estudiante.registrarMaterias(codigo, semestre, nota, true, false, pensum, false, creds);
+						if(caso !=0)
+						{
+							br.close();
+							return caso;
+						} 
+					}
+					else if (tipoMateria.contains("Curso de Libre Eleccion"))
+					{
+						caso = estudiante.registrarMaterias(codigo, semestre, nota, false, false, pensum, true, creds);
+						if(caso !=0)
+						{
+							br.close();
+							return caso;
+						} 
 					}
 					else
 					{
 						caso = estudiante.registrarMaterias(codigo, semestre, nota, false, false, pensum, false, creds);
+						if(caso !=0)
+						{
+							br.close();
+							return caso;
+						} 
 					}
 					linea = br.readLine();
 				}
-				if(caso == 0)
-				{
-					System.out.println("Materias cargadas satisfactoriamente.");
-				}
-				System.out.println();
 				br.close();
+				return caso;
 			}
 			catch (FileNotFoundException e)
 			{
 				System.out.println("No encontré el archivo ...");
 				e.printStackTrace();
+				return -10;
 			}
 			catch (IOException e)
 			{
 				System.out.println("Error de lectura ...");
 				e.printStackTrace();
+				return -11;
 			}
 			catch (NumberFormatException e)
 			{
 				System.out.println("Error en los datos: un número no se pudo convertir a int ...");
 				e.printStackTrace();
+				return -12;
 			}
 	}
 
-	public void cargarAvanceCoordinador(File archivo, CoordinadorAcademico coordinador, Scanner sn)
+	public int cargarAvanceCoordinador(File archivo, CoordinadorAcademico coordinador, Scanner sn)
 	{
 		try
 			{
@@ -217,62 +260,111 @@ public class analizadorArchivo {
 					int creds = Integer.parseInt(partes[2]);
                     int semestre = Integer.parseInt(partes[3]);
 					String tipoMateria = partes[4];
-					if(tipoMateria.contains("Tipo E") && tipoMateria.contains("Tipo Épsilon") && tipoMateria.contains("Curso de Libre Elección"))
+					if(tipoMateria.contains("Tipo E") && tipoMateria.contains("Curso Epsilon") && tipoMateria.contains("Curso de Libre Eleccion"))
 					{
 						caso = estudiante.registrarMaterias(codigo, semestre, nota, true, true, pensum, true, creds);
+						if(caso !=0)
+						{
+							br.close();
+							return caso;
+						} 
 					}
-                    else if(tipoMateria.contains("Tipo E") && tipoMateria.contains("Tipo Épsilon"))
+                    else if(tipoMateria.contains("Tipo E") && tipoMateria.contains("Curso Epsilon"))
 					{
 						caso = estudiante.registrarMaterias(codigo, semestre, nota, true, true, pensum, false, creds);
+						if(caso !=0)
+						{
+							br.close();
+							return caso;
+						} 
 					}
-					else if (tipoMateria.contains("Tipo E") && tipoMateria.contains("Curso de Libre Elección"))
+					else if (tipoMateria.contains("Tipo E") && tipoMateria.contains("Curso de Libre Eleccion"))
 					{
 						caso = estudiante.registrarMaterias(codigo, semestre, nota, true, false, pensum, true, creds);
+						if(caso !=0)
+						{
+							br.close();
+							return caso;
+						} 
 					}
-					else if (tipoMateria.contains("Tipo Épsilon") && tipoMateria.contains("Curso de Libre Elección"))
+					else if (tipoMateria.contains("Curso Epsilon") && tipoMateria.contains("Curso de Libre Eleccion"))
 					{
 						caso = estudiante.registrarMaterias(codigo, semestre, nota, false, true, pensum, true, creds);
+						if(caso !=0)
+						{
+							br.close();
+							return caso;
+						} 
 					}
-					else if (tipoMateria.contains("Tipo Épsilon"))
+					else if (tipoMateria.contains("Curso Epsilon"))
 					{
 						caso = estudiante.registrarMaterias(codigo, semestre, nota, false, true, pensum, false, creds);
+						if(caso !=0)
+						{
+							br.close();
+							return caso;
+						} 
 					}
 					else if (tipoMateria.contains("Tipo E"))
 					{
 						caso = estudiante.registrarMaterias(codigo, semestre, nota, true, false, pensum, false, creds);
+						if(caso !=0)
+						{
+							br.close();
+							return caso;
+						} 
+					}
+					else if (tipoMateria.contains("Curso de Libre Eleccion"))
+					{
+						caso = estudiante.registrarMaterias(codigo, semestre, nota, false, false, pensum, true, creds);
+						if(caso !=0)
+						{
+							br.close();
+							return caso;
+						} 
 					}
 					else
 					{
 						caso = estudiante.registrarMaterias(codigo, semestre, nota, false, false, pensum, false, creds);
+						if(caso !=0)
+						{
+							br.close();
+							return caso;
+						} 
 					}
 					linea = br.readLine();
 				}
-				if(caso == 0)
-				{
-					System.out.println("Materias cargadas satisfactoriamente.");
-				}
-				System.out.println();
 				br.close();
+				return caso;
 			}
 			catch (FileNotFoundException e)
 			{
 				System.out.println("No encontré el archivo ...");
 				e.printStackTrace();
+				return -10;
 			}
 			catch (IOException e)
 			{
 				System.out.println("Error de lectura ...");
 				e.printStackTrace();
+				return -11;
 			}
 			catch (NumberFormatException e)
 			{
 				System.out.println("Error en los datos: un número no se pudo convertir a int ...");
 				e.printStackTrace();
+				return -12;
 			}
+			
 	}
 
     public Pensum darPensum()
     {
         return pensum;
     }
+
+	public String retornarMateriaError(String materia)
+	{
+		return materia;
+	}
 }
