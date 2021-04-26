@@ -401,7 +401,22 @@ public class VentanaEstudiante extends JPanel implements ActionListener
                 }
             }
         }
-		
+        else if(boton == validarRequisitos)
+        {
+                JCheckBox examenAdmision = new JCheckBox("Aprobó el examen de admisión​");
+                JCheckBox nivel6 = new JCheckBox("Aprobó el nivel 6 de su segunda lengua");
+                JCheckBox homologo = new JCheckBox("Homologó segunda lengua con algún examen​");
+                JCheckBox nivel10 = new JCheckBox("Aprobó el último nivel de su segunda lengua​");
+                final JComponent[] inputs = new JComponent[] 
+                {
+                new JLabel("Elija los requisitos que ha cumplido"),
+                examenAdmision,
+                nivel6,
+                homologo,
+                nivel10
+                };
+                JOptionPane.showConfirmDialog(this, inputs, "Validar requisitos", JOptionPane.PLAIN_MESSAGE);
+        }
 	}
 	
     public void registroMat(Estudiante estudiante, String codigoMateria, int semester, String grade, boolean esE, boolean esEpsilon, Pensum pensum, boolean esCle, int credsCle)
