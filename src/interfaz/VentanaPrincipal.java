@@ -66,7 +66,6 @@ public class VentanaPrincipal extends JFrame implements ActionListener
 		main.add(panelBotones, BorderLayout.CENTER);
 		add(main);
 		setSize(700, 500);
-		setVisible(true);
 		sistema = new systemMain();
 	}
 	
@@ -193,6 +192,8 @@ public class VentanaPrincipal extends JFrame implements ActionListener
 
 	public static void main(String[] args)
 	{
-		new VentanaPrincipal();
+		VentanaPrincipal ventana = new VentanaPrincipal();
+		ventana.setLocationRelativeTo(null);
+		ventana.setVisible(true);
 	}
 }

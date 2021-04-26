@@ -885,5 +885,10 @@ public class systemMain
     {
         return analizador.cargarAvanceEstudiante(archivo, estudiante);
     }
+
+    public int guardarAvanceEstudiante(File archivo, Estudiante estudiante) throws FileNotFoundException, UnsupportedEncodingException
+    {
+        return analizador.guardarAvanceEstudianteArchivo(archivo, estudiante.darNombre(), estudiante.darCodigo(), estudiante.darCarrera(), estudiante.darCursosTomados());
+    }
 }
 

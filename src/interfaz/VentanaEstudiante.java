@@ -6,6 +6,9 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -20,6 +23,7 @@ import javax.swing.JTextField;
 
 import IdentificadorUsuario.Estudiante;
 import Sistema.systemMain;
+import curriculo.MateriaEstudiante;
 import curriculo.Pensum;
 @SuppressWarnings("serial")
 public class VentanaEstudiante extends JPanel implements ActionListener
@@ -65,6 +69,7 @@ public class VentanaEstudiante extends JPanel implements ActionListener
         add(volver,BorderLayout.SOUTH);
         setSize(700, 500);
 		setVisible(true);
+        pensum = sistema.darPensum();
     }
     public JPanel PanelOpcionesEstudiante()
     {
@@ -93,6 +98,7 @@ public class VentanaEstudiante extends JPanel implements ActionListener
         panelOpciones.add(planearSemestre);
         panelOpciones.add(Box.createRigidArea(new Dimension(0,8)));
         panelOpciones.add(candidaturaGrado);
+        panelOpciones.add(Box.createRigidArea(new Dimension(0,8)));
         panelOpciones.add(validarRequisitos);
         panelOpciones.add(Box.createRigidArea(new Dimension(0,15)));
         panelOpciones.add(panelArchivos);
@@ -236,12 +242,72 @@ public class VentanaEstudiante extends JPanel implements ActionListener
         }
         else if(boton == reporteNotas)
         {
-            ventanaMain.actualizarMain(new VentanaReporteNotas(ventanaMain, sistema, estudiante));
+            if(pensum == null)
+            {
+                JOptionPane.showMessageDialog(this, new JLabel("Tienes cargar el pensum antes de revisar tu avance."), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else
+            {
+                String [] options = {"Toda la carrera", "Semestre Específico"};
+                int ans = JOptionPane.showOptionDialog(this, "¿Quieres generar el reporte para toda tu carrera o un semestre específico?", "Reporte Notas", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
+                if (ans == 0)
+                {
+                    ventanaMain.actualizarMain(new VentanaReporteNotas(ventanaMain, sistema, estudiante, true, null));
+                }
+                else if (ans == 1)
+                {
+                    JTextField sem = new JTextField();
+                    final JComponent[] inputs = new JComponent[] 
+                    {
+                    new JLabel("Ingresa el Semestre:"),
+                    sem
+                    };
+                    int result = JOptionPane.showConfirmDialog(this, inputs, "Seleccionar Semestre", JOptionPane.PLAIN_MESSAGE);
+                    if (result == JOptionPane.OK_OPTION && sem.getText().equals(""))
+                    {
+                        JOptionPane.showMessageDialog(this, new JLabel("Tienes que completar todos los datos."), "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                    else 
+                    {
+                        try
+                        {
+                            int semes = Integer.parseInt(sem.getText());
+                            try {
+                                Estudiante copia = estudiante.clone();
+                                ArrayList<MateriaEstudiante> lista = copia.darCursosTomados();
+                                for (MateriaEstudiante materia : estudiante.darCursosTomados())
+                                {
+                                    if(materia.darSemestre() != semes) 
+                                    {
+                                        lista.remove(materia);
+                                    }
+                                }
+                                copia.setCursosTomados(lista);
+                                ventanaMain.actualizarMain(new VentanaReporteNotas(ventanaMain, sistema, copia, false, estudiante));
+                            }
+                            catch (CloneNotSupportedException exe)
+                            {
+                                exe.printStackTrace();
+                            }
+                        }
+                        catch (NumberFormatException ex)
+                        {
+                            JOptionPane.showMessageDialog(this, new JLabel("Tienes que ingresar un número."), "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
+                
+                }
+                else 
+                {
+
+                }
+            }
         }
         else if(boton == cargarArchivo)
         {
             if(pensum == null)
             {
+                
                 JOptionPane.showMessageDialog(this, new JLabel("Tienes cargar el pensum antes de registrar materias."), "Error", JOptionPane.ERROR_MESSAGE);
             }
             else
@@ -304,6 +370,36 @@ public class VentanaEstudiante extends JPanel implements ActionListener
                     }
                 }    
             } 
+        }
+        else if (boton == guardarArchivo)
+        {
+            if(pensum == null)
+            {
+                JOptionPane.showMessageDialog(this, new JLabel("Tienes cargar el pensum antes de registrar materias."), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else
+            {
+                File archivo = null;
+		        JFileChooser fc = new JFileChooser();
+    		    fc.setDialogTitle("Selecciona dónde guardar tu avance");
+	    		fc.setFileFilter(new FiltroCSV());
+                int response = fc.showSaveDialog(this);
+                {
+                    if (response == JFileChooser.APPROVE_OPTION)
+                    {
+                        archivo = fc.getSelectedFile();
+                        try {
+                            sistema.guardarAvanceEstudiante(archivo, estudiante);
+                        } catch (FileNotFoundException e1) {
+                            JOptionPane.showMessageDialog(this, new JLabel("El archivo no fue encontrado"), "Error", JOptionPane.ERROR_MESSAGE);
+                            e1.printStackTrace();
+                        } catch (UnsupportedEncodingException e1) {
+                            JOptionPane.showMessageDialog(this, new JLabel("Hubo un problema con el encoding del archivo"), "Error", JOptionPane.ERROR_MESSAGE);
+                            e1.printStackTrace();
+                        }
+                    }
+                }
+            }
         }
 		
 	}

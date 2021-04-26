@@ -5,16 +5,18 @@ import curriculo.MateriaEstudiante;
 
 public class reporteNotas 
 {
+    static String reporte;
+
     public static String darReporteNotas(Estudiante estudiante)
     {
-        String Reporte;
-        Reporte = "El PGA es:"+promedioPGA(estudiante)+"\nEl estado académico de "+ estudiante.darNombre() + " es: " + estadoAcademico(estudiante)+"\nEl semestre según creditos es: "+semestreSegunCreditos(estudiante)+reporteSemestre(estudiante);
-        return Reporte;
+        reporte = "El PGA es:"+promedioPGA(estudiante)+"\nEl estado académico de "+ estudiante.darNombre() + " es: " + estadoAcademico(estudiante)+"\nEl semestre según creditos es: "+semestreSegunCreditos(estudiante)+reporteSemestre(estudiante);
+        System.out.println(reporte);
+        return reporte;
     }
     public static String reporteSemestre (Estudiante estudiante)
     {
         int semestreActual=0;
-        String reportePorSemestre="";
+        String reportePorSemestre="Reporte de notas por semestre:\n";
         ArrayList<MateriaEstudiante> cursosTomados= estudiante.darCursosTomados();
         for (MateriaEstudiante curso:cursosTomados)
         {
@@ -32,11 +34,11 @@ public class reporteNotas
             }
             if(i == semestreActual)
             {
-                reportePorSemestre+="\nSemestre actual ("+String.valueOf(i)+"):\n"+"El promedio del semestre es: "+promedioSemestre(estudiante, i)+ "\n"+ materiasSemestre;
+                reportePorSemestre+="\n*****************************************\nSemestre actual ("+String.valueOf(i)+"):\n"+"El promedio del semestre es: "+promedioSemestre(estudiante, i)+ "\n"+ materiasSemestre;
             }
             else
             {
-            reportePorSemestre += "\nSemestre "+String.valueOf(i)+":\n"+"El promedio del semestre es: "+promedioSemestre(estudiante, i)+ "\nLista de materias:\n"+materiasSemestre+"\n";
+            reportePorSemestre += "\n*****************************************\nSemestre "+String.valueOf(i)+":\n"+"El promedio del semestre es: "+promedioSemestre(estudiante, i)+ "\nLista de materias:\n"+materiasSemestre+"\n";
             }
         }
         return reportePorSemestre;

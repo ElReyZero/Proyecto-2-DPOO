@@ -85,7 +85,7 @@ public class analizadorArchivo {
 			}
     }
 
-	public void guardarAvanceEstudianteArchivo(File archivo, String nombre, String codigo, String carrera, ArrayList<MateriaEstudiante> materias) throws FileNotFoundException, UnsupportedEncodingException
+	public int guardarAvanceEstudianteArchivo(File archivo, String nombre, String codigo, String carrera, ArrayList<MateriaEstudiante> materias) throws FileNotFoundException, UnsupportedEncodingException
 	{
 		OutputStream os = new FileOutputStream(archivo);
 		PrintWriter pw = new PrintWriter(new OutputStreamWriter(os, "UTF-8"));
@@ -104,6 +104,7 @@ public class analizadorArchivo {
 			pw.println(curso + ";" + nota + ";" + creditos + ";" + numSemestre + ";"+tipoMateria);			
 		}
 		pw.close();
+		return 0;
 	}
 
 	public void guardarPlaneación(File archivo, String plan, Estudiante estudiante) throws FileNotFoundException, UnsupportedEncodingException

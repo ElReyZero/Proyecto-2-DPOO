@@ -23,11 +23,17 @@ public class VentanaReporteNotas extends JPanel implements ActionListener
     private JButton volver;
     private VentanaPrincipal ventanaMain;
     private systemMain sistema;
+    private Estudiante estudiante;
+    private boolean todo;
+    private Estudiante respaldo;
 
-    public VentanaReporteNotas(VentanaPrincipal pVentanaMain, systemMain pSistema,Estudiante estudiante)
+    public VentanaReporteNotas(VentanaPrincipal pVentanaMain, systemMain pSistema, Estudiante pEstudiante, boolean pTodo, Estudiante pRespaldo)
     {
         ventanaMain = pVentanaMain;
         sistema = pSistema;
+        estudiante = pEstudiante;
+        todo = pTodo;
+        respaldo = pRespaldo;
 		setLayout(new BorderLayout());
         ///Botones y paneles
         add(PanelInformacion(estudiante), BorderLayout.NORTH);
@@ -43,6 +49,7 @@ public class VentanaReporteNotas extends JPanel implements ActionListener
         panelInformacion.add(PanelPGA(estudiante));
         panelInformacion.add(PanelEstadoAcademico(estudiante));
         panelInformacion.add(PanelSemestreSegunCreditos(estudiante));
+        panelInformacion.add(Box.createRigidArea(new Dimension(0,15)));
         return panelInformacion;
     }
     public JPanel PanelPGA(Estudiante estudiante)
@@ -81,10 +88,17 @@ public class VentanaReporteNotas extends JPanel implements ActionListener
     public JPanel PanelMateriasVistas(Estudiante estudiante)
     {
         JPanel panelMateriasVistas = new JPanel();
+        panelMateriasVistas.setLayout(new BorderLayout());
         String[] parts = reporteNotas.reporteSemestre(estudiante).split("\n"); 
         JList<String> materiasVistas = new JList<String>(parts);
-        JScrollPane scroll = new JScrollPane(materiasVistas);
-        panelMateriasVistas.add(scroll);
+        JScrollPane sp = new JScrollPane(materiasVistas);
+        JLabel vacio1 = new JLabel("                     ");
+        JLabel vacio2 = new JLabel("                     ");
+        JLabel vacio3 = new JLabel("                     ");
+        panelMateriasVistas.add(sp, BorderLayout.CENTER);
+        panelMateriasVistas.add(vacio1, BorderLayout.WEST);
+        panelMateriasVistas.add(vacio2, BorderLayout.EAST);
+        panelMateriasVistas.add(vacio3, BorderLayout.SOUTH);
         return panelMateriasVistas;
     }
     public JPanel Volver()
@@ -100,7 +114,14 @@ public class VentanaReporteNotas extends JPanel implements ActionListener
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == volver)
 		{
-			ventanaMain.resetMain();
+            if(todo == true)
+            {
+                ventanaMain.actualizarMain(new VentanaEstudiante(estudiante.darNombre(), estudiante.darCodigo(), estudiante.darCodigo(), ventanaMain, sistema , estudiante));
+            }
+			else
+            {
+                ventanaMain.actualizarMain(new VentanaEstudiante(respaldo.darNombre(), respaldo.darCodigo(), respaldo.darCodigo(), ventanaMain, sistema , respaldo));
+            }
 		}
 	}
 }
