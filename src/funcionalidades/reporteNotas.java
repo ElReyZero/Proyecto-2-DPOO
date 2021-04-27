@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import IdentificadorUsuario.Estudiante;
 import curriculo.MateriaEstudiante;
 
+
 public class reporteNotas 
 {
     static String reporte;
@@ -25,12 +26,22 @@ public class reporteNotas
                 semestreActual = curso.darSemestre();
             }
         }
+        String retiro ="Inscrita";
         for (int i = 1;i<=semestreActual;i++)
         {
             String materiasSemestre="";
-            for (String materia:materiasVistasSemestre(estudiante, i))
+            for (MateriaEstudiante materia : ordenarMaterias(estudiante, i))
             {
-                materiasSemestre = materiasSemestre+"\n"+materia;
+
+                if(materia.darInfoRetiro() == true)
+                {
+                    retiro = "Retirada";
+                }
+                else
+                {
+                    retiro = "Inscrita";
+                }
+                materiasSemestre = materiasSemestre+"\n"+materia.darCodigo() + "                Nota: "+materia.darNota() + "         Estado: " + retiro;
             }
             if(i == semestreActual)
             {
@@ -43,6 +54,20 @@ public class reporteNotas
         }
         return reportePorSemestre;
     }
+
+    public static ArrayList<MateriaEstudiante> ordenarMaterias(Estudiante estudiante, int semestre)
+    {
+        ArrayList<MateriaEstudiante> copy = new ArrayList<>();
+        for (MateriaEstudiante mat : estudiante.darCursosTomados())
+        {
+            if (mat.darSemestre() == semestre)
+            {
+                copy.add(mat);
+            }       
+        }
+        return copy;
+    }
+
     public static String promedioSemestre(Estudiante estudiante, int semestre)
     {
         double promedio = 0;
@@ -88,19 +113,7 @@ public class reporteNotas
         pga =nota/total;
         return String.valueOf(pga);
     }
-    public static ArrayList<String> materiasVistasSemestre(Estudiante estudiante, int semestre)
-    {
-        ArrayList<String> lista = new ArrayList<String>();
-        ArrayList<MateriaEstudiante> cursosTomados= estudiante.darCursosTomados();
-        for (MateriaEstudiante curso:cursosTomados)
-        {
-            if(curso.darSemestre() == semestre)
-            {
-                lista.add(curso.darCodigo());
-            }
-        }
-        return lista;
-    }
+
     public static String estadoAcademico(Estudiante estudiante)
     {
         if(Double.parseDouble(promedioPGA(estudiante))>3.25)

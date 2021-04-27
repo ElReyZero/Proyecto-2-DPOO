@@ -1,0 +1,30 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Launch Current File",
+            "request": "launch",
+            "mainClass": "${file}",
+            "vmArgs": "--enable-preview"
+        },
+        {
+            "type": "java",
+            "name": "Launch VentanaPrincipal",
+            "request": "launch",
+            "mainClass": "interfaz.VentanaPrincipal",
+            "projectName": "Proyecto 1 DPOO",
+            "vmArgs": "--enable-preview"
+        },
+        {
+            "type": "java",
+            "name": "Launch VentanaPrincipal(1)",
+            "request": "launch",
+            "mainClass": "interfaz.VentanaPrincipal",
+            "vmArgs": "--enable-preview"
+        }
+    ]
+}

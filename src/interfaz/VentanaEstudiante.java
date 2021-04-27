@@ -412,20 +412,18 @@ public class VentanaEstudiante extends JPanel implements ActionListener
             else
             {
             JComboBox<String> opciones = new JComboBox<String>();
+            opciones.addItem("Ninguno");
             opciones.addItem("Examen de inglés de admisión");
             opciones.addItem("Aprobó el nivel 6 de su segunda lengua");
-            opciones.addItem("Requisito de segunda lengua (Homologación con examen");
-            opciones.addItem("Requisito de segunda lengua (Homologación con examen");
+            opciones.addItem("Requisito de segunda lengua (Homologación con examen)");
+            opciones.addItem("Requisito de segunda lengua (Nivel 10)");
             opciones.addActionListener(this);
                 final JComponent[] inputs = new JComponent[] 
                 {
                 new JLabel("Seleccione el requisito a validar: "),
                 opciones
                 };
-                JOptionPane.showConfirmDialog(this, inputs, "Validar requisitos", JOptionPane.PLAIN_MESSAGE);
-            
-            
-                System.out.println("x");
+                int revisar = JOptionPane.showConfirmDialog(this, inputs, "Validar requisitos", JOptionPane.PLAIN_MESSAGE);
                 String opcion = opciones.getSelectedItem().toString();
                 if(opcion.equals("Examen de inglés de admisión"))
                 {
@@ -437,18 +435,145 @@ public class VentanaEstudiante extends JPanel implements ActionListener
                     estudiante.registrarMaterias("LENG-2999", 1, "A",false,false, pensum, false, 0);
                     JOptionPane.showMessageDialog(this, new JLabel("Requisito registrado"), null, JOptionPane.INFORMATION_MESSAGE);
                 }
-                else if(opcion.equals("Requisito de segunda lengua (Homologación con examen"))
+                else if(opcion.equals("Requisito de segunda lengua (Homologación con examen)"))
                 {
                     estudiante.registrarMaterias("LENG-3999", 1, "A",false,false, pensum, false, 0);
                     JOptionPane.showMessageDialog(this, new JLabel("Requisito registrado"), null, JOptionPane.INFORMATION_MESSAGE);
                 }
-                else if(opcion.equals("Requisito de segunda lengua (Homologación con examen"))
+                else if(opcion.equals("Requisito de segunda lengua (Nivel 10)"))
                 {
                     estudiante.registrarMaterias("LENG-3999", 1, "A",false,false, pensum, false, 0);
                     JOptionPane.showMessageDialog(this, new JLabel("Requisito registrado"), null, JOptionPane.INFORMATION_MESSAGE);
+                }
+                else if(revisar == JOptionPane.CLOSED_OPTION)
+                {
                 }
             }
-            
+        }
+        else if(boton == editarCurso)
+        {
+            if(pensum == null)
+            {
+                
+                JOptionPane.showMessageDialog(this, new JLabel("Tienes cargar el pensum antes de editar tus materias."), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else
+            {
+                JTextField codEditar = new JTextField();
+                final JComponent[] materia = new JComponent[] 
+                {
+                    new JLabel("Escriba el código del curso a editar:"),
+                    codEditar
+                };
+                int result = JOptionPane.showConfirmDialog(this, materia, "Editar curso", JOptionPane.PLAIN_MESSAGE);
+                
+                if(result == JOptionPane.OK_OPTION && codEditar.getText().equals(""))
+                {
+                    JOptionPane.showMessageDialog(this, new JLabel("Tienes que completar todos los datos."), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                else
+                {
+                    boolean encontrar = false;
+                    MateriaEstudiante editar = null;
+                    for(MateriaEstudiante materiaAEditar : estudiante.darCursosTomados())
+                    {
+                        if (materiaAEditar.darCodigo().contains(codEditar.getText()))
+                        {
+                            encontrar = true;
+                            editar = materiaAEditar;
+                            break;
+                        }
+                    }
+    
+                    if(encontrar == false)
+                    {
+                        JOptionPane.showMessageDialog(this, new JLabel("La materia no fue encontrada en los cursos inscritos."), "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                    else
+                    {
+                        JComboBox<String> estado = new JComboBox<String>();
+                        estado.addItem("Inscrita");
+                        estado.addItem("Retirada");
+                        estado.addActionListener(this);
+                        JTextField nota = new JTextField();
+                        final JComponent[] edicion = new JComponent[] 
+                        {
+                            new JLabel("Estado de la materia:"),
+                            estado,
+                            new JLabel("Nota:"),
+                            nota
+                        };
+                        int resultado = JOptionPane.showConfirmDialog(this, edicion, "Editar curso", JOptionPane.PLAIN_MESSAGE);
+                        if(resultado == JOptionPane.OK_OPTION && nota.getText().equals(""))
+                        {
+                            JOptionPane.showMessageDialog(this, new JLabel("Tienes que completar todos los datos."), "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                        else
+                        {
+                            try
+                            {
+                                Double notaNum = Double.valueOf(editar.darNota());
+                                if(notaNum>5.0 || notaNum < 1.5)
+                                {
+                                    JOptionPane.showMessageDialog(this, new JLabel("Debes insertar una nota válida."), "Error", JOptionPane.ERROR_MESSAGE);
+                                }
+                                else
+                                {
+                                    editar.cambiarNota(nota.getText());
+                                    String est = estado.getSelectedItem().toString();
+                                    if(est.equals("Inscrita"))
+                                    {   
+                                        editar.setRetiro(false);
+                                    }
+                                    else if(est.equals("Retirada"))
+                                    {
+                                        editar.setRetiro(true);
+                                    }
+                                    if(editar.darInfoRetiro() == false)
+                                    {
+                                        
+                                        JOptionPane.showMessageDialog(this, new JLabel("Nota cambiada satisfactoriamente a: " + editar.darNota()+" Estado de la materia cambiado a: Inscrita"), null, JOptionPane.INFORMATION_MESSAGE);
+                                    }
+                                    else
+                                    {
+                                        JOptionPane.showMessageDialog(this, new JLabel("Nota cambiada satisfactoriamente a: " + editar.darNota()+" Estado de la materia cambiado a: Retirada" ), null, JOptionPane.INFORMATION_MESSAGE);
+                                    }
+                                }
+                            }
+                            catch (NumberFormatException exa)
+                            {
+                                if(!nota.getText().equals("A")&&!nota.getText().equals("R")&&!nota.getText().equals("PD")&&!nota.getText().equals("I")&&!nota.getText().equals("PE"))
+                                {
+                                    JOptionPane.showMessageDialog(this, new JLabel("Debes insertar una nota válida."), "Error", JOptionPane.ERROR_MESSAGE);
+                                }
+                                else
+                                {
+                                    editar.cambiarNota(nota.getText());
+                                    String est = estado.getSelectedItem().toString();
+                                    if(est.equals("Inscrita"))
+                                    {   
+                                        editar.setRetiro(false);
+                                    }
+                                    else if(est.equals("Retirada"))
+                                    {   
+                                        editar.setRetiro(true);
+                                    }
+                                    if(editar.darInfoRetiro() == false)
+                                    {
+                                        
+                                        JOptionPane.showMessageDialog(this, new JLabel("Nota cambiada satisfactoriamente a: " + editar.darNota()+"\nEstado de la materia cambiado a: Inscrita"), null, JOptionPane.INFORMATION_MESSAGE);
+                                    }
+                                    else
+                                    {
+                                        JOptionPane.showMessageDialog(this, new JLabel("Nota cambiada satisfactoriamente a: " + editar.darNota()+"\nEstado de la materia cambiado a: Retirada" ), null, JOptionPane.INFORMATION_MESSAGE);
+                                    }
+    
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
 	}
 	
