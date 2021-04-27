@@ -14,6 +14,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -141,7 +142,7 @@ public class VentanaEstudiante extends JPanel implements ActionListener
     }
 	@Override
 	public void actionPerformed(ActionEvent e) {
-        JButton boton = (JButton) e.getSource();
+        var boton = e.getSource();
 		if(boton == volver)
 		{
 			ventanaMain.resetMain();
@@ -403,19 +404,51 @@ public class VentanaEstudiante extends JPanel implements ActionListener
         }
         else if(boton == validarRequisitos)
         {
-                JCheckBox examenAdmision = new JCheckBox("Aprobó el examen de admisión​");
-                JCheckBox nivel6 = new JCheckBox("Aprobó el nivel 6 de su segunda lengua");
-                JCheckBox homologo = new JCheckBox("Homologó segunda lengua con algún examen​");
-                JCheckBox nivel10 = new JCheckBox("Aprobó el último nivel de su segunda lengua​");
+            if(pensum == null)
+            {
+                
+                JOptionPane.showMessageDialog(this, new JLabel("Tienes cargar el pensum antes de registrar materias."), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else
+            {
+            JComboBox<String> opciones = new JComboBox<String>();
+            opciones.addItem("Examen de inglés de admisión");
+            opciones.addItem("Aprobó el nivel 6 de su segunda lengua");
+            opciones.addItem("Requisito de segunda lengua (Homologación con examen");
+            opciones.addItem("Requisito de segunda lengua (Homologación con examen");
+            opciones.addActionListener(this);
                 final JComponent[] inputs = new JComponent[] 
                 {
-                new JLabel("Elija los requisitos que ha cumplido"),
-                examenAdmision,
-                nivel6,
-                homologo,
-                nivel10
+                new JLabel("Seleccione el requisito a validar: "),
+                opciones
                 };
                 JOptionPane.showConfirmDialog(this, inputs, "Validar requisitos", JOptionPane.PLAIN_MESSAGE);
+            
+            
+                System.out.println("x");
+                String opcion = opciones.getSelectedItem().toString();
+                if(opcion.equals("Examen de inglés de admisión"))
+                {
+                    estudiante.registrarMaterias("LENG-2999", 1, "A",false,false, pensum, false, 0);
+                    JOptionPane.showMessageDialog(this, new JLabel("Requisito registrado"), null, JOptionPane.INFORMATION_MESSAGE);
+                }
+                else if(opcion.equals("Aprobó el nivel 6 de su segunda lengua"))
+                {
+                    estudiante.registrarMaterias("LENG-2999", 1, "A",false,false, pensum, false, 0);
+                    JOptionPane.showMessageDialog(this, new JLabel("Requisito registrado"), null, JOptionPane.INFORMATION_MESSAGE);
+                }
+                else if(opcion.equals("Requisito de segunda lengua (Homologación con examen"))
+                {
+                    estudiante.registrarMaterias("LENG-3999", 1, "A",false,false, pensum, false, 0);
+                    JOptionPane.showMessageDialog(this, new JLabel("Requisito registrado"), null, JOptionPane.INFORMATION_MESSAGE);
+                }
+                else if(opcion.equals("Requisito de segunda lengua (Homologación con examen"))
+                {
+                    estudiante.registrarMaterias("LENG-3999", 1, "A",false,false, pensum, false, 0);
+                    JOptionPane.showMessageDialog(this, new JLabel("Requisito registrado"), null, JOptionPane.INFORMATION_MESSAGE);
+                }
+            }
+            
         }
 	}
 	
