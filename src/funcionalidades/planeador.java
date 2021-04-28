@@ -11,12 +11,12 @@ import curriculo.Pensum;
 public class planeador {
 
     private static int error;
+    private static Estudiante copia;
 
     //Métodos
-
     public static String crearPlaneacion(Estudiante estudiante,Pensum pensum,String codigoMateria,int semestre,String nota, boolean tipoE, boolean epsilon, boolean cle, int credsCle)
     {
-        Estudiante copia;
+        error = 0;
         try {
             copia = estudiante.clone();
         } catch (CloneNotSupportedException e) {
@@ -32,6 +32,7 @@ public class planeador {
         int registro = copia.registrarMaterias(codigoMateria, semestre, nota, tipoE, epsilon, pensum, cle, credsCle);  
         if(registro==0)
         {
+            error = 0;
             plan += codigoMateria+"      "+String.valueOf(semestre)+"\n";
         }
         else
@@ -49,6 +50,12 @@ public class planeador {
     public static int darError()
     {
         return error;
+    }
+
+
+    public static Estudiante darCopia()
+    {
+        return copia;
     }
 
 }

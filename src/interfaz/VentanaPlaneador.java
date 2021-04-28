@@ -2,15 +2,16 @@ package interfaz;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.ArrayList;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -22,10 +23,11 @@ import javax.swing.JTextField;
 
 import IdentificadorUsuario.Estudiante;
 import Sistema.systemMain;
+import curriculo.MateriaEstudiante;
 import curriculo.Pensum;
 import funcionalidades.planeador;
 
-@SuppressWarnings("serial")
+@SuppressWarnings({"serial", "unchecked"})
 public class VentanaPlaneador extends JPanel implements ActionListener
 {
     private JButton registrarMateria;
@@ -36,14 +38,19 @@ public class VentanaPlaneador extends JPanel implements ActionListener
     private systemMain sistema;
     private Estudiante estudiante;
     private Pensum pensum;
+    private ArrayList<String> parts;
+    private String lastSubject;
+    private Estudiante copia;
 
-    public VentanaPlaneador(Estudiante pEstudiante, VentanaPrincipal pVentanaMain, systemMain pSistema, Pensum pPensum)
+    public VentanaPlaneador(Estudiante pEstudiante, VentanaPrincipal pVentanaMain, systemMain pSistema, Pensum pPensum, Estudiante pCopia, ArrayList<String> pParts)
     {
+        copia = pCopia;
         estudiante = pEstudiante;
         pensum = pPensum;
+        parts = pParts;
         if(pensum == null)
         {
-                JOptionPane.showMessageDialog(this, new JLabel("Tienes cargar el pensum antes de registrar materias."), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, new JLabel("Tienes cargar el pensum antes de registrar materias."), "Error", JOptionPane.ERROR_MESSAGE);
         }
         else
         {        
@@ -83,21 +90,103 @@ public class VentanaPlaneador extends JPanel implements ActionListener
     public JPanel PanelPlan(Estudiante estudiante)
     {
         JPanel panelMateriasPlaneadas = new JPanel();
-        //String[] parts = planeador.darPlaneacion(estudiante).split("\n"); 
-        //JList<String> materiasVistas = new JList<String>(parts);
-        //JScrollPane scroll = new JScrollPane(materiasVistas);
-        //panelMateriasPlaneadas.add(scroll);
+        JList <String> materiasVistas = new JList(parts.toArray());
+        JScrollPane scroll = new JScrollPane(materiasVistas);
+        panelMateriasPlaneadas.add(scroll);
         return panelMateriasPlaneadas;
     }
     public JPanel Volver()
     {
       JPanel panelVolver = new JPanel();
       panelVolver.setLayout(new BoxLayout(panelVolver,BoxLayout.LINE_AXIS));
-      volver = new JButton("Volver a selección de usuario");
+      volver = new JButton("Volver al menú inicial");
       volver.addActionListener(this);
       panelVolver.add(volver);
       return panelVolver;
     }
+
+    public String registroMateriasPlaneador(Estudiante estudiante, String codigoMateria, int semester, String grade, boolean esE, boolean esEpsilon, Pensum pensum, boolean esCle, int credsCle, String plan)
+    {
+        lastSubject = planeador.crearPlaneacion(estudiante, pensum, codigoMateria, semester, grade, esE, esEpsilon, esCle, credsCle);
+        plan += lastSubject;
+        int respuesta = planeador.darError();
+        if(respuesta == -1)
+            {
+                JOptionPane.showMessageDialog(this, new JLabel("El código de la materia "+codigoMateria+" no está escrito en un formato adecuado. Formato: AAAA-XXXX"), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        else if(respuesta == -2)
+        {
+            JOptionPane.showMessageDialog(this, new JLabel("Para poder inscribir " + codigoMateria + " necesitas haber inscrito todas las materias de nivel 1"), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        else if(respuesta == -3)
+        {
+            JOptionPane.showMessageDialog(this, new JLabel("Para poder inscribir " + codigoMateria + " necesitas haber inscrito todas las materias de nivel 2"), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        else if(respuesta == -4)
+        {
+            String errorEstudianteReg = estudiante.darErrorString();
+            JOptionPane.showMessageDialog(this, new JLabel("Se está intentando registrar "+ codigoMateria +" sin haber cumplido todos los prerrequisitos previamente." + errorEstudianteReg), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        else if(respuesta == -5)
+        {
+            String errorEstudianteReg = estudiante.darErrorString();
+            JOptionPane.showMessageDialog(this, new JLabel(errorEstudianteReg), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        else if (respuesta == -6)
+        {
+            JOptionPane.showMessageDialog(this, new JLabel("El curso "+codigoMateria+" no fue encontrado."), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        else if(respuesta == -7)
+        {
+            JOptionPane.showMessageDialog(this, new JLabel("No se puede repetir una materia que no haya sido perdida."), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        else if(respuesta == 0)
+        {
+            JOptionPane.showMessageDialog(this, new JLabel(codigoMateria+" Registrada Satisfactoriamente!"), null, JOptionPane.INFORMATION_MESSAGE);
+            actualizarLista();
+        }
+        return plan;
+    }
+
+    public String registroClePlaneador(Estudiante estudiante, String codMateria, int semestre, String nota, boolean esE, boolean epsilon, Pensum pensum, String plan)
+    {
+        JTextField creds = new JTextField();
+        final JComponent[] inputsCLE = new JComponent[] 
+        {
+            new JLabel("¿De cuántos créditos es el Curso de Libre Elección?"),
+            creds,
+        };
+        int result2 = JOptionPane.showConfirmDialog(this, inputsCLE, "Créditos CLE", JOptionPane.PLAIN_MESSAGE);
+        if(result2 == JOptionPane.OK_OPTION && (creds.getText().equals("")))
+        {
+            JOptionPane.showMessageDialog(this, new JLabel("Tienes que completar todos los datos."), "Error", JOptionPane.ERROR_MESSAGE);
+            return "";
+        }
+        else if(result2 == -1)
+        {
+            JOptionPane.showMessageDialog(this, new JLabel("No se registró la materia. (Número de Créditos Faltantes)"), "Error", JOptionPane.ERROR_MESSAGE);
+            return "";
+        }
+        else
+        {
+            try
+            {
+                int creditsCle = Integer.parseInt(creds.getText());
+                plan += registroMateriasPlaneador(estudiante, codMateria, semestre, nota, esE, epsilon, pensum, true, creditsCle, plan);
+                return plan;
+            }
+            catch (NumberFormatException exa)
+            {
+                JOptionPane.showMessageDialog(this, new JLabel("No se registró la materia. (Formato inválido de créditos)"), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            return plan;
+        }
+    }
+
+
+
+
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == volver)
@@ -144,45 +233,15 @@ public class VentanaPlaneador extends JPanel implements ActionListener
                     }
                     if (error != -1)
                     {
+                        String plan = "";
                         if(cle.isSelected())
                         {
-                            JTextField creds = new JTextField();
-                            final JComponent[] inputsCLE = new JComponent[] 
-                            {
-                                new JLabel("¿De cuántos créditos es el Curso de Libre Elección?"),
-                                creds,
-                            };
-                            int result2 = JOptionPane.showConfirmDialog(this, inputsCLE, "Créditos CLE", JOptionPane.PLAIN_MESSAGE);
-                            if(result2 == JOptionPane.OK_OPTION && (creds.getText().equals("")))
-                            {
-                                JOptionPane.showMessageDialog(this, new JLabel("Tienes que completar todos los datos."), "Error", JOptionPane.ERROR_MESSAGE);
-                            }
-                            else if(result2 == -1)
-                            {
-                                JOptionPane.showMessageDialog(this, new JLabel("No se registró la materia. (Número de Créditos Faltantes)"), "Error", JOptionPane.ERROR_MESSAGE);
-                            }
-                            else
-                            {
-                                try
-                                {
-                                    int creditsCle = Integer.parseInt(creds.getText());
-                                    String plan = planeador.crearPlaneacion(estudiante, pensum, codMateria.getText(), Integer.parseInt(semestre.getText()), "A", tipoE.isSelected(), epsilon.isSelected(), true, creditsCle);
-                                }
-                                catch (NumberFormatException exa)
-                                {
-                                    JOptionPane.showMessageDialog(this, new JLabel("No se registró la materia. (Formato inválido de créditos)"), "Error", JOptionPane.ERROR_MESSAGE);
-                                }
-                            }
+                            
+                            plan += registroClePlaneador(estudiante, codMateria.getText(), Integer.parseInt(semestre.getText()), "A", tipoE.isSelected(), epsilon.isSelected(), pensum, plan);
                         }
                         else
                         {
-                            //if (o)
-                            //{
-                            //}
-                            //else
-                            //{
-                            //String plan = planeador.crearPlaneacion(estudiante, pensum, codMateria.getText(), Integer.parseInt(semestre.getText()), "A", tipoE.isSelected(), epsilon.isSelected(), false, 0);
-                            //}
+                            plan += registroMateriasPlaneador(estudiante, codMateria.getText(), Integer.parseInt(semestre.getText()), "A", tipoE.isSelected(), epsilon.isSelected(), pensum, false, 0, plan);
                         }
                     }
             }
@@ -190,11 +249,140 @@ public class VentanaPlaneador extends JPanel implements ActionListener
         }
         else if (e.getSource() == editarMateria)
         {
-
+            copia = planeador.darCopia();
+            if(copia == null)
+            {
+                JOptionPane.showMessageDialog(this, new JLabel("Tienes que empezar una planeación antes de editar las materias"), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else
+            {
+                JTextField codEditar = new JTextField();
+                final JComponent[] materia = new JComponent[] 
+                {
+                    new JLabel("Escriba el código del curso a editar:"),
+                    codEditar
+                };
+                int result = JOptionPane.showConfirmDialog(this, materia, "Editar curso", JOptionPane.PLAIN_MESSAGE);
+                
+                if(result == JOptionPane.OK_OPTION && codEditar.getText().equals(""))
+                {
+                    JOptionPane.showMessageDialog(this, new JLabel("Tienes que completar todos los datos."), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                else if(result == JOptionPane.OK_OPTION)
+                {
+                    boolean encontrar = false;
+                    MateriaEstudiante editar = null;
+                    for(MateriaEstudiante materiaAEditar : copia.darCursosTomados())
+                    {
+                        if (materiaAEditar.darCodigo().contains(codEditar.getText()))
+                        {
+                            encontrar = true;
+                            editar = materiaAEditar;
+                            break;
+                        }
+                    }
+    
+                    if(encontrar == false)
+                    {
+                        JOptionPane.showMessageDialog(this, new JLabel("La materia no fue encontrada en los cursos inscritos."), "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                    else
+                    {
+                        JComboBox<String> estado = new JComboBox<String>();
+                        estado.addItem("Inscrita");
+                        estado.addItem("Retirada");
+                        estado.addActionListener(this);
+                        JTextField nota = new JTextField();
+                        final JComponent[] edicion = new JComponent[] 
+                        {
+                            new JLabel("Estado de la materia:"),
+                            estado,
+                            new JLabel("Nota:"),
+                            nota
+                        };
+                        int resultado = JOptionPane.showConfirmDialog(this, edicion, "Editar curso", JOptionPane.PLAIN_MESSAGE);
+                        if(resultado == JOptionPane.OK_OPTION && nota.getText().equals(""))
+                        {
+                            JOptionPane.showMessageDialog(this, new JLabel("Tienes que completar todos los datos."), "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                        else if (resultado == JOptionPane.OK_OPTION)
+                        {
+                            try
+                            {
+                                Double notaNum = Double.valueOf(editar.darNota());
+                                if(notaNum>5.0 || notaNum < 1.5)
+                                {
+                                    JOptionPane.showMessageDialog(this, new JLabel("Debes insertar una nota válida."), "Error", JOptionPane.ERROR_MESSAGE);
+                                }
+                                else
+                                {
+                                    editar.cambiarNota(nota.getText());
+                                    String est = estado.getSelectedItem().toString();
+                                    if(est.equals("Inscrita"))
+                                    {   
+                                        editar.setRetiro(false);
+                                    }
+                                    else if(est.equals("Retirada"))
+                                    {
+                                        editar.setRetiro(true);
+                                        copia.retirarMateria(editar);
+                                    }
+                                    if(editar.darInfoRetiro() == false)
+                                    {
+                                        
+                                        JOptionPane.showMessageDialog(this, new JLabel("Nota cambiada satisfactoriamente a: " + editar.darNota()+" Estado de la materia cambiado a: Inscrita"), null, JOptionPane.INFORMATION_MESSAGE);
+                                    }
+                                    else
+                                    {
+                                        JOptionPane.showMessageDialog(this, new JLabel("Nota cambiada satisfactoriamente a: " + editar.darNota()+" Estado de la materia cambiado a: Retirada" ), null, JOptionPane.INFORMATION_MESSAGE);
+                                    }
+                                }
+                            }
+                            catch (NumberFormatException exa)
+                            {
+                                if(!nota.getText().equals("A")&&!nota.getText().equals("R")&&!nota.getText().equals("PD")&&!nota.getText().equals("I")&&!nota.getText().equals("PE"))
+                                {
+                                    JOptionPane.showMessageDialog(this, new JLabel("Debes insertar una nota válida."), "Error", JOptionPane.ERROR_MESSAGE);
+                                }
+                                else
+                                {
+                                    editar.cambiarNota(nota.getText());
+                                    String est = estado.getSelectedItem().toString();
+                                    if(est.equals("Inscrita"))
+                                    {   
+                                        editar.setRetiro(false);
+                                    }
+                                    else if(est.equals("Retirada"))
+                                    {   
+                                        editar.setRetiro(true);
+                                        copia.retirarMateria(editar);
+                                    }
+                                    if(editar.darInfoRetiro() == false)
+                                    {
+                                        
+                                        JOptionPane.showMessageDialog(this, new JLabel("Nota cambiada satisfactoriamente a: " + editar.darNota()+"\nEstado de la materia cambiado a: Inscrita"), null, JOptionPane.INFORMATION_MESSAGE);
+                                    }
+                                    else
+                                    {
+                                        JOptionPane.showMessageDialog(this, new JLabel("Nota cambiada satisfactoriamente a: " + editar.darNota()+"\nEstado de la materia cambiado a: Retirada" ), null, JOptionPane.INFORMATION_MESSAGE);
+                                    }
+    
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
         else if (e.getSource() == guardar)
         {
 
         }
 	}
+
+    public void actualizarLista()
+    {
+        parts.add(lastSubject);
+        ventanaMain.actualizarMain(new VentanaPlaneador(estudiante, ventanaMain, sistema, pensum, copia, parts));
+    }
 }
