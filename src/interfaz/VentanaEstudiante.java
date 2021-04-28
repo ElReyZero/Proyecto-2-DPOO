@@ -471,7 +471,7 @@ public class VentanaEstudiante extends JPanel implements ActionListener
                 {
                     JOptionPane.showMessageDialog(this, new JLabel("Tienes que completar todos los datos."), "Error", JOptionPane.ERROR_MESSAGE);
                 }
-                else
+                else if(result == JOptionPane.OK_OPTION)
                 {
                     boolean encontrar = false;
                     MateriaEstudiante editar = null;
@@ -508,7 +508,7 @@ public class VentanaEstudiante extends JPanel implements ActionListener
                         {
                             JOptionPane.showMessageDialog(this, new JLabel("Tienes que completar todos los datos."), "Error", JOptionPane.ERROR_MESSAGE);
                         }
-                        else
+                        else if (resultado == JOptionPane.OK_OPTION)
                         {
                             try
                             {
