@@ -11,13 +11,16 @@ public class candidaturaGrado {
     private static String errores;
     private static String faltantes;
     private static String vistas;
+    private static String estado;
+
     public static void darCandidaturaGrado(Estudiante estudiante, Pensum pensum)
     {
         int creditosPensum = pensum.darCreditosPensum();
         ArrayList<MateriaEstudiante> listacursos = estudiante.darCursosTomados();
         ArrayList<String> tomadosString = estudiante.darCursosTomadosString();
-        faltantes = "Materias Faltantes para grado:                                                 \n";
+        faltantes = "Materias Faltantes para grado:                                                   \n";
         vistas = "Materias Vistas/Requisitos Cumplidos:                                      \n";
+        estado = estudiante.darNombre() + " no es candidato a grado.";
         int creditosVistos = 0;
         int cantidadCBPC = 0;
         int cantidadCBCO = 0;
@@ -68,11 +71,11 @@ public class candidaturaGrado {
                 {
                     cantidadTipoE += 1;
                 }
-                if(materia.darTipoMateria().contains("Tipo Épsilon"))
+                if(materia.darTipoMateria().contains("Curso Epsilon"))
                 {
                     cantidadTipoEpsilon += 1;
                 }
-                else if(materia.darTipoMateria().contains("Curso de Libre Elección"))
+                else if(materia.darTipoMateria().contains("Curso de Libre Eleccion"))
                 {
                     cle += materia.darCreditos();
                 }
@@ -95,7 +98,7 @@ public class candidaturaGrado {
                 }
             }
         }
-        if(cont !=0)
+        if(cont ==0)
         {
             faltantes += "Ninguno";
         }
@@ -110,7 +113,7 @@ public class candidaturaGrado {
             posible = false;
             errores += "No se han cursado suficientes créditos para poder ser candidato a grado.\n";
             errores += "Créditos vistos: " + creditosVistos+"\n";
-            errores += "Créditos faltantes: "+(creditosPensum-creditosVistos+"\n");
+            errores += "Créditos mínimos faltantes: "+(creditosPensum-creditosVistos+"\n");
         }
         if(cantidadCBU < 6)
         {
@@ -146,7 +149,7 @@ public class candidaturaGrado {
         if (cantidadTipoEpsilon < 1)
         {
             posible = false;
-            errores += "No se han cursado suficientes cursos tipo épsilon. Mínimo 1.\n";
+            errores += "No se han cursado suficientes cursos Curso Epsilon. Mínimo 1.\n";
         }
         if(cle <6)
         {
@@ -155,7 +158,8 @@ public class candidaturaGrado {
         }
         if(posible == true)
         {
-            errores = "Ninguno";
+            errores = "";
+            estado = estudiante.darNombre() + " es candidato a grado.";
             errores += estudiante.darNombre() + " ha cumplido con todos los requisitos y puede ser candidato a grado.\n";
         }
     }
@@ -173,5 +177,10 @@ public class candidaturaGrado {
     public static String darVistas()
     {
         return vistas;
+    }
+
+    public static String darEstado()
+    {
+        return estado;
     }
 }

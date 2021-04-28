@@ -528,6 +528,7 @@ public class VentanaEstudiante extends JPanel implements ActionListener
                                     else if(est.equals("Retirada"))
                                     {
                                         editar.setRetiro(true);
+                                        estudiante.retirarMateria(editar);
                                     }
                                     if(editar.darInfoRetiro() == false)
                                     {
@@ -557,6 +558,7 @@ public class VentanaEstudiante extends JPanel implements ActionListener
                                     else if(est.equals("Retirada"))
                                     {   
                                         editar.setRetiro(true);
+                                        estudiante.retirarMateria(editar);
                                     }
                                     if(editar.darInfoRetiro() == false)
                                     {

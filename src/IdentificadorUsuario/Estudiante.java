@@ -236,7 +236,7 @@ public class Estudiante extends Usuario implements Cloneable{
 				cursosTomadosArrayString.add(nuevaMateria.darCodigo());
 				return 0;
 		}
-		else if(codigo.equals("IIND-4115")||codigo.equals("IIND-4123")||codigo.equals("MATE-3133")||codigo.equals("IELE-4231")||codigo.equals("FISI-3024")||codigo.equals("IELE-3338")||codigo.equals("IELE-4014")||codigo.equals("MATE-3102")||codigo.equals("MATE-4527")||codigo.equals("IBIO-3470")||codigo.equals("MATE-3134")||codigo.equals("IBIO-4680")||codigo.equals("IBIO-4490") || codigo.equals("ISIS-3991"))
+		else if(codigo.equals("IIND-4115")||codigo.equals("IIND-4123")||codigo.equals("MATE-3133")||codigo.equals("IELE-4231")||codigo.equals("FISI-3024")||codigo.equals("IELE-3338")||codigo.equals("IELE-4014")||codigo.equals("MATE-3102")||codigo.equals("MATE-4527")||codigo.equals("IBIO-3470")||codigo.equals("MATE-3134")||codigo.equals("IBIO-4680")||codigo.equals("IBIO-4490") || codigo.equals("ISIS-3991") || codigo.equals("ARTI-4202") || codigo.equals("ARTI-4205") || codigo.equals("BCOM-4104") || codigo.equals("MBIT-4102") || codigo.equals("MBIT-4201") || codigo.equals("MBIT-4202") || codigo.equals("MBIT-4203") || codigo.equals("MBIT-4210") || codigo.equals("MBIT-4213") || codigo.equals("MBIT-4214") || codigo.equals("MSIN-4101") || codigo.equals("MSIN-4206") || codigo.equals("MINE-4102") || codigo.equals("MINE-4103") || codigo.equals("MINE-4201") || codigo.equals("MINE-4206") || codigo.equals("MISO-4101"))
 		{
 			for(int i = 0; pensum.darMateriasNivel1String().size()>i; i++)
 				{
@@ -256,6 +256,10 @@ public class Estudiante extends Usuario implements Cloneable{
 			if(codigo.equals("ISIS-3991"))
 			{
 				creds = 6;
+			}
+			else if (codigo.equals("ARTI-4202") || codigo.equals("ARTI-4205") || codigo.equals("BCOM-4104") || codigo.equals("MBIT-4102") || codigo.equals("MBIT-4201") || codigo.equals("MBIT-4202") || codigo.equals("MBIT-4203") || codigo.equals("MBIT-4210") || codigo.equals("MBIT-4213") || codigo.equals("MBIT-4214") || codigo.equals("MSIN-4101") || codigo.equals("MSIN-4206") || codigo.equals("MINE-4102") || codigo.equals("MINE-4103") || codigo.equals("MINE-4201") || codigo.equals("MINE-4206") || codigo.equals("MISO-4101"))
+			{
+				creds = 4;
 			}
 			Materia nuevaMateria = new Materia(codigo, codigo, "N/A", "N/A", creds, "Electiva Profesional", 4, true, semestre);
 			MateriaEstudiante agregada = revisarAprobado(nuevaMateria, nota, semestre);
@@ -490,5 +494,12 @@ public class Estudiante extends Usuario implements Cloneable{
 	public String darErrorString()
 	{
 		return error;
+	}
+
+	public void retirarMateria(MateriaEstudiante materia)
+	{
+		cursosTomados.remove(materia);
+		cursosTomadosArrayString.remove(materia.darCodigo());
+		tomadosString.replace(materia.darCodigo(), "");
 	}
 }
