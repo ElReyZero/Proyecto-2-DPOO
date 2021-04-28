@@ -586,6 +586,10 @@ public class VentanaEstudiante extends JPanel implements ActionListener
                 ventanaMain.actualizarMain(new VentanaCandidaturaGrado(ventanaMain, sistema, estudiante, pensum));
             } 
         }
+        else if(boton == planearSemestre)
+        {
+            ventanaMain.actualizarMain(new VentanaPlaneador(estudiante,ventanaMain,sistema,pensum));
+        }
 	}
 	
     public void registroMat(Estudiante estudiante, String codigoMateria, int semester, String grade, boolean esE, boolean esEpsilon, Pensum pensum, boolean esCle, int credsCle)

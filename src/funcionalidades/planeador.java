@@ -14,7 +14,7 @@ public class planeador {
 
     //Métodos
 
-    public static String crearPlaneacion(Estudiante estudiante,Pensum pensum,Scanner sn,String codigoMateria,int semestre,String nota, boolean tipoE, boolean epsilon, boolean cle, int credsCle)
+    public static String crearPlaneacion(Estudiante estudiante,Pensum pensum,String codigoMateria,int semestre,String nota, boolean tipoE, boolean epsilon, boolean cle, int credsCle)
     {
         Estudiante copia;
         try {

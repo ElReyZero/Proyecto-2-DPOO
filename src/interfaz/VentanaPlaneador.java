@@ -13,11 +13,14 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import IdentificadorUsuario.Estudiante;
 import Sistema.systemMain;
+import curriculo.Pensum;
+import funcionalidades.planeador;
 
 @SuppressWarnings("serial")
 public class VentanaPlaneador extends JPanel implements ActionListener
@@ -29,8 +32,14 @@ public class VentanaPlaneador extends JPanel implements ActionListener
     private VentanaPrincipal ventanaMain;
     private systemMain sistema;
 
-    public VentanaPlaneador(Estudiante estudiante, VentanaPrincipal pVentanaMain, systemMain pSistema)
+    public VentanaPlaneador(Estudiante estudiante, VentanaPrincipal pVentanaMain, systemMain pSistema, Pensum pensum)
     {
+        if(pensum == null)
+        {
+                JOptionPane.showMessageDialog(this, new JLabel("Tienes cargar el pensum antes de registrar materias."), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        else
+        {        
         ventanaMain = pVentanaMain;
         sistema = pSistema;
 		setLayout(new BorderLayout());
@@ -40,14 +49,18 @@ public class VentanaPlaneador extends JPanel implements ActionListener
         add(Volver(),BorderLayout.SOUTH);
         setSize(700, 500);
 		setVisible(true);
+        }
     }
     public JPanel PanelOpciones()
     {
         JPanel panelOpciones = new JPanel();
         panelOpciones.setLayout(new BoxLayout(panelOpciones,BoxLayout.PAGE_AXIS));
         registrarMateria = new JButton("Planear semestre");
+        registrarMateria.addActionListener(this);
         editarMateria = new JButton("Editar materia del plan");
+        editarMateria.addActionListener(this);
         guardar = new JButton("Guardar plan actual");
+        guardar.addActionListener(this);
         panelOpciones.add(Box.createRigidArea(new Dimension(0,40)));
         panelOpciones.add(registrarMateria);
         panelOpciones.add(Box.createRigidArea(new Dimension(0,8)));
@@ -84,5 +97,18 @@ public class VentanaPlaneador extends JPanel implements ActionListener
 		{
 			ventanaMain.resetMain();
 		}
+        else if (e.getSource() == registrarMateria)
+        {
+
+            String plan = planeador.crearPlaneacion(estudiante, pensum, codigoMateria, semestre, "A", tipoE, epsilon, cle, credsCle);
+        }
+        else if (e.getSource() == editarMateria)
+        {
+
+        }
+        else if (e.getSource() == guardar)
+        {
+
+        }
 	}
 }
