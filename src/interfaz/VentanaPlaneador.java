@@ -102,7 +102,7 @@ public class VentanaPlaneador extends JPanel implements ActionListener
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == volver)
 		{
-			ventanaMain.resetMain();
+			ventanaMain.actualizarMain(new VentanaEstudiante(estudiante.darNombre(), estudiante.darCodigo(), estudiante.darCodigo(), ventanaMain, sistema , estudiante));
 		}
         else if (e.getSource() == registrarMateria)
         {
