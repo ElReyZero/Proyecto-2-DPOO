@@ -6,24 +6,16 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Launch Current File",
-            "request": "launch",
-            "mainClass": "${file}",
-            "vmArgs": "--enable-preview"
-        },
-        {
-            "type": "java",
             "name": "Launch VentanaPrincipal",
             "request": "launch",
             "mainClass": "interfaz.VentanaPrincipal",
-            "projectName": "Proyecto 1 DPOO",
-            "vmArgs": "--enable-preview"
+            "projectName": ""
         },
         {
             "type": "java",
-            "name": "Launch VentanaPrincipal(1)",
+            "name": "Launch Current File",
             "request": "launch",
-            "mainClass": "interfaz.VentanaPrincipal",
+            "mainClass": "${file}",
             "vmArgs": "--enable-preview"
         }
     ]

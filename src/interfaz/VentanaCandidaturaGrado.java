@@ -33,7 +33,7 @@ public class VentanaCandidaturaGrado extends JPanel implements ActionListener
 		setLayout(new BorderLayout());
         ///Botones y paneles
         add(PanelInformacion(estudiante,pensum), BorderLayout.WEST);
-        add(PanelMateriasFaltantes(estudiante),BorderLayout.EAST);
+        add(PanelMaterias(estudiante),BorderLayout.EAST);
         add(Volver(),BorderLayout.SOUTH);
         setSize(700, 500);
 		setVisible(true);
@@ -41,6 +41,7 @@ public class VentanaCandidaturaGrado extends JPanel implements ActionListener
     public JPanel PanelInformacion(Estudiante estudiante,Pensum pensum)
     {
         JPanel panelInformacion = new JPanel();
+        candidaturaGrado.darCandidaturaGrado(estudiante, pensum);
         panelInformacion.setLayout(new BoxLayout(panelInformacion,BoxLayout.PAGE_AXIS));
         panelInformacion.add(PanelPGA(estudiante));
         panelInformacion.add(PanelEstadoAcademico(estudiante));
@@ -49,14 +50,22 @@ public class VentanaCandidaturaGrado extends JPanel implements ActionListener
         panelInformacion.add(PanelEstadoCandidaturaGrado(estudiante,pensum));
         return panelInformacion;
     }
+    public JPanel PanelMaterias(Estudiante estudiante)
+    {
+        JPanel panelMaterias = new JPanel();
+        panelMaterias.setLayout(new BoxLayout (panelMaterias, BoxLayout.PAGE_AXIS));
+        panelMaterias.add(PanelMateriasFaltantes(estudiante));
+        panelMaterias.add(Box.createRigidArea(new Dimension(0,30)));
+        panelMaterias.add(PanelMateriasVistas(estudiante));
+        return panelMaterias;
+    }
     public JPanel PanelPGA(Estudiante estudiante)
     {
         JPanel panelPGA = new JPanel();
-        JLabel textPGA = new JLabel("El PGA es de: ");
+        JLabel textPGA = new JLabel(" El PGA es de: ");
         JLabel PGA = new JLabel(reporteNotas.promedioPGA(estudiante));
         panelPGA.setLayout(new BoxLayout(panelPGA,BoxLayout.LINE_AXIS));
         panelPGA.add(textPGA);
-        panelPGA.add(Box.createRigidArea(new Dimension(8,0)));
         panelPGA.add(PGA);
         return panelPGA;
     }
@@ -67,7 +76,6 @@ public class VentanaCandidaturaGrado extends JPanel implements ActionListener
         JLabel ea = new JLabel(reporteNotas.estadoAcademico(estudiante));
         panelEA.setLayout(new BoxLayout(panelEA,BoxLayout.LINE_AXIS));
         panelEA.add(textEA);
-        panelEA.add(Box.createRigidArea(new Dimension(8,0)));
         panelEA.add(ea);
         return panelEA;
     }
@@ -78,18 +86,16 @@ public class VentanaCandidaturaGrado extends JPanel implements ActionListener
         JLabel ssc = new JLabel(reporteNotas.semestreSegunCreditos(estudiante));
         panelSSC.setLayout(new BoxLayout(panelSSC,BoxLayout.LINE_AXIS));
         panelSSC.add(textSSC);
-        panelSSC.add(Box.createRigidArea(new Dimension(8,0)));
         panelSSC.add(ssc);
         return panelSSC;
     }
     public JPanel PanelEstadoCandidaturaGrado(Estudiante estudiante,Pensum pensum)
     {
         JPanel panelCG = new JPanel();
-        JLabel textCG = new JLabel("Estado de candidatura a grado");
+        JLabel textCG = new JLabel("Estado de candidatura a grado: ");
         //JLabel cg = new JLabel(candidaturaGrado.darCandidaturaGrado(estudiante, pensum));
         panelCG.setLayout(new BoxLayout(panelCG,BoxLayout.LINE_AXIS));
         panelCG.add(textCG);
-        panelCG.add(Box.createRigidArea(new Dimension(8,0)));
         //panelCG.add(cg);
         return panelCG;
     }
@@ -97,12 +103,23 @@ public class VentanaCandidaturaGrado extends JPanel implements ActionListener
     public JPanel PanelMateriasFaltantes(Estudiante estudiante)
     {
         JPanel panelMateriasFaltantes = new JPanel();
-        //String[] parts = reporteNotas.darReporteNotas(estudiante).split("\n"); 
-        //JList<String> materiasVistas = new JList<String>(parts);
-        //JScrollPane scroll = new JScrollPane(materiasVistas);
-        //panelMateriasFaltantes.add(scroll);
+        String[] falta = candidaturaGrado.darFaltantes().split("\n");
+        JList<String> materiasFaltantes = new JList<String>(falta);
+        JScrollPane scroll = new JScrollPane(materiasFaltantes);
+        panelMateriasFaltantes.add(scroll);
         return panelMateriasFaltantes;
     }
+
+    public JPanel PanelMateriasVistas(Estudiante estudiante)
+    {
+        JPanel panelMateriasVistas = new JPanel();
+        String[] seen = candidaturaGrado.darVistas().split("\n");
+        JList<String> materiasVistas = new JList<String>(seen);
+        JScrollPane scroll2 = new JScrollPane(materiasVistas);
+        panelMateriasVistas.add(scroll2);
+        return panelMateriasVistas;
+    }
+
     public JPanel Volver()
     {
       JPanel panelVolver = new JPanel();
