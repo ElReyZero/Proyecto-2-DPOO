@@ -23,11 +23,13 @@ public class VentanaCandidaturaGrado extends JPanel implements ActionListener
     private JButton volver;
     private VentanaPrincipal ventanaMain;
     private systemMain sistema;
+    private Estudiante estudiante;
 
-    public VentanaCandidaturaGrado(VentanaPrincipal pVentanaMain, systemMain pSistema,Estudiante estudiante,Pensum pensum)
+    public VentanaCandidaturaGrado(VentanaPrincipal pVentanaMain, systemMain pSistema, Estudiante pEstudiante, Pensum pensum)
     {
         ventanaMain = pVentanaMain;
         sistema = pSistema;
+        estudiante = pEstudiante;
 		setLayout(new BorderLayout());
         ///Botones y paneles
         add(PanelInformacion(estudiante,pensum), BorderLayout.WEST);
@@ -83,7 +85,7 @@ public class VentanaCandidaturaGrado extends JPanel implements ActionListener
     public JPanel PanelEstadoCandidaturaGrado(Estudiante estudiante,Pensum pensum)
     {
         JPanel panelCG = new JPanel();
-        JLabel textCG = new JLabel("El semestre según créditos: ");
+        JLabel textCG = new JLabel("Estado de candidatura a grado");
         //JLabel cg = new JLabel(candidaturaGrado.darCandidaturaGrado(estudiante, pensum));
         panelCG.setLayout(new BoxLayout(panelCG,BoxLayout.LINE_AXIS));
         panelCG.add(textCG);
@@ -114,7 +116,7 @@ public class VentanaCandidaturaGrado extends JPanel implements ActionListener
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == volver)
 		{
-			ventanaMain.resetMain();
+			ventanaMain.actualizarMain(new VentanaEstudiante(estudiante.darNombre(), estudiante.darCodigo(), estudiante.darCodigo(), ventanaMain, sistema , estudiante));
 		}
 	}
 }

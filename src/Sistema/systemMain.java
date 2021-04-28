@@ -470,14 +470,14 @@ public class systemMain
     }
     public static void registrarMateriaPlaneadorEstudiante(Scanner sn, Estudiante estudiante, Pensum pensum, analizadorArchivo analizador,String planactual)
     {
-        int semestre = 0;
-        String nota = "A";
+        ///int semestre = 0;
+        ///String nota = "A";
         System.out.println("Introduce el código de la materia: ");
         String codigoMateria = sn.next();
         System.out.println("Introduce el semestre en que se verá la materia: ");
         try
         {
-            semestre = sn.nextInt();
+            ///semestre = sn.nextInt();
         }
         catch (InputMismatchException e) 
         {
@@ -499,17 +499,17 @@ public class systemMain
             switch(opc2)
             {
                 case 1:
-                planactual += planeador.crearPlaneacion(estudiante, pensum, sn,codigoMateria,semestre,nota, true, false);
+                ///planactual += planeador.crearPlaneacion(estudiante, pensum, sn,codigoMateria,semestre,nota, true, false);
                 break;
                 case 2:
-                planactual += planeador.crearPlaneacion(estudiante, pensum, sn,codigoMateria,semestre,nota, false, true);
+                ///planactual += planeador.crearPlaneacion(estudiante, pensum, sn,codigoMateria,semestre,nota, false, true);
                 break;
                 case 3:
-                planactual += planeador.crearPlaneacion(estudiante, pensum, sn,codigoMateria,semestre,nota, true, true);
+                ///planactual += planeador.crearPlaneacion(estudiante, pensum, sn,codigoMateria,semestre,nota, true, true);
                 break;
             }
             case 2:
-            planactual += planeador.crearPlaneacion(estudiante, pensum, sn,codigoMateria,semestre,nota, false, false);
+            ///planactual += planeador.crearPlaneacion(estudiante, pensum, sn,codigoMateria,semestre,nota, false, false);
             break;
         }
             System.out.println("¿Quieres seguir registrando materias?");
@@ -546,14 +546,14 @@ public class systemMain
 
     public static void registrarMateriaPlaneadorCoordinador(Scanner sn, Estudiante estudiante, CoordinadorAcademico coordinador, Pensum pensum, analizadorArchivo analizador, File archivo,String planactual)
     {
-        int semestre = 0;
-        String nota = "A";
+        ///int semestre = 0;
+        ///String nota = "A";
         System.out.println("Introduce el código de la materia: ");
         String codigoMateria = sn.next();
         System.out.println("Introduce el semestre en que se verá la materia: ");
         try
         {
-            semestre = sn.nextInt();
+            //semestre = sn.nextInt();
         }
         catch (InputMismatchException e) 
         {
@@ -575,17 +575,17 @@ public class systemMain
             switch(opc2)
             {
                 case 1:
-                planactual += planeador.crearPlaneacion(estudiante, pensum, sn,codigoMateria,semestre,nota, true, false);
+                ///planactual += planeador.crearPlaneacion(estudiante, pensum, sn,codigoMateria,semestre,nota, true, false);
                 break;
                 case 2:
-                planactual += planeador.crearPlaneacion(estudiante, pensum, sn,codigoMateria,semestre,nota, false, true);
+                ///planactual += planeador.crearPlaneacion(estudiante, pensum, sn,codigoMateria,semestre,nota, false, true);
                 break;
                 case 3:
-                planactual += planeador.crearPlaneacion(estudiante, pensum, sn,codigoMateria,semestre,nota, true, true);
+                ///planactual += planeador.crearPlaneacion(estudiante, pensum, sn,codigoMateria,semestre,nota, true, true);
                 break;
             }
             case 2:
-            planactual += planeador.crearPlaneacion(estudiante, pensum, sn,codigoMateria,semestre,nota, false, false);
+            ///planactual += planeador.crearPlaneacion(estudiante, pensum, sn,codigoMateria,semestre,nota, false, false);
             break;
         }
             System.out.println("¿Quieres seguir registrando materias?");

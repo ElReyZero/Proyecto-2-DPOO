@@ -27,51 +27,54 @@ public class candidaturaGrado {
         boolean posible = true;
         for (MateriaEstudiante materia : listacursos) 
         {
-            creditosVistos += materia.darCreditos();
-            if(materia.darTipoMateria().contains("Electiva CBU"))
+            if(materia.darInfoRetiro() == false)
             {
-                cantidadCBU +=1;
-                if(materia.darTipoMateria().contains("Electiva CBU CO"))
+                creditosVistos += materia.darCreditos();
+                if(materia.darTipoMateria().contains("Electiva CBU"))
                 {
-                    cantidadCBCO += 1;
+                    cantidadCBU +=1;
+                    if(materia.darTipoMateria().contains("Electiva CBU CO"))
+                    {
+                        cantidadCBCO += 1;
+                    }
+                    else if(materia.darTipoMateria().contains("Electiva CBU CA"))
+                    {
+                        cantidadCBCA += 1;
+                    }
+                    else if(materia.darTipoMateria().contains("Electiva CBU PC"))
+                    {
+                        cantidadCBPC +=1;
+                    }
+                    if(materia.darTipoMateria().contains("Tipo E"))
+                    {
+                        cantidadTipoE += 1;
+                    }
+                    if(materia.darTipoMateria().contains("Épsilon"))
+                    {
+                        cantidadTipoEpsilon += 1;
+                    }
+                    
                 }
-                else if(materia.darTipoMateria().contains("Electiva CBU CA"))
+                else if(materia.darTipoMateria().equals("Electiva Ingeniería"))
                 {
-                    cantidadCBCA += 1;
-                }
-                else if(materia.darTipoMateria().contains("Electiva CBU PC"))
-                {
-                    cantidadCBPC +=1;
+                    cantidadElectIng +=1;
                 }
                 if(materia.darTipoMateria().contains("Tipo E"))
                 {
                     cantidadTipoE += 1;
                 }
-                if(materia.darTipoMateria().contains("Épsilon"))
+                if(materia.darTipoMateria().contains("Tipo Épsilon"))
                 {
                     cantidadTipoEpsilon += 1;
                 }
-                
-            }
-            else if(materia.darTipoMateria().equals("Electiva Ingeniería"))
-            {
-                cantidadElectIng +=1;
-            }
-            if(materia.darTipoMateria().contains("Tipo E"))
-            {
-                cantidadTipoE += 1;
-            }
-            if(materia.darTipoMateria().contains("Tipo Épsilon"))
-            {
-                cantidadTipoEpsilon += 1;
-            }
-            else if(materia.darTipoMateria().contains("Curso de Libre Elección"))
-            {
-                cle += materia.darCreditos();
-            }
-            else if(materia.darTipoMateria().contains("Electiva Profesional"))
-            {
-                electivasProfesionales += materia.darCreditos();
+                else if(materia.darTipoMateria().contains("Curso de Libre Elección"))
+                {
+                    cle += materia.darCreditos();
+                }
+                else if(materia.darTipoMateria().contains("Electiva Profesional"))
+                {
+                    electivasProfesionales += materia.darCreditos();
+                }
             }
         }
         for (Materia matGeneral : pensum.darMateriasPensum()) 

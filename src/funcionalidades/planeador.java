@@ -10,9 +10,11 @@ import curriculo.Pensum;
 
 public class planeador {
 
+    private static int error;
+
     //Métodos
 
-    public static String crearPlaneacion(Estudiante estudiante,Pensum pensum,Scanner sn,String codigoMateria,int semestre,String nota, boolean tipoE, boolean epsilon)
+    public static String crearPlaneacion(Estudiante estudiante,Pensum pensum,Scanner sn,String codigoMateria,int semestre,String nota, boolean tipoE, boolean epsilon, boolean cle, int credsCle)
     {
         Estudiante copia;
         try {
@@ -27,11 +29,14 @@ public class planeador {
             System.out.println("Hubo un error en la copia del estudiante.");
             System.exit(1);
         }
-        ///TODO
-        ///int registro=copia.registrarMaterias(codigoMateria, semestre, nota, tipoE, epsilon, pensum, sn);  
-        ///if(registro==0)
+        int registro = copia.registrarMaterias(codigoMateria, semestre, nota, tipoE, epsilon, pensum, cle, credsCle);  
+        if(registro==0)
         {
             plan += codigoMateria+"      "+String.valueOf(semestre)+"\n";
+        }
+        else
+        {
+            error = registro;
         }
         return plan;
     }
@@ -39,6 +44,11 @@ public class planeador {
     public static void guardarPlaneación(String plan, analizadorArchivo analizador, Estudiante estudiante, File archivo) throws FileNotFoundException, UnsupportedEncodingException
     {
         analizador.guardarPlaneación(archivo, plan, estudiante);
+    }
+
+    public static int darError()
+    {
+        return error;
     }
 
 }

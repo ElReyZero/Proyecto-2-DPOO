@@ -202,7 +202,7 @@ public class VentanaEstudiante extends JPanel implements ActionListener
                     int error = 1;
                     try
                     {
-                        int numSemestre = Integer.parseInt(semestre.getText());
+                        Integer.parseInt(semestre.getText());
                         try
                         {
                             Double notaNum = Double.valueOf(nota.getText());
@@ -574,6 +574,17 @@ public class VentanaEstudiante extends JPanel implements ActionListener
                     }
                 }
             }
+        }
+        else if(boton == candidaturaGrado)
+        {
+            if(pensum == null)
+            {
+                JOptionPane.showMessageDialog(this, new JLabel("Tienes cargar el pensum antes de editar tus materias."), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else
+            {
+                ventanaMain.actualizarMain(new VentanaCandidaturaGrado(ventanaMain, sistema, estudiante, pensum));
+            } 
         }
 	}
 	
