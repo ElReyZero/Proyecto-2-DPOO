@@ -1,6 +1,7 @@
 package interfaz;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -300,16 +301,16 @@ public class VentanaPlaneador extends JPanel implements ActionListener
                         estado.addItem("Inscrita");
                         estado.addItem("Retirada");
                         estado.addActionListener(this);
-                        JTextField nota = new JTextField();
+                        JTextField semestre = new JTextField();
                         final JComponent[] edicion = new JComponent[] 
                         {
                             new JLabel("Estado de la materia:"),
                             estado,
-                            new JLabel("Nota:"),
-                            nota
+                            new JLabel("Semestre a cambiar:"),
+                            semestre
                         };
                         int resultado = JOptionPane.showConfirmDialog(this, edicion, "Editar curso", JOptionPane.PLAIN_MESSAGE);
-                        if(resultado == JOptionPane.OK_OPTION && nota.getText().equals(""))
+                        if(resultado == JOptionPane.OK_OPTION && semestre.getText().equals(""))
                         {
                             JOptionPane.showMessageDialog(this, new JLabel("Tienes que completar todos los datos."), "Error", JOptionPane.ERROR_MESSAGE);
                         }
@@ -317,65 +318,50 @@ public class VentanaPlaneador extends JPanel implements ActionListener
                         {
                             try
                             {
-                                Double notaNum = Double.valueOf(editar.darNota());
-                                if(notaNum>5.0 || notaNum < 1.5)
-                                {
-                                    JOptionPane.showMessageDialog(this, new JLabel("Debes insertar una nota válida."), "Error", JOptionPane.ERROR_MESSAGE);
-                                }
-                                else
-                                {
-                                    editar.cambiarNota(nota.getText());
+                                    int cont = 0;
+                                    editar.cambiarSemestre(Integer.parseInt(semestre.getText()));
                                     String est = estado.getSelectedItem().toString();
                                     if(est.equals("Inscrita"))
                                     {   
                                         editar.setRetiro(false);
+                                        for (String part : parts)
+                                        {
+                                            if (part.contains(editar.darCodigo()))
+                                            {
+                                                parts.set(cont, editar.darCodigo()+"      "+String.valueOf(editar.darSemestre())+"\n");
+                                            }
+                                            cont += 1;
+                                        }
+                                        actualizarLista();
                                     }
                                     else if(est.equals("Retirada"))
                                     {
                                         editar.setRetiro(true);
                                         copia.retirarMateria(editar);
+                                        ArrayList<String> partcopy = (ArrayList<String>) parts.clone();
+                                        for (String part : partcopy)
+                                        {
+                                            if (part.contains(editar.darCodigo()))
+                                            {
+                                                parts.remove(cont);
+                                            }
+                                            cont += 1;
+                                        }
+                                        actualizarLista();
                                     }
                                     if(editar.darInfoRetiro() == false)
                                     {
                                         
-                                        JOptionPane.showMessageDialog(this, new JLabel("Nota cambiada satisfactoriamente a: " + editar.darNota()+" Estado de la materia cambiado a: Inscrita"), null, JOptionPane.INFORMATION_MESSAGE);
+                                        JOptionPane.showMessageDialog(this, new JLabel("Semestre cambiado satisfactoriamente a: " + editar.darSemestre()+" Estado de la materia cambiado a: Inscrita"), null, JOptionPane.INFORMATION_MESSAGE);
                                     }
                                     else
                                     {
-                                        JOptionPane.showMessageDialog(this, new JLabel("Nota cambiada satisfactoriamente a: " + editar.darNota()+" Estado de la materia cambiado a: Retirada" ), null, JOptionPane.INFORMATION_MESSAGE);
+                                        JOptionPane.showMessageDialog(this, new JLabel("Semestre cambiado satisfactoriamente a: " + editar.darSemestre()+" Estado de la materia cambiado a: Retirada" ), null, JOptionPane.INFORMATION_MESSAGE);
                                     }
-                                }
                             }
                             catch (NumberFormatException exa)
                             {
-                                if(!nota.getText().equals("A")&&!nota.getText().equals("R")&&!nota.getText().equals("PD")&&!nota.getText().equals("I")&&!nota.getText().equals("PE"))
-                                {
-                                    JOptionPane.showMessageDialog(this, new JLabel("Debes insertar una nota válida."), "Error", JOptionPane.ERROR_MESSAGE);
-                                }
-                                else
-                                {
-                                    editar.cambiarNota(nota.getText());
-                                    String est = estado.getSelectedItem().toString();
-                                    if(est.equals("Inscrita"))
-                                    {   
-                                        editar.setRetiro(false);
-                                    }
-                                    else if(est.equals("Retirada"))
-                                    {   
-                                        editar.setRetiro(true);
-                                        copia.retirarMateria(editar);
-                                    }
-                                    if(editar.darInfoRetiro() == false)
-                                    {
-                                        
-                                        JOptionPane.showMessageDialog(this, new JLabel("Nota cambiada satisfactoriamente a: " + editar.darNota()+"\nEstado de la materia cambiado a: Inscrita"), null, JOptionPane.INFORMATION_MESSAGE);
-                                    }
-                                    else
-                                    {
-                                        JOptionPane.showMessageDialog(this, new JLabel("Nota cambiada satisfactoriamente a: " + editar.darNota()+"\nEstado de la materia cambiado a: Retirada" ), null, JOptionPane.INFORMATION_MESSAGE);
-                                    }
-    
-                                }
+                                JOptionPane.showMessageDialog(this, new JLabel("Inserta un semestre válido"), "Error", JOptionPane.ERROR_MESSAGE);
                             }
                         }
                     }
@@ -390,17 +376,21 @@ public class VentanaPlaneador extends JPanel implements ActionListener
             }
             else
             {
+                ArrayList<String> partscopy = (ArrayList<String>) parts.clone();
+                partscopy.remove(0);
+                partscopy.remove(0);
                 int cont = 0;
-                for(String part : parts)
+                for(String part : partscopy)
                 {
-                    if(part == "" || part == null)
+                    if(part.contains("\n\n"));                    
                     {
-                        parts.remove(part);
-                        System.out.println("Hola");
+                        String part2 = part.substring(0, part.length()-1);
+                        partscopy.set(cont, part2);
                     }
-                    cont +=1;
+                    cont += 1;
                 }
-                String guardarPlan = String.join("\n", parts);
+                String guardarPlan = String.join("\n", partscopy);
+                System.out.println(guardarPlan);
                 File archivo = null;
 		        JFileChooser fc = new JFileChooser();
     		    fc.setDialogTitle("Selecciona dónde guardar el plan.");

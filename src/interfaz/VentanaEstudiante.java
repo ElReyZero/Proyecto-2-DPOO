@@ -597,7 +597,7 @@ public class VentanaEstudiante extends JPanel implements ActionListener
             {
                 ArrayList<String> lista = new ArrayList<String>();
                 lista.add("El plan actual es:    ");
-                lista.add("Materia       Semestre\n");
+                lista.add("Materia       Semestre                                             \0");
                 ventanaMain.actualizarMain(new VentanaPlaneador(estudiante,ventanaMain,sistema,pensum, null, lista));
             }
         }

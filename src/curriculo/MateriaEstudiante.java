@@ -46,4 +46,9 @@ public class MateriaEstudiante extends Materia
 	{
 		materiaRetirada = decision;
 	}
+
+	public void cambiarSemestre(int text) 
+	{
+		semestre = text;
+	}
 }
