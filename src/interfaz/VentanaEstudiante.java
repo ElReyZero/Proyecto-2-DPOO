@@ -590,10 +590,17 @@ public class VentanaEstudiante extends JPanel implements ActionListener
         }
         else if(boton == planearSemestre)
         {
-            ArrayList<String> lista = new ArrayList<String>();
-            lista.add("El plan actual es:    ");
-            lista.add("Materia       Semestre\n");
-            ventanaMain.actualizarMain(new VentanaPlaneador(estudiante,ventanaMain,sistema,pensum, null, lista));
+            if(pensum == null)
+            {
+                JOptionPane.showMessageDialog(this, new JLabel("Tienes cargar el pensum antes de editar tus materias."), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else
+            {
+                ArrayList<String> lista = new ArrayList<String>();
+                lista.add("El plan actual es:    ");
+                lista.add("Materia       Semestre\n");
+                ventanaMain.actualizarMain(new VentanaPlaneador(estudiante,ventanaMain,sistema,pensum, null, lista));
+            }
         }
 	}
 	

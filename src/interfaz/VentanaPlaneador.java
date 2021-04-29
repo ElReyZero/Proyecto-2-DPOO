@@ -51,23 +51,16 @@ public class VentanaPlaneador extends JPanel implements ActionListener
         estudiante = pEstudiante;
         pensum = pPensum;
         parts = pParts;
-        plan = "";
-        if(pensum == null)
-        {
-            JOptionPane.showMessageDialog(this, new JLabel("Tienes cargar el pensum antes de registrar materias."), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-        else
-        {        
+        plan = "";     
         ventanaMain = pVentanaMain;
         sistema = pSistema;
 		setLayout(new BorderLayout());
         ///Botones y paneles
-        add(PanelOpciones(),BorderLayout.WEST);
+        add(PanelOpciones(),BorderLayout.CENTER);
         add(PanelPlan(estudiante),BorderLayout.EAST);
         add(Volver(),BorderLayout.SOUTH);
         setSize(700, 500);
 		setVisible(true);
-        }
     }
     public JPanel PanelOpciones()
     {
