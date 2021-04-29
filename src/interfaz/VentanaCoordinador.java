@@ -26,7 +26,6 @@ import IdentificadorUsuario.Estudiante;
 import Sistema.systemMain;
 import curriculo.MateriaEstudiante;
 import curriculo.Pensum;
-@SuppressWarnings("serial")
 public class VentanaCoordinador extends JPanel implements ActionListener
 {
 

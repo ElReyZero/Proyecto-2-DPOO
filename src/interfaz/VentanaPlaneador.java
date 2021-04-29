@@ -29,7 +29,7 @@ import curriculo.MateriaEstudiante;
 import curriculo.Pensum;
 import funcionalidades.planeador;
 
-@SuppressWarnings({"serial", "unchecked"})
+@SuppressWarnings({"unchecked", "rawtypes"})
 public class VentanaPlaneador extends JPanel implements ActionListener
 {
     private JButton registrarMateria;

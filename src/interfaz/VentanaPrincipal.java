@@ -17,7 +17,6 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.*;
-@SuppressWarnings("serial")
 public class VentanaPrincipal extends JFrame implements ActionListener
 {
 	
