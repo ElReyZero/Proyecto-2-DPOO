@@ -107,7 +107,7 @@ public class analizadorArchivo {
 		return 0;
 	}
 
-	public void guardarPlaneación(File archivo, String plan, Estudiante estudiante) throws FileNotFoundException, UnsupportedEncodingException
+	public int guardarPlaneación(File archivo, String plan, Estudiante estudiante) throws FileNotFoundException, UnsupportedEncodingException
 	{
 		String nombre = estudiante.darNombre();
 		String codigo = estudiante.darCodigo();
@@ -124,6 +124,7 @@ public class analizadorArchivo {
 			pw.println(materia);			
 		}
 		pw.close();
+		return 0;
 	}
 
 	public int cargarAvanceEstudiante(File archivo, Estudiante estudiante)

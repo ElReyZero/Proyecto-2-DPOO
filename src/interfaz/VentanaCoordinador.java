@@ -6,16 +6,26 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
+import IdentificadorUsuario.Estudiante;
 import Sistema.systemMain;
-
+import curriculo.MateriaEstudiante;
+import curriculo.Pensum;
 @SuppressWarnings("serial")
 public class VentanaCoordinador extends JPanel implements ActionListener
 {
@@ -34,6 +44,9 @@ public class VentanaCoordinador extends JPanel implements ActionListener
     private JButton volver;
     private VentanaPrincipal ventanaMain;
     private systemMain sistema;
+    private Object boton;
+    private Estudiante estudiante;
+    private Pensum pensum;
 
     public VentanaCoordinador(String nombre, String codigo, String departamento, VentanaPrincipal pVentanaMain, systemMain pSistema)
     {

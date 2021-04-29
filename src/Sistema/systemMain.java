@@ -10,7 +10,6 @@ import IdentificadorUsuario.Estudiante;
 import curriculo.MateriaEstudiante;
 import curriculo.Pensum;
 import funcionalidades.candidaturaGrado;
-import funcionalidades.planeador;
 import funcionalidades.reporteNotas;
 
 ///Hecho por: Juan Andrés Romero C - 202013449
@@ -530,15 +529,15 @@ public class systemMain
                 }
                 else
                 {
-                    File planeacion = new File(ruta);
-                    try {
-                        planeador.guardarPlaneación(planactual, analizador, estudiante, planeacion);
-                        System.out.println("La planeación fue guardada en: "+planeacion.getAbsolutePath());
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    } catch (UnsupportedEncodingException e) {
-                        e.printStackTrace();
-                    }
+                    ///File planeacion = new File(ruta);
+                    ///try {
+                        ///planeador.guardarPlaneación(planactual, analizador, estudiante, planeacion);
+                        ///System.out.println("La planeación fue guardada en: "+planeacion.getAbsolutePath());
+                    ///} ///catch (FileNotFoundException e) {
+                        ///e.printStackTrace();
+                    ///} ///catch (UnsupportedEncodingException e) {
+                        ///e.printStackTrace();
+                    ///}
                     seleccionEstudiante(sn, pensum, estudiante, analizador);
                 }   
         }
@@ -599,15 +598,15 @@ public class systemMain
                 case 2:
                 System.out.println("El plan actual es: \n"+"Materia     Semestre\n"+planactual);
                 System.out.println("Ingresa la ruta para guardar la planeación: ");
-                File planeacion = new File(sn.next());
-                try {
-                    planeador.guardarPlaneación(planactual, analizador, estudiante, planeacion);
-                    System.out.println("La planeación fue guardada en: "+planeacion.getAbsolutePath());
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
+                ////File planeacion = new File(sn.next());
+                ///try {
+                    ////planeador.guardarPlaneación(planactual, analizador, estudiante, planeacion);
+                    ////System.out.println("La planeación fue guardada en: "+planeacion.getAbsolutePath());
+                ////} catch (FileNotFoundException e) {
+                   /// e.printStackTrace();
+                ///} catch (UnsupportedEncodingException e) {
+                  ///  e.printStackTrace();
+                ///}
                 seleccionCoordinadorAcademico(sn, pensum, coordinador, analizador, archivo); 
         }
     }
@@ -889,6 +888,11 @@ public class systemMain
     public int guardarAvanceEstudiante(File archivo, Estudiante estudiante) throws FileNotFoundException, UnsupportedEncodingException
     {
         return analizador.guardarAvanceEstudianteArchivo(archivo, estudiante.darNombre(), estudiante.darCodigo(), estudiante.darCarrera(), estudiante.darCursosTomados());
+    }
+
+    public int guardarPlan(File archivo, String plan, Estudiante estudiante) throws FileNotFoundException, UnsupportedEncodingException
+    {
+        return analizador.guardarPlaneación(archivo, plan, estudiante);
     }
 }
 

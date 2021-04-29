@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 import javax.swing.Box;
@@ -41,6 +43,7 @@ public class VentanaPlaneador extends JPanel implements ActionListener
     private ArrayList<String> parts;
     private String lastSubject;
     private Estudiante copia;
+    private String plan;
 
     public VentanaPlaneador(Estudiante pEstudiante, VentanaPrincipal pVentanaMain, systemMain pSistema, Pensum pPensum, Estudiante pCopia, ArrayList<String> pParts)
     {
@@ -48,6 +51,7 @@ public class VentanaPlaneador extends JPanel implements ActionListener
         estudiante = pEstudiante;
         pensum = pPensum;
         parts = pParts;
+        plan = "";
         if(pensum == null)
         {
             JOptionPane.showMessageDialog(this, new JLabel("Tienes cargar el pensum antes de registrar materias."), "Error", JOptionPane.ERROR_MESSAGE);
@@ -233,15 +237,26 @@ public class VentanaPlaneador extends JPanel implements ActionListener
                     }
                     if (error != -1)
                     {
-                        String plan = "";
+                        if (copia == null)
+                        {
+                            try {
+                                copia = estudiante.clone();
+                            } catch (CloneNotSupportedException exer) {
+                                exer.printStackTrace();
+                                copia = null;
+                            }
+                            if (copia == null)
+                            {
+                                System.out.println("Hubo un error en la copia del estudiante.");
+                            }
+                        }
                         if(cle.isSelected())
                         {
-                            
-                            plan += registroClePlaneador(estudiante, codMateria.getText(), Integer.parseInt(semestre.getText()), "A", tipoE.isSelected(), epsilon.isSelected(), pensum, plan);
+                            plan += registroClePlaneador(copia, codMateria.getText(), Integer.parseInt(semestre.getText()), "A", tipoE.isSelected(), epsilon.isSelected(), pensum, plan);
                         }
                         else
                         {
-                            plan += registroMateriasPlaneador(estudiante, codMateria.getText(), Integer.parseInt(semestre.getText()), "A", tipoE.isSelected(), epsilon.isSelected(), pensum, false, 0, plan);
+                            plan += registroMateriasPlaneador(copia, codMateria.getText(), Integer.parseInt(semestre.getText()), "A", tipoE.isSelected(), epsilon.isSelected(), pensum, false, 0, plan);
                         }
                     }
             }
@@ -376,7 +391,44 @@ public class VentanaPlaneador extends JPanel implements ActionListener
         }
         else if (e.getSource() == guardar)
         {
-
+            if(parts.isEmpty())
+            {
+                JOptionPane.showMessageDialog(this, new JLabel("No has realizado ninguna planeación."), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else
+            {
+                int cont = 0;
+                for(String part : parts)
+                {
+                    if(part == "" || part == null)
+                    {
+                        parts.remove(part);
+                        System.out.println("Hola");
+                    }
+                    cont +=1;
+                }
+                String guardarPlan = String.join("\n", parts);
+                File archivo = null;
+		        JFileChooser fc = new JFileChooser();
+    		    fc.setDialogTitle("Selecciona dónde guardar el plan.");
+	    		fc.setFileFilter(new FiltroCSV());
+                int response = fc.showSaveDialog(this);
+                {
+                    if (response == JFileChooser.APPROVE_OPTION)
+                    {
+                        archivo = fc.getSelectedFile();
+                        try {
+                            planeador.guardarPlaneación(guardarPlan, sistema, estudiante, archivo);
+                        } catch (FileNotFoundException e1) {
+                            JOptionPane.showMessageDialog(this, new JLabel("El archivo no fue encontrado"), "Error", JOptionPane.ERROR_MESSAGE);
+                            e1.printStackTrace();
+                        } catch (UnsupportedEncodingException e1) {
+                            JOptionPane.showMessageDialog(this, new JLabel("Hubo un problema con el encoding del archivo"), "Error", JOptionPane.ERROR_MESSAGE);
+                            e1.printStackTrace();
+                        }
+                    }
+                }
+            }
         }
 	}
 
