@@ -193,64 +193,63 @@ public class VentanaPlaneador extends JPanel implements ActionListener
 		}
         else if (e.getSource() == registrarMateria)
         {
-                JTextField codMateria = new JTextField();
-                JTextField semestre = new JTextField();
-                JCheckBox tipoE = new JCheckBox("Tipo E");
-                JCheckBox epsilon = new JCheckBox("Tipo Épsilon");
-                JCheckBox cle = new JCheckBox("Curso de Libre Elección");
-                final JComponent[] inputs = new JComponent[] 
-                {
-                new JLabel("Materia a Registrar:"),
-                codMateria,
-                new JLabel("Semestre:"),
-                semestre,
-                new JLabel("¿El curso es de tipo especial?"),
-                tipoE,
-                epsilon,
-                cle
-                };
-                int result = JOptionPane.showConfirmDialog(this, inputs, "Planear materia", JOptionPane.PLAIN_MESSAGE);
-                if(result == JOptionPane.OK_OPTION && (codMateria.getText().equals("")) || semestre.getText().equals(""))
-                {
-                    JOptionPane.showMessageDialog(this, new JLabel("Tienes que completar todos los datos."), "Error", JOptionPane.ERROR_MESSAGE);
-                }
-                else if(result == -1)
-                {
-                }
-                else
-                {
-                    int error = 1;
-                    try
-                    {
-                        Integer.parseInt(semestre.getText());
-                    }
-                    catch (NumberFormatException ex)
-                    {
-                        error = -1;
-                        JOptionPane.showMessageDialog(this, new JLabel("Solo puedes ingresar números en semestre."), "Error", JOptionPane.ERROR_MESSAGE);
-                    }
-                    if (error != -1)
-                    {
-                        if (copia == null)
-                        {
-                            System.out.println("Error, no se encuentra la copia");
-                        }
-                        if(cle.isSelected())
-                        {
-                            plan += registroClePlaneador(copia, codMateria.getText(), Integer.parseInt(semestre.getText()), "A", tipoE.isSelected(), epsilon.isSelected(), pensum, plan);
-                        }
-                        else
-                        {
-                            plan += registroMateriasPlaneador(copia, codMateria.getText(), Integer.parseInt(semestre.getText()), "A", tipoE.isSelected(), epsilon.isSelected(), pensum, false, 0, plan);
-                        }
-                    }
+            JTextField codMateria = new JTextField();
+            JTextField semestre = new JTextField();
+            JCheckBox tipoE = new JCheckBox("Tipo E");
+            JCheckBox epsilon = new JCheckBox("Tipo Épsilon");
+            JCheckBox cle = new JCheckBox("Curso de Libre Elección");
+            final JComponent[] inputs = new JComponent[] 
+            {
+            new JLabel("Materia a Registrar:"),
+            codMateria,
+            new JLabel("Semestre:"),
+            semestre,
+            new JLabel("¿El curso es de tipo especial?"),
+            tipoE,
+            epsilon,
+            cle
+            };
+            int result = JOptionPane.showConfirmDialog(this, inputs, "Planear materia", JOptionPane.PLAIN_MESSAGE);
+            if(result == JOptionPane.OK_OPTION && (codMateria.getText().equals("")) || semestre.getText().equals(""))
+            {
+                JOptionPane.showMessageDialog(this, new JLabel("Tienes que completar todos los datos."), "Error", JOptionPane.ERROR_MESSAGE);
             }
-            
+            else if(result == -1)
+            {
+            }
+            else
+            {
+                int error = 1;
+                try
+                {
+                    Integer.parseInt(semestre.getText());
+                }
+                catch (NumberFormatException ex)
+                {
+                    error = -1;
+                    JOptionPane.showMessageDialog(this, new JLabel("Solo puedes ingresar números en semestre."), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                if (error != -1)
+                {
+                    if (copia == null)
+                    {
+                        System.out.println("Error, no se encuentra la copia");
+                    }
+                    if(cle.isSelected())
+                    {
+                        plan += registroClePlaneador(copia, codMateria.getText(), Integer.parseInt(semestre.getText()), "A", tipoE.isSelected(), epsilon.isSelected(), pensum, plan);
+                    }
+                    else
+                    {
+                        plan += registroMateriasPlaneador(copia, codMateria.getText(), Integer.parseInt(semestre.getText()), "A", tipoE.isSelected(), epsilon.isSelected(), pensum, false, 0, plan);
+                    }
+                }
+        }            
         }
         else if (e.getSource() == editarMateria)
         {
-            copia = planeador.darCopia();
-            if(copia == null)
+            System.out.println(copia.darCursosTomados());
+            if(copia.darCursosTomados().isEmpty())
             {
                 JOptionPane.showMessageDialog(this, new JLabel("Tienes que empezar una planeación antes de editar las materias"), "Error", JOptionPane.ERROR_MESSAGE);
             }
