@@ -360,7 +360,10 @@ public class VentanaPlaneador extends JPanel implements ActionListener
         }
         else if (e.getSource() == guardar)
         {
-            if(parts.isEmpty())
+            ArrayList<String> cop = (ArrayList<String>) parts.clone();
+            cop.remove(0);
+            cop.remove(0);
+            if(cop.isEmpty())
             {
                 JOptionPane.showMessageDialog(this, new JLabel("No has realizado ninguna planeación."), "Error", JOptionPane.ERROR_MESSAGE);
             }
