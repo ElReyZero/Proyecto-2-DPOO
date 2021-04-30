@@ -233,16 +233,7 @@ public class VentanaPlaneador extends JPanel implements ActionListener
                     {
                         if (copia == null)
                         {
-                            try {
-                                copia = estudiante.clone();
-                            } catch (CloneNotSupportedException exer) {
-                                exer.printStackTrace();
-                                copia = null;
-                            }
-                            if (copia == null)
-                            {
-                                System.out.println("Hubo un error en la copia del estudiante.");
-                            }
+                            System.out.println("Error, no se encuentra la copia");
                         }
                         if(cle.isSelected())
                         {

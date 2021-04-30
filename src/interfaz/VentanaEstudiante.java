@@ -595,10 +595,21 @@ public class VentanaEstudiante extends JPanel implements ActionListener
             }
             else
             {
+                Estudiante copia = null;
+                try {
+                    copia = estudiante.clone();
+                } catch (CloneNotSupportedException exer) {
+                    exer.printStackTrace();
+                    copia = null;
+                }
+                if (copia == null)
+                {
+                    System.out.println("Hubo un error en la copia del estudiante.");
+                }
                 ArrayList<String> lista = new ArrayList<String>();
                 lista.add("El plan actual es:    ");
                 lista.add("Materia       Semestre                                             \0");
-                ventanaMain.actualizarMain(new VentanaPlaneador(estudiante,ventanaMain,sistema,pensum, null, lista));
+                ventanaMain.actualizarMain(new VentanaPlaneador(estudiante,ventanaMain,sistema,pensum, copia, lista));
             }
         }
 	}
