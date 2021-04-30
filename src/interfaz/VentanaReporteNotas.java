@@ -13,6 +13,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import IdentificadorUsuario.CoordinadorAcademico;
 import IdentificadorUsuario.Estudiante;
 import Sistema.systemMain;
 import funcionalidades.reporteNotas;
@@ -26,14 +27,18 @@ public class VentanaReporteNotas extends JPanel implements ActionListener
     private Estudiante estudiante;
     private boolean todo;
     private Estudiante respaldo;
+    private boolean esCoordinador;
+    private CoordinadorAcademico coordinador;
 
-    public VentanaReporteNotas(VentanaPrincipal pVentanaMain, systemMain pSistema, Estudiante pEstudiante, boolean pTodo, Estudiante pRespaldo)
+    public VentanaReporteNotas(VentanaPrincipal pVentanaMain, systemMain pSistema, Estudiante pEstudiante, boolean pTodo, Estudiante pRespaldo, boolean pEsCoordinador, CoordinadorAcademico pCoordinador)
     {
         ventanaMain = pVentanaMain;
         sistema = pSistema;
         estudiante = pEstudiante;
         todo = pTodo;
         respaldo = pRespaldo;
+        esCoordinador = pEsCoordinador;
+        coordinador = pCoordinador;
 		setLayout(new BorderLayout());
         ///Botones y paneles
         add(PanelInformacion(estudiante), BorderLayout.NORTH);
@@ -116,11 +121,25 @@ public class VentanaReporteNotas extends JPanel implements ActionListener
 		{
             if(todo == true)
             {
-                ventanaMain.actualizarMain(new VentanaEstudiante(estudiante.darNombre(), estudiante.darCodigo(), estudiante.darCodigo(), ventanaMain, sistema , estudiante));
+                if(esCoordinador == true)
+                {
+                    ventanaMain.actualizarMain(new VentanaCoordinador(coordinador, ventanaMain, sistema, estudiante, sistema.darPensum()));
+                }
+                else
+                {
+                    ventanaMain.actualizarMain(new VentanaEstudiante(estudiante.darNombre(), estudiante.darCodigo(), estudiante.darCodigo(), ventanaMain, sistema , estudiante));
+                }
             }
 			else
             {
-                ventanaMain.actualizarMain(new VentanaEstudiante(respaldo.darNombre(), respaldo.darCodigo(), respaldo.darCodigo(), ventanaMain, sistema , respaldo));
+                if(esCoordinador == true)
+                {
+                    ventanaMain.actualizarMain(new VentanaCoordinador(coordinador, ventanaMain, sistema, respaldo, sistema.darPensum()));
+                }
+                else
+                {
+                    ventanaMain.actualizarMain(new VentanaEstudiante(respaldo.darNombre(), respaldo.darCodigo(), respaldo.darCodigo(), ventanaMain, sistema , respaldo));
+                }
             }
 		}
 	}

@@ -10,7 +10,6 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import IdentificadorUsuario.CoordinadorAcademico;
 import IdentificadorUsuario.Estudiante;
@@ -242,7 +241,7 @@ public class analizadorArchivo {
 			}
 	}
 
-	public int cargarAvanceCoordinador(File archivo, CoordinadorAcademico coordinador, Scanner sn)
+	public int cargarAvanceCoordinador(File archivo, CoordinadorAcademico coordinador)
 	{
 		try
 			{
@@ -252,6 +251,8 @@ public class analizadorArchivo {
 				String carrera = br.readLine();
 				Estudiante estudiante = new Estudiante(nombre.split(";")[0], codigoEst.split(";")[0], carrera.split(";")[0]);
 				coordinador.agregarEstudiante(estudiante);
+				coordinador.nomEstReciente(nombre.split(";")[0]);
+				coordinador.codEstReciente(codigoEst.split(";")[0]);
                 String linea = br.readLine();
 				int caso = 0;
 				while (linea != null)
@@ -341,19 +342,16 @@ public class analizadorArchivo {
 			}
 			catch (FileNotFoundException e)
 			{
-				System.out.println("No encontré el archivo ...");
 				e.printStackTrace();
 				return -10;
 			}
 			catch (IOException e)
 			{
-				System.out.println("Error de lectura ...");
 				e.printStackTrace();
 				return -11;
 			}
 			catch (NumberFormatException e)
 			{
-				System.out.println("Error en los datos: un número no se pudo convertir a int ...");
 				e.printStackTrace();
 				return -12;
 			}

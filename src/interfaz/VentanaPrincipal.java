@@ -7,6 +7,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import IdentificadorUsuario.CoordinadorAcademico;
 import IdentificadorUsuario.Estudiante;
 import Sistema.systemMain;
 
@@ -134,7 +135,8 @@ public class VentanaPrincipal extends JFrame implements ActionListener
 			}
 			else
 			{	
-				actualizarMain(new VentanaCoordinador(firstName.getText(), codigo.getText(), departamento.getText(), this, sistema));
+				CoordinadorAcademico coordinador = new CoordinadorAcademico(firstName.getText(), codigo.getText(), departamento.getText());
+				actualizarMain(new VentanaCoordinador(coordinador, this, sistema, null, null));
 			}
 		}
 		

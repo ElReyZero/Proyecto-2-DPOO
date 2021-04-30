@@ -22,6 +22,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import IdentificadorUsuario.CoordinadorAcademico;
 import IdentificadorUsuario.Estudiante;
 import Sistema.systemMain;
 import curriculo.MateriaEstudiante;
@@ -29,9 +30,7 @@ import curriculo.Pensum;
 public class VentanaCoordinador extends JPanel implements ActionListener
 {
 
-    private JLabel name;
-    private JLabel code;
-    private JLabel department;
+    private CoordinadorAcademico coordinador;
     private JButton planearSemestre;
     private JButton reporteNotas;
     private JButton editarCurso;
@@ -46,18 +45,23 @@ public class VentanaCoordinador extends JPanel implements ActionListener
     private Object boton;
     private Estudiante estudiante;
     private Pensum pensum;
+    private JLabel labelEstudiante;
+    private JLabel labelEstudianteCode;
 
-    public VentanaCoordinador(String nombre, String codigo, String departamento, VentanaPrincipal pVentanaMain, systemMain pSistema)
+    public VentanaCoordinador(CoordinadorAcademico pCoordinador, VentanaPrincipal pVentanaMain, systemMain pSistema, Estudiante pEstudiante, Pensum pPensum)
     {
         ventanaMain = pVentanaMain;
         sistema = pSistema;
+        coordinador = pCoordinador;
+        estudiante = pEstudiante;
+        pensum = pPensum;
 		setLayout(new BorderLayout());
         ///Botones y paneles
         JPanel panelInformacion = new JPanel();
         panelInformacion.setLayout(new FlowLayout());
-        name = new JLabel("Nombre: "+ nombre);
-        code = new JLabel("Código: "+ codigo);
-        department = new JLabel("Departamento: "+ departamento);
+        JLabel name = new JLabel("Nombre: "+ coordinador.darNombre());
+        JLabel code = new JLabel("Código: "+ coordinador.darCodigo());
+        JLabel department = new JLabel("Departamento: "+ coordinador.darDepto());
         panelInformacion.add(name);
         panelInformacion.add(code);
         panelInformacion.add(department);
@@ -65,6 +69,10 @@ public class VentanaCoordinador extends JPanel implements ActionListener
         add(PanelOpcionesCoordinador(),BorderLayout.CENTER);
         add(Volver(),BorderLayout.SOUTH);
         setSize(700, 500);
+        if(estudiante != null)
+        {
+            cambiarEstudiante(estudiante);
+        }
 		setVisible(true);
     }
     public JPanel PanelOpcionesCoordinador()
@@ -136,23 +144,23 @@ public class VentanaCoordinador extends JPanel implements ActionListener
     {
         JPanel panelTextoEstudiante = new JPanel();
         JLabel textEstudiante = new JLabel("Estudiante Actual: ");
-        JLabel estudiante = new JLabel();
+        labelEstudiante = new JLabel();
         panelTextoEstudiante.setLayout(new BoxLayout(panelTextoEstudiante,BoxLayout.LINE_AXIS));
         panelTextoEstudiante.add(textEstudiante);
         panelTextoEstudiante.add(Box.createRigidArea(new Dimension(8,0)));
         panelTextoEstudiante.add(textEstudiante);
-        panelTextoEstudiante.add(estudiante);
+        panelTextoEstudiante.add(labelEstudiante);
         return panelTextoEstudiante;
     }
     public JPanel PanelTextoCodigo()
     {
         JPanel panelTextoCodigo = new JPanel();
         JLabel textCodigo = new JLabel("Código: ");
-        JLabel codigo = new JLabel();
+        labelEstudianteCode = new JLabel();
         panelTextoCodigo.setLayout(new BoxLayout(panelTextoCodigo,BoxLayout.LINE_AXIS));
         panelTextoCodigo.add(textCodigo);
         panelTextoCodigo.add(Box.createRigidArea(new Dimension(0,8)));
-        panelTextoCodigo.add(codigo);
+        panelTextoCodigo.add(labelEstudianteCode);
         return panelTextoCodigo;
     }
     public JPanel Volver()
@@ -173,6 +181,7 @@ public class VentanaCoordinador extends JPanel implements ActionListener
 		}
         else if(boton == cargarPensum)
 		{
+
             File archivo = null;
 		    JFileChooser fc = new JFileChooser();
 		    fc.setDialogTitle("Seleccione el archivo con el pensum");
@@ -182,7 +191,11 @@ public class VentanaCoordinador extends JPanel implements ActionListener
             {
                 archivo = fc.getSelectedFile();
                 sistema.cargarPensumAnalizador(archivo);
-            }           
+            }
+            if(pensum == null)
+            {
+                pensum = sistema.darPensum(); 
+            }            
         }
         else if(boton == reporteNotas)
         {
@@ -196,7 +209,7 @@ public class VentanaCoordinador extends JPanel implements ActionListener
                 int ans = JOptionPane.showOptionDialog(this, "¿Quieres generar el reporte para toda tu carrera o un semestre específico?", "Reporte Notas", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
                 if (ans == 0)
                 {
-                    ventanaMain.actualizarMain(new VentanaReporteNotas(ventanaMain, sistema, estudiante, true, null));
+                    ventanaMain.actualizarMain(new VentanaReporteNotas(ventanaMain, sistema, estudiante, true, null, true, coordinador));
                 }
                 else if (ans == 1)
                 {
@@ -227,7 +240,7 @@ public class VentanaCoordinador extends JPanel implements ActionListener
                                     }
                                 }
                                 copia.setCursosTomados(lista);
-                                ventanaMain.actualizarMain(new VentanaReporteNotas(ventanaMain, sistema, copia, false, estudiante));
+                                ventanaMain.actualizarMain(new VentanaReporteNotas(ventanaMain, sistema, copia, false, estudiante, true, coordinador));
                             }
                             catch (CloneNotSupportedException exe)
                             {
@@ -250,9 +263,8 @@ public class VentanaCoordinador extends JPanel implements ActionListener
         else if(boton == cargarArchivo)
         {
             if(pensum == null)
-            {
-                
-                JOptionPane.showMessageDialog(this, new JLabel("Tienes cargar el pensum antes de registrar materias."), "Error", JOptionPane.ERROR_MESSAGE);
+            { 
+                JOptionPane.showMessageDialog(this, new JLabel("Tienes cargar el pensum antes de registrar a un estudiante."), "Error", JOptionPane.ERROR_MESSAGE);
             }
             else
             {
@@ -264,7 +276,7 @@ public class VentanaCoordinador extends JPanel implements ActionListener
                 if(respuesta == JFileChooser.APPROVE_OPTION)
                 {
                     archivo = fc.getSelectedFile();
-                    int res = sistema.cargarAvanceEstudiante(archivo, estudiante);
+                    int res = sistema.cargarAvanceCoordinador(archivo, coordinador);
                     if (res == -10)
                     {
                         JOptionPane.showMessageDialog(this, new JLabel("El archivo no fue encontrado"), "Error", JOptionPane.ERROR_MESSAGE);
@@ -311,6 +323,15 @@ public class VentanaCoordinador extends JPanel implements ActionListener
                     else if(res == 0)
                     {
                         JOptionPane.showMessageDialog(this, new JLabel("Materias registradas satisfactoriamente!"), null, JOptionPane.INFORMATION_MESSAGE);
+                        if(estudiante == null)
+                        {
+                            estudiante = coordinador.darEstudiante(coordinador.darCodEstReciente());
+                            cambiarEstudiante(estudiante);
+                        }
+                        else
+                        {
+                            cambiarEstudiante(estudiante);
+                        } 
                     }
                 }    
             } 
@@ -528,17 +549,42 @@ public class VentanaCoordinador extends JPanel implements ActionListener
             }
             else
             {
-                ventanaMain.actualizarMain(new VentanaCandidaturaGrado(ventanaMain, sistema, estudiante, pensum));
+                ventanaMain.actualizarMain(new VentanaCandidaturaGrado(ventanaMain, sistema, estudiante, pensum, true, coordinador));
             } 
         }
         else if(boton == planearSemestre)
         {
-            ArrayList<String> lista = new ArrayList<String>();
-            lista.add("El plan actual es:    ");
-            lista.add("Materia       Semestre\n");
-            ventanaMain.actualizarMain(new VentanaPlaneador(estudiante,ventanaMain,sistema,pensum, null, lista));
+            if(pensum == null)
+            {
+                JOptionPane.showMessageDialog(this, new JLabel("Tienes cargar el pensum antes de editar tus materias."), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else
+            {
+                Estudiante copia = null;
+                try {
+                    copia = estudiante.clone();
+                } catch (CloneNotSupportedException exer) {
+                    exer.printStackTrace();
+                    copia = null;
+                }
+                if (copia == null)
+                {
+                    System.out.println("Hubo un error en la copia del estudiante.");
+                }
+                ArrayList<String> lista = new ArrayList<String>();
+                lista.add("El plan actual es:    ");
+                lista.add("Materia       Semestre                                             \0");
+                ventanaMain.actualizarMain(new VentanaPlaneador(estudiante,ventanaMain,sistema,pensum, copia, lista, true, coordinador));
+            }
         }
 		
 	}
 
+
+    private void cambiarEstudiante(Estudiante estudiante)
+    {
+        labelEstudiante.setText(estudiante.darNombre());
+        labelEstudianteCode.setText(estudiante.darCodigo());
+        repaint();
+    }
 }

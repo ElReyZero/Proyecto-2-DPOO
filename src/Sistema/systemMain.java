@@ -304,19 +304,19 @@ public class systemMain
         {
             Consola(pensum, analizador);
         }
-        Estudiante estudiante = CoordinadorAcademico.darEstudiante(codigoEstudianteRevisar);
+        ///Estudiante estudiante = CoordinadorAcademico.darEstudiante(codigoEstudianteRevisar);
         if(avance == null)
         {
             System.out.println("Ingresa la ruta donde se encuentra el archivo con la información del estudiante: ");
             avance = new File(sn.next());
-            analizador.cargarAvanceCoordinador(avance, coordinador, sn);
-            estudiante = CoordinadorAcademico.darEstudiante(codigoEstudianteRevisar);
+            ///analizador.cargarAvanceCoordinador(avance, coordinador, sn);
+            ///estudiante = CoordinadorAcademico.darEstudiante(codigoEstudianteRevisar);
         }
-        if(estudiante == null)
-        {
+        ///if(estudiante == null)
+        ///{
             System.out.println("Debes cargar la información del estudiante primero.");
             seleccionCoordinadorAcademico(sn, pensum, coordinador, analizador, null);
-        }
+        //}
         System.out.println("\nSeleccione la opción a realizar: ");
         System.out.println("1. Cargar información del estudiante nuevamente.");
         System.out.println("2. Revisar avance de estudiante");
@@ -331,16 +331,16 @@ public class systemMain
         {
             case 1:
             System.out.println("Ingresa la ruta donde se encuentra el archivo: ");
-            File avanceopc = new File(sn.next());
-            analizador.cargarAvanceCoordinador(avanceopc, coordinador, sn);
-            estudiante = CoordinadorAcademico.darEstudiante(codigoEstudianteRevisar);
+            ///File avanceopc = new File(sn.next());
+            ///analizador.cargarAvanceCoordinador(avanceopc, coordinador, sn);
+            ///estudiante = CoordinadorAcademico.darEstudiante(codigoEstudianteRevisar);
             break;
             case 2:
-            CoordinadorAcademico.revisarAvance(estudiante);
+            ///CoordinadorAcademico.revisarAvance(estudiante);
             seleccionCoordinadorAcademico(sn, pensum, coordinador, analizador, avance);
             break;
             case 3 :
-            editarMateriaCoordinador(estudiante, sn);
+            ///editarMateriaCoordinador(estudiante, sn);
             break;
             case 4: 
             System.out.println("¿Quieres generar un reporte de notas de un semestre particular o de toda la carrera?");
@@ -351,36 +351,19 @@ public class systemMain
             {
                 case 1:
                 System.out.println("Ingresa el semestre para generar el reporte: ");
-                int semestre = sn.nextInt();
-                try {
-                    Estudiante copia = estudiante.clone();
-                    ArrayList<MateriaEstudiante> lista = copia.darCursosTomados();
-                    for (MateriaEstudiante materia : estudiante.darCursosTomados())
-                    {
-                        if(materia.darSemestre() != semestre) 
-                        {
-                            lista.remove(materia);
-                        }
-                    }
-                    copia.setCursosTomados(lista);
-                    System.out.println(reporteNotas.darReporteNotas(copia));
-                    seleccionCoordinadorAcademico(sn, pensum, coordinador, analizador, avance);
-                } catch (CloneNotSupportedException e) {
-                    e.printStackTrace();
-                }
                 break;
                 case 2:
-                System.out.println(reporteNotas.darReporteNotas(estudiante));
+                //System.out.println(reporteNotas.darReporteNotas(estudiante));
                 seleccionCoordinadorAcademico(sn, pensum, coordinador, analizador, avance);
                 break;
             }
             break;
             case 5:
-            candidaturaGrado.darCandidaturaGrado(estudiante,pensum);
+            ///candidaturaGrado.darCandidaturaGrado(estudiante,pensum);
             seleccionCoordinadorAcademico(sn, pensum, coordinador, analizador, avance);
             break;
             case 6:
-            registrarMateriaPlaneadorCoordinador(sn, estudiante, coordinador, pensum, analizador, avance,"");
+            ///registrarMateriaPlaneadorCoordinador(sn, estudiante, coordinador, pensum, analizador, avance,"");
             seleccionCoordinadorAcademico(sn, pensum, coordinador, analizador, avance);
             break;
             case 7:
@@ -893,6 +876,11 @@ public class systemMain
     public int guardarPlan(File archivo, String plan, Estudiante estudiante) throws FileNotFoundException, UnsupportedEncodingException
     {
         return analizador.guardarPlaneación(archivo, plan, estudiante);
+    }
+
+    public int cargarAvanceCoordinador(File archivo, CoordinadorAcademico coordinador)
+    {
+        return analizador.cargarAvanceCoordinador(archivo, coordinador);
     }
 }
 

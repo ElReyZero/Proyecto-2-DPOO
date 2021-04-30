@@ -2,14 +2,13 @@ package IdentificadorUsuario;
 
 import java.util.ArrayList;
 
-import curriculo.MateriaEstudiante;
-
 public class CoordinadorAcademico extends Usuario {
 	
 	//Atributos
 	private String departamento;
-	private static ArrayList<Estudiante> estudiantes;
-	
+	private ArrayList<Estudiante> estudiantes;
+	private String codEstudianteRec;
+	private String nomEstRec;
 	
 	//Constructor
 	public CoordinadorAcademico(String pNombre, String pCodigo, String pDepto) 
@@ -17,6 +16,8 @@ public class CoordinadorAcademico extends Usuario {
 		super(pNombre, pCodigo);
 		departamento = pDepto;
 		estudiantes = new ArrayList<>();
+		codEstudianteRec = "";
+		nomEstRec = "";
 	}
 
 	//Métodos
@@ -26,12 +27,12 @@ public class CoordinadorAcademico extends Usuario {
 		return departamento;
 	}
 
-	public static Estudiante darEstudiante(String codigoEstudianteRevisar) 
+	public Estudiante darEstudiante(String codigoEstudianteRevisar) 
 	{
 		
 		for (Estudiante estudiante : estudiantes) 
 		{
-			if(estudiante.darCodigo().equals(codigoEstudianteRevisar))
+			if(estudiante.darCodigo().contains(codigoEstudianteRevisar))
 			{
 				return estudiante;
 			}
@@ -47,19 +48,25 @@ public class CoordinadorAcademico extends Usuario {
 	{
 		return estudiantes;
 	}
-	public static void revisarAvance(Estudiante estudiante)
+
+	public void codEstReciente(String codigoEst) 
 	{
-		String avance="";
-		String lineas="";
-		ArrayList<MateriaEstudiante> cursosTomados= estudiante.darCursosTomados();
-        for (MateriaEstudiante curso:cursosTomados)
-        {
-			String linea="";
-			linea = "Materia: "+curso.darCodigo()+" Semestre: "+String.valueOf(curso.darSemestre())+" Nota: "+String.valueOf(curso.darNota())+"\n";
-			lineas +=linea;
-        }
-		avance = "El avance del estudiante: "+estudiante.darNombre()+" es el siguiente:\n"+lineas;
-		System.out.println(avance);
+		codEstudianteRec = codigoEst;
+	}
+
+	public String darCodEstReciente()
+	{
+		return codEstudianteRec;
+	}
+
+	public void nomEstReciente(String string) 
+	{
+		nomEstRec = string;
+	}
+
+	public String darNomEstReciente()
+	{
+		return nomEstRec;
 	}
 
 }

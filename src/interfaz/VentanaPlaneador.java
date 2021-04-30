@@ -1,7 +1,6 @@
 package interfaz;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -24,6 +23,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import IdentificadorUsuario.CoordinadorAcademico;
 import IdentificadorUsuario.Estudiante;
 import Sistema.systemMain;
 import curriculo.MateriaEstudiante;
@@ -45,8 +45,10 @@ public class VentanaPlaneador extends JPanel implements ActionListener
     private String lastSubject;
     private Estudiante copia;
     private String plan;
+    private boolean esCoordinador;
+    private CoordinadorAcademico coordinador;
 
-    public VentanaPlaneador(Estudiante pEstudiante, VentanaPrincipal pVentanaMain, systemMain pSistema, Pensum pPensum, Estudiante pCopia, ArrayList<String> pParts)
+    public VentanaPlaneador(Estudiante pEstudiante, VentanaPrincipal pVentanaMain, systemMain pSistema, Pensum pPensum, Estudiante pCopia, ArrayList<String> pParts, boolean pEsCoordinador, CoordinadorAcademico pCoordinador)
     {
         copia = pCopia;
         estudiante = pEstudiante;
@@ -55,6 +57,8 @@ public class VentanaPlaneador extends JPanel implements ActionListener
         plan = "";     
         ventanaMain = pVentanaMain;
         sistema = pSistema;
+        esCoordinador = pEsCoordinador;
+        coordinador = pCoordinador;
 		setLayout(new BorderLayout());
         ///Botones y paneles
         add(PanelOpciones(),BorderLayout.CENTER);
@@ -189,7 +193,14 @@ public class VentanaPlaneador extends JPanel implements ActionListener
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == volver)
 		{
-			ventanaMain.actualizarMain(new VentanaEstudiante(estudiante.darNombre(), estudiante.darCodigo(), estudiante.darCodigo(), ventanaMain, sistema , estudiante));
+            if(esCoordinador == true)
+            {
+                ventanaMain.actualizarMain(new VentanaCoordinador(coordinador, ventanaMain, sistema, estudiante, pensum));
+            }
+            else
+            {
+                ventanaMain.actualizarMain(new VentanaEstudiante(estudiante.darNombre(), estudiante.darCodigo(), estudiante.darCodigo(), ventanaMain, sistema , estudiante));
+            }
 		}
         else if (e.getSource() == registrarMateria)
         {
@@ -411,6 +422,6 @@ public class VentanaPlaneador extends JPanel implements ActionListener
     public void actualizarLista()
     {
         parts.add(lastSubject);
-        ventanaMain.actualizarMain(new VentanaPlaneador(estudiante, ventanaMain, sistema, pensum, copia, parts));
+        ventanaMain.actualizarMain(new VentanaPlaneador(estudiante, ventanaMain, sistema, pensum, copia, parts, esCoordinador, coordinador));
     }
 }

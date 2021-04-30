@@ -252,7 +252,7 @@ public class VentanaEstudiante extends JPanel implements ActionListener
                 int ans = JOptionPane.showOptionDialog(this, "¿Quieres generar el reporte para toda tu carrera o un semestre específico?", "Reporte Notas", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
                 if (ans == 0)
                 {
-                    ventanaMain.actualizarMain(new VentanaReporteNotas(ventanaMain, sistema, estudiante, true, null));
+                    ventanaMain.actualizarMain(new VentanaReporteNotas(ventanaMain, sistema, estudiante, true, null, false, null));
                 }
                 else if (ans == 1)
                 {
@@ -283,7 +283,7 @@ public class VentanaEstudiante extends JPanel implements ActionListener
                                     }
                                 }
                                 copia.setCursosTomados(lista);
-                                ventanaMain.actualizarMain(new VentanaReporteNotas(ventanaMain, sistema, copia, false, estudiante));
+                                ventanaMain.actualizarMain(new VentanaReporteNotas(ventanaMain, sistema, copia, false, estudiante, false, null));
                             }
                             catch (CloneNotSupportedException exe)
                             {
@@ -584,7 +584,7 @@ public class VentanaEstudiante extends JPanel implements ActionListener
             }
             else
             {
-                ventanaMain.actualizarMain(new VentanaCandidaturaGrado(ventanaMain, sistema, estudiante, pensum));
+                ventanaMain.actualizarMain(new VentanaCandidaturaGrado(ventanaMain, sistema, estudiante, pensum, false, null));
             } 
         }
         else if(boton == planearSemestre)
@@ -609,7 +609,7 @@ public class VentanaEstudiante extends JPanel implements ActionListener
                 ArrayList<String> lista = new ArrayList<String>();
                 lista.add("El plan actual es:    ");
                 lista.add("Materia       Semestre                                             \0");
-                ventanaMain.actualizarMain(new VentanaPlaneador(estudiante,ventanaMain,sistema,pensum, copia, lista));
+                ventanaMain.actualizarMain(new VentanaPlaneador(estudiante,ventanaMain,sistema,pensum, copia, lista, false, null));
             }
         }
 	}

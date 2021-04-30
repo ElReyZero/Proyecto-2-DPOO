@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import IdentificadorUsuario.CoordinadorAcademico;
 import IdentificadorUsuario.Estudiante;
 import Sistema.systemMain;
 import curriculo.Pensum;
@@ -27,12 +28,18 @@ public class VentanaCandidaturaGrado extends JPanel implements ActionListener
     private systemMain sistema;
     private Estudiante estudiante;
     private JButton botEstado;
+    private boolean esCoordinador;
+    private CoordinadorAcademico coordinador;
+    private Pensum pensum;
 
-    public VentanaCandidaturaGrado(VentanaPrincipal pVentanaMain, systemMain pSistema, Estudiante pEstudiante, Pensum pensum)
+    public VentanaCandidaturaGrado(VentanaPrincipal pVentanaMain, systemMain pSistema, Estudiante pEstudiante, Pensum pPensum, boolean pEsCoordinador, CoordinadorAcademico pCoordinador)
     {
         ventanaMain = pVentanaMain;
         sistema = pSistema;
         estudiante = pEstudiante;
+        esCoordinador = pEsCoordinador;
+        coordinador = pCoordinador;
+        pensum = pPensum;
 		setLayout(new BorderLayout());
         ///Botones y paneles
         add(PanelInformacion(estudiante,pensum), BorderLayout.WEST);
@@ -107,7 +114,14 @@ public class VentanaCandidaturaGrado extends JPanel implements ActionListener
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == volver)
 		{
-			ventanaMain.actualizarMain(new VentanaEstudiante(estudiante.darNombre(), estudiante.darCodigo(), estudiante.darCodigo(), ventanaMain, sistema , estudiante));
+            if(esCoordinador == true)
+            {
+                ventanaMain.actualizarMain(new VentanaCoordinador(coordinador, ventanaMain, sistema, estudiante, pensum));
+            }
+            else
+            {
+                ventanaMain.actualizarMain(new VentanaEstudiante(estudiante.darNombre(), estudiante.darCodigo(), estudiante.darCodigo(), ventanaMain, sistema , estudiante));
+            }	
 		}
         else if (e.getSource() == botEstado)
         {
