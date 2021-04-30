@@ -13,13 +13,14 @@ import java.util.ArrayList;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import IdentificadorUsuario.CoordinadorAcademico;
@@ -40,6 +41,7 @@ public class VentanaCoordinador extends JPanel implements ActionListener
     private JButton cargarArchivo;
     private JButton validarRequisitos;
     private JButton volver;
+    private JButton cambiarEstudiante;
     private VentanaPrincipal ventanaMain;
     private systemMain sistema;
     private Object boton;
@@ -89,6 +91,8 @@ public class VentanaCoordinador extends JPanel implements ActionListener
         candidaturaGrado.addActionListener(this);
         validarRequisitos = new JButton("Validar requisitos");
         validarRequisitos.addActionListener(this);
+        cambiarEstudiante = new JButton("Cambiar Estudiante");
+        cambiarEstudiante.addActionListener(this);
         JPanel panelArchivos = PanelArchivosCoordinador();
         JPanel panelBusqueda = PanelBusquedaEstudiante();
         panelOpciones.add(Box.createRigidArea(new Dimension(0,40)));
@@ -105,11 +109,14 @@ public class VentanaCoordinador extends JPanel implements ActionListener
         panelOpciones.add(candidaturaGrado);
         panelOpciones.add(Box.createRigidArea(new Dimension(0,8)));
         panelOpciones.add(validarRequisitos);
+        panelOpciones.add(Box.createRigidArea(new Dimension(0,8)));
+        panelOpciones.add(cambiarEstudiante);
         planearSemestre.setAlignmentX(CENTER_ALIGNMENT);
         reporteNotas.setAlignmentX(CENTER_ALIGNMENT);
         editarCurso.setAlignmentX(CENTER_ALIGNMENT);
         candidaturaGrado.setAlignmentX(CENTER_ALIGNMENT);
         validarRequisitos.setAlignmentX(CENTER_ALIGNMENT);
+        cambiarEstudiante.setAlignmentX(CENTER_ALIGNMENT);
         return panelOpciones;
     }
     public JPanel PanelArchivosCoordinador()
@@ -323,15 +330,9 @@ public class VentanaCoordinador extends JPanel implements ActionListener
                     else if(res == 0)
                     {
                         JOptionPane.showMessageDialog(this, new JLabel("Materias registradas satisfactoriamente!"), null, JOptionPane.INFORMATION_MESSAGE);
-                        if(estudiante == null)
-                        {
-                            estudiante = coordinador.darEstudiante(coordinador.darCodEstReciente());
-                            cambiarEstudiante(estudiante);
-                        }
-                        else
-                        {
-                            cambiarEstudiante(estudiante);
-                        } 
+                        estudiante = coordinador.darEstudiante(coordinador.darCodEstReciente());
+                        cambiarEstudiante(estudiante);
+                        
                     }
                 }    
             } 
@@ -576,6 +577,27 @@ public class VentanaCoordinador extends JPanel implements ActionListener
                 lista.add("Materia       Semestre                                             \0");
                 ventanaMain.actualizarMain(new VentanaPlaneador(estudiante,ventanaMain,sistema,pensum, copia, lista, true, coordinador));
             }
+        }
+        else if(boton == cambiarEstudiante)
+        {
+            if (coordinador.darListaEstudiantes().isEmpty() || pensum == null)
+            {
+                JOptionPane.showMessageDialog(this, new JLabel("Tienes cargar estudiantes antes de seleccionar otro."), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else
+            {
+                String [] estudiantes =  coordinador.darListaEstudiantes().split(";");
+                JList<String> cg = new JList<String>(estudiantes);
+                JScrollPane scr = new JScrollPane(cg);
+                int cambiar = JOptionPane.showConfirmDialog(this, scr, "Seleccionar Estudiante", JOptionPane.PLAIN_MESSAGE);
+                if (cambiar == JOptionPane.OK_OPTION)
+                {
+                    String est = cg.getSelectedValue();
+                    est = est.substring(est.lastIndexOf(" ")).replace(" ", "");
+                    estudiante = coordinador.darEstudiante(est);
+                    cambiarEstudiante(estudiante);
+                }
+            }         
         }
 		
 	}

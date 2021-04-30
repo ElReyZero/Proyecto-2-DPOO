@@ -44,9 +44,14 @@ public class CoordinadorAcademico extends Usuario {
 	{
 		estudiantes.add(estudiante);
 	}
-	public ArrayList<Estudiante> darListaEstudiantes()
+	public String darListaEstudiantes()
 	{
-		return estudiantes;
+		String sumando = "";
+		for(Estudiante est: estudiantes)
+		{
+			sumando += "Nombre: " + est.darNombre() + " - Código: " + est.darCodigo()+";";
+		}
+		return sumando;
 	}
 
 	public void codEstReciente(String codigoEst) 
