@@ -210,6 +210,10 @@ public class VentanaCoordinador extends JPanel implements ActionListener
             {
                 JOptionPane.showMessageDialog(this, new JLabel("Tienes cargar el pensum antes de revisar tu avance."), "Error", JOptionPane.ERROR_MESSAGE);
             }
+            else if(estudiante == null)
+            {
+                JOptionPane.showMessageDialog(this, new JLabel("Tienes cargar un estudiante para poder revisar su avance."), "Error", JOptionPane.ERROR_MESSAGE);
+            }
             else
             {
                 String [] options = {"Toda la carrera", "Semestre Específico"};
@@ -374,6 +378,10 @@ public class VentanaCoordinador extends JPanel implements ActionListener
                 
                 JOptionPane.showMessageDialog(this, new JLabel("Tienes cargar el pensum antes de registrar materias."), "Error", JOptionPane.ERROR_MESSAGE);
             }
+            else if(estudiante == null)
+            {
+                JOptionPane.showMessageDialog(this, new JLabel("Tienes cargar un estudiante para poder validar sus requisitos."), "Error", JOptionPane.ERROR_MESSAGE);
+            }
             else
             {
             JComboBox<String> opciones = new JComboBox<String>();
@@ -421,6 +429,10 @@ public class VentanaCoordinador extends JPanel implements ActionListener
             {
                 
                 JOptionPane.showMessageDialog(this, new JLabel("Tienes cargar el pensum antes de editar tus materias."), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else if(estudiante == null)
+            {
+                JOptionPane.showMessageDialog(this, new JLabel("Tienes cargar un estudiante para poder editar la información de sus materias."), "Error", JOptionPane.ERROR_MESSAGE);
             }
             else
             {
@@ -548,6 +560,10 @@ public class VentanaCoordinador extends JPanel implements ActionListener
             {
                 JOptionPane.showMessageDialog(this, new JLabel("Tienes cargar el pensum antes de editar tus materias."), "Error", JOptionPane.ERROR_MESSAGE);
             }
+            else if(estudiante == null)
+            {
+                JOptionPane.showMessageDialog(this, new JLabel("Tienes cargar un estudiante para poder revisar si es candidato a grado."), "Error", JOptionPane.ERROR_MESSAGE);
+            }
             else
             {
                 ventanaMain.actualizarMain(new VentanaCandidaturaGrado(ventanaMain, sistema, estudiante, pensum, true, coordinador));
@@ -558,6 +574,10 @@ public class VentanaCoordinador extends JPanel implements ActionListener
             if(pensum == null)
             {
                 JOptionPane.showMessageDialog(this, new JLabel("Tienes cargar el pensum antes de editar tus materias."), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else if(estudiante == null)
+            {
+                JOptionPane.showMessageDialog(this, new JLabel("Tienes cargar un estudiante para poder planear un semestre."), "Error", JOptionPane.ERROR_MESSAGE);
             }
             else
             {
