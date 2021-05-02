@@ -125,7 +125,7 @@ public class VentanaCoordinador extends JPanel implements ActionListener
         panelCarga.setLayout(new BoxLayout(panelCarga,BoxLayout.LINE_AXIS));
         cargarPensum = new JButton("Cargar Pensum");
         cargarPensum.addActionListener(this);
-        guardarArchivo = new JButton("Guardar archivo");
+        guardarArchivo = new JButton("Guardar avance en un archivo");
         guardarArchivo.addActionListener(this);
         cargarArchivo = new JButton("Cargar datos del estudiante");
         cargarArchivo.addActionListener(this);
@@ -339,15 +339,15 @@ public class VentanaCoordinador extends JPanel implements ActionListener
         }
         else if (boton == guardarArchivo)
         {
-            if(pensum == null)
+            if(pensum == null || estudiante == null)
             {
-                JOptionPane.showMessageDialog(this, new JLabel("Tienes cargar el pensum antes de registrar materias."), "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, new JLabel("Tienes cargar el pensum y el estudiante antes de registrar materias."), "Error", JOptionPane.ERROR_MESSAGE);
             }
             else
             {
                 File archivo = null;
 		        JFileChooser fc = new JFileChooser();
-    		    fc.setDialogTitle("Selecciona dónde guardar tu avance");
+    		    fc.setDialogTitle("Selecciona dónde guardar el avance del estudiante");
 	    		fc.setFileFilter(new FiltroCSV());
                 int response = fc.showSaveDialog(this);
                 {
