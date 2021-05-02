@@ -208,11 +208,11 @@ public class VentanaCoordinador extends JPanel implements ActionListener
         {
             if(pensum == null)
             {
-                JOptionPane.showMessageDialog(this, new JLabel("Tienes cargar el pensum antes de revisar tu avance."), "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, new JLabel("Tienes que cargar el pensum antes de revisar tu avance."), "Error", JOptionPane.ERROR_MESSAGE);
             }
             else if(estudiante == null)
             {
-                JOptionPane.showMessageDialog(this, new JLabel("Tienes cargar un estudiante para poder revisar su avance."), "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, new JLabel("Tienes que cargar un estudiante para poder revisar su avance."), "Error", JOptionPane.ERROR_MESSAGE);
             }
             else
             {
@@ -275,7 +275,7 @@ public class VentanaCoordinador extends JPanel implements ActionListener
         {
             if(pensum == null)
             { 
-                JOptionPane.showMessageDialog(this, new JLabel("Tienes cargar el pensum antes de registrar a un estudiante."), "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, new JLabel("Tienes que cargar el pensum antes de registrar a un estudiante."), "Error", JOptionPane.ERROR_MESSAGE);
             }
             else
             {
@@ -345,7 +345,7 @@ public class VentanaCoordinador extends JPanel implements ActionListener
         {
             if(pensum == null || estudiante == null)
             {
-                JOptionPane.showMessageDialog(this, new JLabel("Tienes cargar el pensum y el estudiante antes de registrar materias."), "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, new JLabel("Tienes que cargar el pensum y el estudiante antes de registrar materias."), "Error", JOptionPane.ERROR_MESSAGE);
             }
             else
             {
@@ -376,11 +376,11 @@ public class VentanaCoordinador extends JPanel implements ActionListener
             if(pensum == null)
             {
                 
-                JOptionPane.showMessageDialog(this, new JLabel("Tienes cargar el pensum antes de registrar materias."), "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, new JLabel("Tienes que cargar el pensum antes de registrar materias."), "Error", JOptionPane.ERROR_MESSAGE);
             }
             else if(estudiante == null)
             {
-                JOptionPane.showMessageDialog(this, new JLabel("Tienes cargar un estudiante para poder validar sus requisitos."), "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, new JLabel("Tienes que cargar un estudiante para poder validar sus requisitos."), "Error", JOptionPane.ERROR_MESSAGE);
             }
             else
             {
@@ -428,11 +428,11 @@ public class VentanaCoordinador extends JPanel implements ActionListener
             if(pensum == null)
             {
                 
-                JOptionPane.showMessageDialog(this, new JLabel("Tienes cargar el pensum antes de editar tus materias."), "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, new JLabel("Tienes que cargar el pensum antes de editar tus materias."), "Error", JOptionPane.ERROR_MESSAGE);
             }
             else if(estudiante == null)
             {
-                JOptionPane.showMessageDialog(this, new JLabel("Tienes cargar un estudiante para poder editar la información de sus materias."), "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, new JLabel("Tienes que cargar un estudiante para poder editar la información de sus materias."), "Error", JOptionPane.ERROR_MESSAGE);
             }
             else
             {
@@ -558,11 +558,11 @@ public class VentanaCoordinador extends JPanel implements ActionListener
         {
             if(pensum == null)
             {
-                JOptionPane.showMessageDialog(this, new JLabel("Tienes cargar el pensum antes de editar tus materias."), "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, new JLabel("Tienes que cargar el pensum antes de editar tus materias."), "Error", JOptionPane.ERROR_MESSAGE);
             }
             else if(estudiante == null)
             {
-                JOptionPane.showMessageDialog(this, new JLabel("Tienes cargar un estudiante para poder revisar si es candidato a grado."), "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, new JLabel("Tienes que cargar un estudiante para poder revisar si es candidato a grado."), "Error", JOptionPane.ERROR_MESSAGE);
             }
             else
             {
@@ -573,11 +573,11 @@ public class VentanaCoordinador extends JPanel implements ActionListener
         {
             if(pensum == null)
             {
-                JOptionPane.showMessageDialog(this, new JLabel("Tienes cargar el pensum antes de editar tus materias."), "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, new JLabel("Tienes que cargar el pensum antes de editar tus materias."), "Error", JOptionPane.ERROR_MESSAGE);
             }
             else if(estudiante == null)
             {
-                JOptionPane.showMessageDialog(this, new JLabel("Tienes cargar un estudiante para poder planear un semestre."), "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, new JLabel("Tienes que cargar un estudiante para poder planear un semestre."), "Error", JOptionPane.ERROR_MESSAGE);
             }
             else
             {
@@ -602,7 +602,7 @@ public class VentanaCoordinador extends JPanel implements ActionListener
         {
             if (coordinador.darListaEstudiantes().isEmpty() || pensum == null)
             {
-                JOptionPane.showMessageDialog(this, new JLabel("Tienes cargar estudiantes antes de seleccionar otro."), "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, new JLabel("Tienes que cargar estudiantes antes de seleccionar otro."), "Error", JOptionPane.ERROR_MESSAGE);
             }
             else
             {

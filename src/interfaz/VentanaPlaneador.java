@@ -259,7 +259,6 @@ public class VentanaPlaneador extends JPanel implements ActionListener
         }
         else if (e.getSource() == editarMateria)
         {
-            System.out.println(copia.darCursosTomados());
             if(copia.darCursosTomados().isEmpty())
             {
                 JOptionPane.showMessageDialog(this, new JLabel("Tienes que empezar una planeación antes de editar las materias"), "Error", JOptionPane.ERROR_MESSAGE);

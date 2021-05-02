@@ -15,13 +15,14 @@ La estructura del pensum es la siguiente:
 -Nivel
 -Tipo Materia: Tipos existentes = Curso Obligatorio, Req.Español, Req. Inglés, Electiva CBU CA, Electiva CBU PC, Electiva CBU CO, Tipo E, Tipo Épsilon, Curso de Libre Elección, Electiva Profesional, Electiva en Ciencias. PD: Tipo Épsilon y Tipo E pueden estar contenidas dentro de las CBUs. Ej: Electiva CBU CA - Tipo Épsilon.
 -16 Semanas
+-Semestre Sugerido
 
 La estructura de los archivos de avance/registro de materias:
 Nombre del Estudiante
 Código
 Carrera
 
-Código de la Materia | Nota | Créditos | Semestre en que la vio
+Código de la Materia | Nota | Créditos | Semestre en que la vio | Tipo de la Materia
 
 La estructura de los archivos de planeación:
 Nombre del Estudiante
@@ -34,4 +35,5 @@ Código de la Materia | Semestre en que se planeó ver
 Archivos incluidos en la carpeta data:
 currículoISIS.csv - Currículo de la carrera en formato csv
 materias202013449.csv - Ejemplo de estudiante que ha cumplido con todos los requisitos para graduarse
+prueba1.csv - Ejemplo 2 de estudiante con solo 2 materias
 

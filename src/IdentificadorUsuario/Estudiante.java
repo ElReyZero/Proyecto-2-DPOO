@@ -416,7 +416,7 @@ public class Estudiante extends Usuario implements Cloneable{
 			}
 		}
 	}
-		return 0;
+		return -40;
 	}
 
 
@@ -500,6 +500,11 @@ public class Estudiante extends Usuario implements Cloneable{
 	{
 		cursosTomados.remove(materia);
 		cursosTomadosArrayString.remove(materia.darCodigo());
-		tomadosString.replace(materia.darCodigo(), "");
+		tomadosString = tomadosString.replace(materia.darCodigo(), " ");
+	}
+
+	public String darTomadosString()
+	{
+		return tomadosString;
 	}
 }
