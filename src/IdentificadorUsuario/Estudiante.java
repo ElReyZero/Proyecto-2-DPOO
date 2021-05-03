@@ -507,4 +507,14 @@ public class Estudiante extends Usuario implements Cloneable{
 	{
 		return tomadosString;
 	}
+
+	public void borrarDatosEstudiante()
+	{
+		this.cursosTomados = null;
+		this.cursosTomados = new ArrayList<>();
+		this.tomadosString = "";
+		this.cursosTomadosArrayString = null;
+		this.cursosTomadosArrayString = new ArrayList<>();
+		this.error = "";
+	}
 }

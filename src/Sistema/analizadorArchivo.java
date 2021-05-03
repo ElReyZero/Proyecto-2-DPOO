@@ -71,16 +71,19 @@ public class analizadorArchivo {
 			{
 				System.out.println("No encontré el archivo ...");
 				e.printStackTrace();
+				pensum = null;
 			}
 			catch (IOException e)
 			{
 				System.out.println("Error de lectura ...");
 				e.printStackTrace();
+				pensum = null;
 			}
 			catch (NumberFormatException e)
 			{
 				System.out.println("Error en los datos: un número no se pudo convertir a int ...");
 				e.printStackTrace();
+				pensum = null;
 			}
     }
 
@@ -225,29 +228,33 @@ public class analizadorArchivo {
 			{
 				System.out.println("No encontré el archivo ...");
 				e.printStackTrace();
+				estudiante.borrarDatosEstudiante();
 				return -10;
 			}
 			catch (IOException e)
 			{
 				System.out.println("Error de lectura ...");
 				e.printStackTrace();
+				estudiante.borrarDatosEstudiante();
 				return -11;
 			}
 			catch (NumberFormatException e)
 			{
 				System.out.println("Error en los datos: un número no se pudo convertir a int ...");
 				e.printStackTrace();
+				estudiante.borrarDatosEstudiante();
 				return -12;
 			}
 	}
 
 	public int cargarAvanceCoordinador(File archivo, CoordinadorAcademico coordinador)
 	{
+		String codigoEst = "";
 		try
 			{
 				BufferedReader br = new BufferedReader(new FileReader(archivo));
 				String nombre = br.readLine();
-				String codigoEst = br.readLine();
+				codigoEst = br.readLine();
 				String carrera = br.readLine();
 				Estudiante estudiante = new Estudiante(nombre.split(";")[0], codigoEst.split(";")[0], carrera.split(";")[0]);
 				coordinador.agregarEstudiante(estudiante);
@@ -348,11 +355,19 @@ public class analizadorArchivo {
 			catch (IOException e)
 			{
 				e.printStackTrace();
+				if(!codigoEst.equals(""))
+				{
+					coordinador.darEstudiante(codigoEst).borrarDatosEstudiante();
+				}
 				return -11;
 			}
 			catch (NumberFormatException e)
 			{
 				e.printStackTrace();
+				if(!codigoEst.equals(""))
+				{
+					coordinador.darEstudiante(codigoEst).borrarDatosEstudiante();
+				}
 				return -12;
 			}
 			
