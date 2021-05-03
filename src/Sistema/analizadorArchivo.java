@@ -43,26 +43,32 @@ public class analizadorArchivo {
 					String[] partes = linea.split(";");
 					String nombre = partes[0];
 					String codigo = partes[1];
-                    String prerrequisitos = partes[2];
-                    String correquisitos = partes[3];
-                    int creditos = Integer.parseInt(partes[4]);
-                    totalcred += creditos;
-                    int nivel = Integer.parseInt(partes[5]);
-                    String tipoMateria = partes[6];
-                    boolean semanas = Boolean.parseBoolean(partes[7]);
-					int semestreSugerido = Integer.parseInt(partes[8]);
-                    Materia currentSubject = new Materia(nombre, codigo, prerrequisitos, correquisitos, creditos, tipoMateria, nivel, semanas, semestreSugerido);
-                    listaMaterias.add(currentSubject);
-					linea = br.readLine();
-					materiasString += codigo+";";
-					if(currentSubject.darNivel() == 1) 
+					if (!(nombre.equals("") && nombre.equals(" ")))
 					{
-						nivel1.add(codigo);
+						String prerrequisitos = partes[2];
+						String correquisitos = partes[3];
+						int creditos = Integer.parseInt(partes[4]);
+						totalcred += creditos;
+						int nivel = Integer.parseInt(partes[5]);
+						String tipoMateria = partes[6];
+						boolean semanas = Boolean.parseBoolean(partes[7]);
+						int semestreSugerido = Integer.parseInt(partes[8]);
+						Materia currentSubject = new Materia(nombre, codigo, prerrequisitos, correquisitos, creditos, tipoMateria, nivel, semanas, semestreSugerido);
+						listaMaterias.add(currentSubject);
+						linea = br.readLine();
+						materiasString += codigo+";";
+						if(currentSubject.darNivel() == 1) 
+						{
+							nivel1.add(codigo);
+						}
+						else if(currentSubject.darNivel() == 2)
+						{
+							nivel2.add(codigo);
+						}
 					}
-					else if(currentSubject.darNivel() == 2)
+					else
 					{
-						nivel2.add(codigo);
-					} 
+					}    
 				}
 				br.close();
                 pensum = new Pensum(totalcred, archivo.getName(), listaMaterias, materiasString, nivel1, nivel2);
