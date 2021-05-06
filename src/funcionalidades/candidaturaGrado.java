@@ -57,7 +57,7 @@ public class candidaturaGrado {
                     {
                         cantidadTipoE += 1;
                     }
-                    if(materia.darTipoMateria().contains("Épsilon"))
+                    if(materia.darTipoMateria().contains("Epsilon"))
                     {
                         cantidadTipoEpsilon += 1;
                     }
